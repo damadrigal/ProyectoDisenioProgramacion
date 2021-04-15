@@ -1,6 +1,6 @@
 export enum RolesTypes {
     NONE = "",
     ADMIN = "ADMIN",
-    MODERATOR = "MODERATOR",
-    BASIC = "BASIC"
+    OFERENTE = "OFERENTE",
+    CLIENTE = "CLIENTE"
 }

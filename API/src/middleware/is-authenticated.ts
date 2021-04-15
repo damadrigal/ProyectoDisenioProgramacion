@@ -2,12 +2,12 @@ import { MiddlewareFn } from "type-graphql";
 import { verify } from "jsonwebtoken";
 import { Context } from "../interfaces/context.interface"; 
 import  enviroment   from "../config/enviroments.config";
-import { User } from "../entities/user"; 
+import { Usuario } from "../entities/usuario"; 
 
 export const isAuthenticated: MiddlewareFn<Context> = ({ context }, next) => {
 
   const authorization = context.req.headers["authorization"];
-
+  
   if (!authorization) {
     throw new Error("Not authenticated");
   }
@@ -17,7 +17,7 @@ export const isAuthenticated: MiddlewareFn<Context> = ({ context }, next) => {
   try { 
     const token = authorization.replace("bearer ",""); 
     const payload = verify(token, enviroment.jwtSecretKey ?? ''); 
-    context.user = (payload as Context).user;
+    context.usuario = (payload as Context).usuario;
   } catch (err) {
     console.log(err);
     throw new Error("Not authenticated");

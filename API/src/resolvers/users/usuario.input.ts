@@ -1,13 +1,11 @@
 import {Field, InputType } from "type-graphql";
+import { EstadosTypes } from "../../enum/estados.enum";
 import { RolesTypes } from "../../enum/roles.enum";
 
-@InputType({ description: "Editable user information" })
-export class UserInput {
+@InputType({ description: "información editable del usuario" })
+export class UsuarioInput {
     @Field({ nullable: true })
-    name?: string
-
-    @Field()
-    notes!: string;
+    nombre?: string
 
     @Field(type => RolesTypes)
     role!: RolesTypes;
@@ -18,6 +16,6 @@ export class UserInput {
     @Field()
     updateAt!:string;
 
-    // @Field(type => StateTypes)
-    // state!: StateTypes;
+    @Field(type => EstadosTypes)
+    estado!: EstadosTypes;
 }
