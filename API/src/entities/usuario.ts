@@ -1,28 +1,28 @@
 import { Entity, PrimaryGeneratedColumn, Column,CreateDateColumn, BaseEntity } from "typeorm";
 import { ObjectType, Field, ID, Authorized, registerEnumType } from "type-graphql";
 import { RolesTypes } from "../enum/roles.enum";
+import { EstadosTypes } from "../enum/estados.enum";
 
 
 registerEnumType(RolesTypes, {
     name: "RolesTypes",
     description: "Roles types of the application",
     valuesConfig: {
-        BASIC: {
-            description: "Basic user role",
-            deprecationReason: "Replaced with @Authorized() for simplicity",
+        CLIENTE: {
+            description: "rol de usuario cliente",
         },
-        MODERATOR: {
-            description: "Moderator user role",
+        OFERENTE: {
+            description: "rol de usuario oferente",
         },
         ADMIN: {
-            description: "Admin user role",
+            description: "rol de usuario administrador",
         },
     },
 });
 
 @ObjectType()
 @Entity()
-export class User extends BaseEntity {
+export class Usuario extends BaseEntity {
     @Field(() => ID)
     @PrimaryGeneratedColumn()
     id!: number;
@@ -30,17 +30,13 @@ export class User extends BaseEntity {
     @Authorized()
     @Field(() => String)
     @Column("text", { nullable: true })
-    name!: string;
-
-    @Authorized([RolesTypes.ADMIN, RolesTypes.MODERATOR])
-    @Field(() => String)
-    @Column("text", { nullable: true })
-    notes!: string;
+    nombre!: string;
 
     @Field(() => String)
     @Column("text", { nullable: true })
     email!: string;
 
+    @Field(() => String)
     @Column("text", { nullable: true })
     password!: string;
 
@@ -59,8 +55,8 @@ export class User extends BaseEntity {
     @CreateDateColumn({type:'timestamp'})
     updateAt!:string;
 
-    // @Authorized(RolesTypes.ADMIN)
-    // @Field(type => StateTypes)
-    // @Column("text", { nullable: true })
-    // state!: StateTypes;
+    @Authorized(RolesTypes.ADMIN)
+    @Field(type => EstadosTypes)
+    @Column("text")
+    estado!: EstadosTypes;
 }
