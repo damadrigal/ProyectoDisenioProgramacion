@@ -18,7 +18,7 @@ import { sign } from "jsonwebtoken";
 import { isAuthenticated } from "../../middleware/is-authenticated";
 import { Context } from "../../interfaces/context.interface";
 import { RolesTypes } from "../../enum/roles.enum";
-import { UsuarioInput } from "./usuario.input"
+import { UsuarioInput } from "./usuario.input";
 
 @ObjectType()
 class LoginResponse {

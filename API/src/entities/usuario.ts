@@ -59,4 +59,8 @@ export class Usuario extends BaseEntity {
     @Field(type => EstadosTypes)
     @Column("text")
     estado!: EstadosTypes;
+
+    @Field(() => String)
+    @Column("text", { nullable: true })
+    observacion!: string;
 }
