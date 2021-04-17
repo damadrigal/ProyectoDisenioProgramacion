@@ -5,7 +5,7 @@ import { RolesTypes } from "../../enum/roles.enum";
 @InputType({ description: "información editable del usuario" })
 export class UsuarioInput {
     @Field({ nullable: true })
-    nombre?: string
+    nombre!: string
 
     @Field(type => RolesTypes)
     role!: RolesTypes;

@@ -1,27 +1,42 @@
-import { Field, InputType } from "type-graphql";
-import { UsuarioInput } from "../users/usuario.input";
+import { InputType, Field, ID, Authorized } from "type-graphql";
+import { RolesTypes } from "../../enum/roles.enum";
+import { EstadosTypes } from "../../enum/estados.enum";
+import { Direccion } from "../../entities/direccion";
+import { Usuario } from "../../entities/usuario";
 
-@InputType({ description: "información personal del usuario" })
+
+@InputType({ description: "información Personal" })
 export class InformacionPersonalInput {
 
+    @Authorized(RolesTypes.ADMIN)
     @Field(() => String)
     nombre!: string;
 
+    @Authorized(RolesTypes.ADMIN)
     @Field(() => String)
-    primerApellido!: string;
+    priapellido!: string;
 
+    @Authorized(RolesTypes.ADMIN)
     @Field(() => String)
-    segundoApellido!: string;
+    segapellido!: string;
 
-    @Field(() => String)
-    correo!: string;
-
+    @Authorized(RolesTypes.ADMIN)
     @Field(() => String)
     telefono!: string;
 
+    @Authorized(RolesTypes.ADMIN)
     @Field(() => String)
-    direccion!: string;
+    correo!: string;
 
-    @Field(() => String)
-    usuarioId!: number;
+    @Authorized(RolesTypes.ADMIN)
+    @Field(type => Direccion)
+    direccion!: Direccion;
+
+    @Authorized(RolesTypes.ADMIN)
+    @Field(type => Usuario)
+    usuario!: Usuario;
+
+    @Authorized(RolesTypes.ADMIN)
+    @Field(type => EstadosTypes)
+    estado!: EstadosTypes;
 }

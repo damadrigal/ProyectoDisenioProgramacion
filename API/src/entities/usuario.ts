@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column,CreateDateColumn, BaseEntity, Ma
 import { ObjectType, Field, ID, Authorized, registerEnumType } from "type-graphql";
 import { RolesTypes } from "../enum/roles.enum";
 import { EstadosTypes } from "../enum/estados.enum";
-import { Valoracion } from "./valoracion";
+import { ValoracionServicio } from "./valoracionservicio";
 import { InformacionPersonal } from "./infoPersonal";
 import { Comentario } from "./comentario";
 
@@ -76,9 +76,9 @@ export class Usuario extends BaseEntity {
     @Column("text", { nullable: true })
     estado!: EstadosTypes;
 
-    @OneToMany(() => Valoracion, valoracion => valoracion.usuario, { lazy: true })
-    @Field(type => [Valoracion])
-    valoraciones!: Promise<Valoracion[]>
+    @OneToMany(() => ValoracionServicio, valoracion => valoracion.usuario, { lazy: true })
+    @Field(type => [ValoracionServicio])
+    valoraciones!: Promise<ValoracionServicio[]>
 
     @OneToOne(() => InformacionPersonal, informacionPersonal => informacionPersonal.usuario, { lazy: true })
     @Field(type => InformacionPersonal)
@@ -87,4 +87,8 @@ export class Usuario extends BaseEntity {
     @OneToMany(() => Comentario, comentario => comentario.usuario, { lazy: true })
     @Field(type => [Comentario])
     comentarios!: Promise<Comentario[]>
+    
+    @Field(() => String)
+    @Column("text", { nullable: true })
+    observacion!: string;
 }
