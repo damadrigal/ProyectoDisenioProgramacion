@@ -1,6 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
 import { ObjectType, Field, ID, Authorized } from "type-graphql";
-import { RolesTypes } from "../enum/roles.enum";
 import { EstadosTypes } from "../enum/estados.enum";
 import { Usuario } from "./usuario";
 import {Servicio} from "./servicio";
