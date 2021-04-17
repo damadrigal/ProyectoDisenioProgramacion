@@ -1,18 +1,25 @@
-import { InputType, Field, Int } from "type-graphql";
+import { InputType, Field, ID, Authorized } from "type-graphql";
+import { EstadosTypes } from "../../enum/estados.enum";
+import { Usuario } from "../../entities/usuario";
+import { Servicio } from "../../entities/servicio";
+import { Comentario } from "../../entities/comentario";
 
-@InputType({ description: "información de la valoración de un servicio" })
+
+@InputType({ description: "información de los parámetros" })
 export class ComentarioInput {
 
-    @Field(()=>String)
-    descripcion!: string;
+    @Field(()=> String)
+    descripcion!: string
 
-    @Field(()=>Int)
-    usuarioId!: number;
+    @Field(() => Usuario)
+    usuario!: Usuario;
 
-    @Field(()=>Int)
-    servicioId!: number;
+    @Field(() => Servicio)
+    servicio!: Servicio;
 
-    @Field(()=>Int)
-    comentarioPadreId?: number;
+    @Field({nullable:true})
+    comentarioPadre?: Comentario;
 
+    @Field(type => EstadosTypes)
+    estado!: EstadosTypes;
 }
