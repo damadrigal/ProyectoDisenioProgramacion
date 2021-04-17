@@ -33,6 +33,6 @@ export class Comentario extends BaseEntity {
 
     @Authorized( )
     @Field(type => Comentario)
-    @Column("text")
+    @Column("text",{nullable: true})
     comentarioPadre!: Comentario;
 }

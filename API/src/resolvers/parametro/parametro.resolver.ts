@@ -11,7 +11,6 @@ import {
     Authorized
 } from "type-graphql";
 import { hash, compare } from "bcryptjs";
-import {Usuario } from "../../entities/usuario";
 import enviroment from "../../config/enviroments.config";
 import { sign } from "jsonwebtoken";
 
