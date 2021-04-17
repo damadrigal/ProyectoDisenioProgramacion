@@ -7,15 +7,15 @@ import { Usuario } from "../entities/usuario";
 export const isAuthorizated: AuthChecker<Context> = ({ context }, roles) => {
 
     const authorization = context.req.headers["authorization"];
-
+    const bearer ="bearer";
     if (!authorization) {
         throw new Error("Not authenticated");
     }
-    if (authorization.indexOf("bearer ", 0) < 0) {
+    if (authorization.indexOf(bearer, 0) < 0) {
         throw new Error("Not authenticated");
     }
     try {
-        const token = authorization.replace("bearer ", "");
+        const token = authorization.replace(bearer, "");
         const payload = verify(token, enviroment.jwtSecretKey ?? '');
         context.usuario = payload as Usuario;
     } catch (err) {

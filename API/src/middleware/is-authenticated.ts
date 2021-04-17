@@ -7,15 +7,15 @@ import { Usuario } from "../entities/usuario";
 export const isAuthenticated: MiddlewareFn<Context> = ({ context }, next) => {
 
   const authorization = context.req.headers["authorization"];
-  
+  const bearer = "bearer";
   if (!authorization) {
     throw new Error("Not authenticated");
   }
-  if (authorization.indexOf("bearer ",0) < 0) {
+  if (authorization.indexOf(bearer,0) < 0) {
     throw new Error("Not authenticated");
   }
   try { 
-    const token = authorization.replace("bearer ",""); 
+    const token = authorization.replace(bearer,""); 
     const payload = verify(token, enviroment.jwtSecretKey ?? ''); 
     context.usuario = (payload as Context).usuario;
   } catch (err) {
