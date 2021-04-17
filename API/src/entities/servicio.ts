@@ -3,7 +3,7 @@ import { BaseEntity, Column, CreateDateColumn, Entity, ManyToOne, OneToMany, One
 import { RolesTypes } from "../enum/roles.enum";
 import { Comentario } from "./comentario";
 import { Usuario } from "./usuario";
-import { Valoracion } from "./valoracion";
+import { ValoracionServicio } from "./valoracionservicio";
 
 @ObjectType()
 @Entity()
@@ -60,9 +60,9 @@ export class Servicio extends BaseEntity {
     @CreateDateColumn({type:'timestamp'})
     fechaModificacion!:string;
 
-    @OneToMany(() => Valoracion, valoracon => valoracon.servicio, { lazy: true })
-    @Field(type => [Valoracion])
-    valoraciones!: Promise<Valoracion[]>
+    @OneToMany(() => ValoracionServicio, valoracon => valoracon.servicio, { lazy: true })
+    @Field(type => [ValoracionServicio])
+    valoraciones!: Promise<ValoracionServicio[]>
 
     @OneToMany(() => Comentario, comentario => comentario.usuario, { lazy: true })
     @Field(type => [Comentario])

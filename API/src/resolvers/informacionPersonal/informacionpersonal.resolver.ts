@@ -4,24 +4,13 @@ import {
     Mutation,
     Arg,
     ObjectType,
-    UseMiddleware,
-    Field,
-    Ctx,
     Int,
     Authorized
 } from "type-graphql";
-import { hash, compare } from "bcryptjs";
 import {Usuario } from "../../entities/usuario";
-import enviroment from "../../config/enviroments.config";
-import { sign } from "jsonwebtoken";
 
-import { isAuthenticated } from "../../middleware/is-authenticated";
-import { Context } from "../../interfaces/context.interface";
-import { RolesTypes } from "../../enum/roles.enum";
-import { EstadosTypes } from "../../enum/estados.enum";
 import { InformacionPersonalInput } from "./informacionPersonal.input";
 import { InformacionPersonal } from "../../entities/informacionpersonal";
-import { In } from "typeorm";
 import { Direccion } from "../../entities/direccion";
 
 @ObjectType()

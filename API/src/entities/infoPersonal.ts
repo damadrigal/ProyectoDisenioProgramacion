@@ -1,8 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column,CreateDateColumn, BaseEntity, ManyToOne, OneToOne } from "typeorm";
-import { ObjectType, Field, ID, Authorized, registerEnumType } from "type-graphql";
-import { RolesTypes } from "../enum/roles.enum";
-import { EstadosTypes } from "../enum/estados.enum";
-import { Valoracion } from "./valoracion";
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToOne } from "typeorm";
+import { ObjectType, Field, ID, Authorized } from "type-graphql";
 import { Usuario } from "./usuario";
 
 @ObjectType()

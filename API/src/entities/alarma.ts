@@ -3,7 +3,7 @@ import { ObjectType, Field, ID, Authorized } from "type-graphql";
 
 @ObjectType()
 @Entity()
-export class ValoracionServicio extends BaseEntity {
+export class Alarma extends BaseEntity {
     @Field(() => ID)
     @PrimaryGeneratedColumn()
     id!: number;

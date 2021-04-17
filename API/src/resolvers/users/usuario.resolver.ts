@@ -92,7 +92,7 @@ export class UsuarioResolver {
         const accessToken = sign({ usuario: usuario }, enviroment.jwtSecretKey, {
             expiresIn: "10h"
         });
-        res.json({message:'Ok',accessToken});
+        res.cookie("access-token",accessToken);
         return usuario;
     }
 

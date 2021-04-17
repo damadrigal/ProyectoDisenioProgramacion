@@ -5,11 +5,9 @@ import { verify } from "jsonwebtoken";
 import enviroment from "../config/enviroments.config";
 
 export const isAuthorizated: AuthChecker<Context> = ({ context }, roles) => {
-    console.log("context:",context.req.headers);
-    console.log("roles:",roles);
 
-    const authorization = context.req.headers['authorization'];
-    console.log("autho",authorization);
+    console.log(context.req);
+    const authorization = context.req.cookies["access-token"];
 
     const bearer ="bearer";
     if (!authorization) {

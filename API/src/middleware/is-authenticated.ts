@@ -5,9 +5,8 @@ import  enviroment   from "../config/enviroments.config";
 import { Usuario } from "../entities/usuario"; 
 
 export const isAuthenticated: MiddlewareFn<Context> = ({ context }, next) => {
-  console.log(context.req.headers);
-  const authorization = context.req.headers['authorization'];
-  
+  const authorization = context.req.cookies["access-token"];
+
   const bearer = "bearer";
   if (!authorization) {
     throw new Error("Not authenticated");
