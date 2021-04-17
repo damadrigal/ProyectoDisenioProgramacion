@@ -10,12 +10,6 @@ export class UsuarioInput {
     @Field(type => RolesTypes)
     role!: RolesTypes;
 
-    @Field()
-    createdAt!:string;
-
-    @Field()
-    updateAt!:string;
-
     @Field(type => EstadosTypes)
     estado!: EstadosTypes;
 }

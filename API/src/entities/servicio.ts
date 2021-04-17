@@ -1,7 +1,9 @@
 import { Authorized, Field, ID, ObjectType } from "type-graphql";
-import { BaseEntity, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, CreateDateColumn, Entity, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { RolesTypes } from "../enum/roles.enum";
+import { Comentario } from "./comentario";
 import { Usuario } from "./usuario";
+import { Valoracion } from "./valoracion";
 
 @ObjectType()
 @Entity()
@@ -24,6 +26,7 @@ export class Servicio extends BaseEntity {
     @Column("text", { nullable: true })
     email!: string;
 
+    @Field(() => String)
     @Column("text", { nullable: true })
     telefono!: string;
 
@@ -50,10 +53,18 @@ export class Servicio extends BaseEntity {
     @Authorized(RolesTypes.ADMIN)
     @Field(()=> String)
     @CreateDateColumn({type:'timestamp'})
-    createdAt!:string;
+    fechaCreacion!:string;
 
     @Authorized(RolesTypes.ADMIN)
     @Field(()=> String)
     @CreateDateColumn({type:'timestamp'})
-    updateAt!:string;
+    fechaModificacion!:string;
+
+    @OneToMany(() => Valoracion, valoracon => valoracon.servicio, { lazy: true })
+    @Field(type => [Valoracion])
+    valoraciones!: Promise<Valoracion[]>
+
+    @OneToMany(() => Comentario, comentario => comentario.usuario, { lazy: true })
+    @Field(type => [Comentario])
+    comentarios!: Promise<Comentario[]>
 }

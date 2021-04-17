@@ -22,6 +22,7 @@ import { ServicioInput } from "../servicio/servicio.input";
 
 @Resolver()
 export class ServicioResolver {
+
     @Query(() => [Servicio])
     async Servicios() {
         return Servicio.find();

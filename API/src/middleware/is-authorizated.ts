@@ -3,10 +3,14 @@ import { AuthChecker } from "type-graphql"
 import { Context } from "../interfaces/context.interface";
 import { verify } from "jsonwebtoken";
 import enviroment from "../config/enviroments.config";
-import { Usuario } from "../entities/usuario";
-export const isAuthorizated: AuthChecker<Context> = ({ context }, roles) => {
 
-    const authorization = context.req.headers["authorization"];
+export const isAuthorizated: AuthChecker<Context> = ({ context }, roles) => {
+    console.log("context:",context.req.headers);
+    console.log("roles:",roles);
+
+    const authorization = context.req.headers['authorization'];
+    console.log("autho",authorization);
+
     const bearer ="bearer";
     if (!authorization) {
         throw new Error("Not authenticated");
@@ -17,9 +21,8 @@ export const isAuthorizated: AuthChecker<Context> = ({ context }, roles) => {
     try {
         const token = authorization.replace(bearer, "");
         const payload = verify(token, enviroment.jwtSecretKey ?? '');
-        context.usuario = payload as Usuario;
+        context.usuario = (payload as Context).usuario;
     } catch (err) {
-        console.log(err);
         throw new Error("Not authenticated");
     }
 

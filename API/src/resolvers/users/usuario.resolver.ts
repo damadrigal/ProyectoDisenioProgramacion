@@ -11,7 +11,7 @@ import {
     Authorized
 } from "type-graphql";
 import { hash, compare } from "bcryptjs";
-import {Usuario } from "../../entities/usuario";
+import { Usuario } from "../../entities/usuario";
 import enviroment from "../../config/enviroments.config";
 import { sign } from "jsonwebtoken";
 
@@ -19,6 +19,9 @@ import { isAuthenticated } from "../../middleware/is-authenticated";
 import { Context } from "../../interfaces/context.interface";
 import { RolesTypes } from "../../enum/roles.enum";
 import { UsuarioInput } from "./usuario.input"
+import { EstadosTypes } from "../../enum/estados.enum";
+import { ValoracionInput } from "../valoracion/valoracion.input";
+import { Valoracion } from "../../entities/valoracion";
 
 @ObjectType()
 class LoginResponse {
@@ -29,11 +32,12 @@ class LoginResponse {
 
 @Resolver()
 export class UsuarioResolver {
+    
     @Query(() => [Usuario])
     async Usuarios() {
         return Usuario.find();
     }
-    @Authorized("ADMIN")
+    @Authorized(RolesTypes.ADMIN)
     @Mutation(() => Usuario)
     async updateUsuario(
         @Arg("id", () => Int) id: number,
@@ -55,27 +59,28 @@ export class UsuarioResolver {
     async Register(
         @Arg("nombre") nombre: string,
         @Arg("email") email: string,
-        @Arg("password") password: string
+        @Arg("password") password: string,
+        @Arg("role") role: RolesTypes
     ) {
         const hashedPassword = await hash(password, 13);
         try {
             await Usuario.insert({
                 nombre,
                 email,
-                password: hashedPassword
+                password: hashedPassword,
+                role,
+                estado: EstadosTypes.ACTIVO
             });
         } catch (err) {
-            console.log(err);
             return false;
         }
 
         return true;
     }
 
-    @Mutation(() => LoginResponse)
-    async Login(@Arg("email") email: string, @Arg("password") password: string) {
+    @Mutation(() => Usuario)
+    async Login(@Arg("email") email: string, @Arg("password") password: string, @Ctx() { res,req }: Context) {
         const usuario = await Usuario.findOne({ where: { email } });
-
         if (!usuario) {
             throw new Error("Could not find Usuario");
         }
@@ -86,28 +91,27 @@ export class UsuarioResolver {
             throw new Error("Bad password");
         }
 
-        return {
-            accessToken: sign({ Usuario: Usuario }, enviroment.jwtSecretKey, {
-                expiresIn: "10h"
-            })
-        };
+        const accessToken = sign({ usuario: usuario }, enviroment.jwtSecretKey, {
+            expiresIn: "10h"
+        });
+        res.json({message:'Ok',accessToken});
+        return usuario;
     }
 
-    @Authorized("ADMIN")
+    @Authorized(RolesTypes.ADMIN)
     @Mutation(() => Usuario)
     async SetUsuarioPermision(@Arg("id") id: number, @Arg("rol") rol: RolesTypes) {
         const usuario = await Usuario.findOne({ where: { id } });
-        
+
         if (!usuario) {
             throw new Error("Could not find Usuario");
         }
 
-        if(!usuario?.role){
+        if (!usuario?.role) {
             usuario.role = rol;
         }
-       
-        return await this.updateUsuario(id,usuario);
+
+        return await this.updateUsuario(id, usuario);
     }
-
-
+    
 }
