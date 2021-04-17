@@ -1,7 +1,6 @@
 import {Field, InputType } from "type-graphql";
 import { Usuario } from "../../entities/usuario";
 import { EstadosTypes } from "../../enum/estados.enum";
-import { RolesTypes } from "../../enum/roles.enum";
 
 @InputType({ description: "información editable del usuario" })
 export class ServicioInput {

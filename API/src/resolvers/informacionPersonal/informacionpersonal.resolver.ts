@@ -8,7 +8,6 @@ import {
     Authorized
 } from "type-graphql";
 import {Usuario } from "../../entities/usuario";
-
 import { InformacionPersonalInput } from "./informacionPersonal.input";
 import { InformacionPersonal } from "../../entities/informacionpersonal";
 import { Direccion } from "../../entities/direccion";
