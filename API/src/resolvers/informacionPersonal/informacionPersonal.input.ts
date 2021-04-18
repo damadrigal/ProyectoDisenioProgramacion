@@ -10,35 +10,27 @@ import { UsuarioInput } from "../users/usuario.input";
 @InputType({ description: "información Personal" })
 export class InformacionPersonalInput {
 
-    @Authorized(RolesTypes.ADMIN)
     @Field(() => String)
     nombre!: string;
-
-    @Authorized(RolesTypes.ADMIN)
+     
     @Field(() => String)
     priapellido!: string;
-
-    @Authorized(RolesTypes.ADMIN)
+     
     @Field(() => String)
     segapellido!: string;
-
-    @Authorized(RolesTypes.ADMIN)
+     
     @Field(() => String)
     telefono!: string;
-
-    @Authorized(RolesTypes.ADMIN)
+     
     @Field(() => String)
     correo!: string;
 
-    @Authorized(RolesTypes.ADMIN)
     @Field(type => DireccionInput)
-    direccion!: DireccionInput;
+    direccion!: Direccion;
 
-    @Authorized(RolesTypes.ADMIN)
     @Field(type => UsuarioInput)
-    usuario!: UsuarioInput;
+    usuario!: Usuario;
 
-    @Authorized(RolesTypes.ADMIN)
     @Field(type => EstadosTypes)
     estado!: EstadosTypes;
 }

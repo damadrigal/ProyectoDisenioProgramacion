@@ -10,17 +10,18 @@ import {
 import { EstadosTypes } from "../../enum/estados.enum";
 import { ParametroInput } from "./parametro.input";
 import { Parametro } from "../../entities/parametros";
+import { RolesTypes } from "../../enum/roles.enum";
 
 @ObjectType()
 @Resolver()
 
 export class ParametroResolver {
-    @Authorized("ADMIN")
+    @Authorized(RolesTypes.ADMIN)
     @Query(() => [Parametro])
     async Parametros() {
         return Parametro.find();
     }
-    @Authorized("ADMIN")
+    @Authorized(RolesTypes.ADMIN)
     @Mutation(() => Parametro)
     async updateParametro(
         @Arg("id", () => Int) id: number,
@@ -31,7 +32,7 @@ export class ParametroResolver {
         return dataUpdated;
     }
 
-    @Authorized("ADMIN")
+    @Authorized(RolesTypes.ADMIN)
     @Mutation(() => Parametro)
     async RegisterParametro(
         @Arg("codigo") codigo: string,
@@ -54,7 +55,7 @@ export class ParametroResolver {
         return true;
     }
 
-    @Authorized("ADMIN")
+    @Authorized(RolesTypes.ADMIN)
     @Query(() => [Parametro])
     FilterParametro(
         @Arg("nombre", () => String) nombre: string,
@@ -67,7 +68,7 @@ export class ParametroResolver {
         }
     }
 
-    @Authorized("ADMIN")
+    @Authorized(RolesTypes.ADMIN)
     @Query(() => [Parametro])
     FilterParametroID(
         @Arg("ID", () => Int) id: string,
@@ -79,7 +80,8 @@ export class ParametroResolver {
             return Parametro.find();
         }
     }
-
+    
+    @Authorized(RolesTypes.ADMIN)
     @Mutation(() => Boolean)
     async deleteParametro(
         @Arg("id", () => Int) id: number

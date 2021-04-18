@@ -8,6 +8,7 @@ import {
 } from "type-graphql";
 import {Servicio } from "../../entities/servicio";
 import { ServicioInput } from "../servicio/servicio.input";
+import { RolesTypes } from "../../enum/roles.enum";
 
 @Resolver()
 export class ServicioResolver {
@@ -17,7 +18,7 @@ export class ServicioResolver {
         return Servicio.find();
     }
 
-    @Authorized("OFERENTE")
+    @Authorized(RolesTypes.OFERENTE)
     @Mutation(() => Boolean)
     async createServicio(
         @Arg("data", () => ServicioInput) data: ServicioInput
@@ -31,7 +32,7 @@ export class ServicioResolver {
         return true;
     }
     
-    @Authorized("OFERENTE")
+    @Authorized(RolesTypes.OFERENTE)
     @Mutation(() => Servicio)
     async updateServicio(
         @Arg("id", () => Int) id: number,
@@ -42,7 +43,7 @@ export class ServicioResolver {
         return dataUpdated;
     }
 
-    @Authorized("OFERENTE")
+    @Authorized(RolesTypes.OFERENTE)
     @Mutation(() => Boolean)
     async deleteServicio(
         @Arg("id", () => Int) id: number
@@ -51,7 +52,7 @@ export class ServicioResolver {
         return true;
     }
 
-    @Authorized("ADMIN")
+    @Authorized(RolesTypes.ADMIN)
     @Query(() => [Servicio])
     FilterRol(
         @Arg("nombre", () => String) nombre: string,
