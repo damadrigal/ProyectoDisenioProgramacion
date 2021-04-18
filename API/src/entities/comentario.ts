@@ -17,14 +17,16 @@ export class Comentario extends BaseEntity {
     descripcion!: string;
 
     @Authorized( )
+    @ManyToOne( type => Servicio, servicio => servicio.comentarios)
     @Field(() => Servicio)
     @Column("text", { nullable: true })
-    servicio!: Servicio;
+    servicio!: Promise<Servicio>;
 
     @Authorized( )
+    @ManyToOne( type => Usuario, usuario => usuario.comentarios)
     @Field(type => Usuario)
     @Column("text", { nullable: true })
-    usuario!: Usuario;
+    usuario!: Promise<Usuario>;
 
     @Authorized( )
     @Field(type => EstadosTypes)
@@ -32,7 +34,14 @@ export class Comentario extends BaseEntity {
     estado!: EstadosTypes;
 
     @Authorized( )
+    @ManyToOne(() => Comentario, comentario => comentario.comentariosHijos, { lazy: true })
     @Field(type => Comentario)
     @Column("text",{nullable: true})
-    comentarioPadre!: Comentario;
+    comentarioPadre!: Promise<Comentario>;
+
+    @Authorized( )
+    @OneToMany(() => Comentario, comentario => comentario.comentarioPadre, { lazy: true })
+    @Field(type => [Comentario])
+    @Column("text",{nullable: true})
+    comentariosHijos!: Promise<Comentario[]>;
 }

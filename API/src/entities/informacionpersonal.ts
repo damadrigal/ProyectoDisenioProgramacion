@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToOne } from "typeorm";
 import { ObjectType, Field, ID, Authorized } from "type-graphql";
 import { RolesTypes } from "../enum/roles.enum";
 import { Usuario } from "./usuario";
@@ -42,6 +42,7 @@ export class InformacionPersonal extends BaseEntity {
     direccion!: Direccion;
 
     @Authorized(RolesTypes.ADMIN)
+    @OneToOne(() => Usuario, usuario => usuario.informacionPersonal, { lazy: true })
     @Field(type => Usuario)
     @Column("text", { nullable: true })
     usuario!: Usuario;

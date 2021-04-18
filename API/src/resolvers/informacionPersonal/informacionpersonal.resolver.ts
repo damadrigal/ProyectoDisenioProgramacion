@@ -35,7 +35,7 @@ export class InformacionPersonalResolver {
 
     @Authorized("ADMIN")
     @Mutation(() => InformacionPersonal)
-    async RegisterParametro(
+    async RegisterInforPersonal(
         @Arg("nombre") nombre: string,
         @Arg("priapellido") priapellido: string,
         @Arg("segapellido") segapellido: string,
@@ -64,7 +64,7 @@ export class InformacionPersonalResolver {
 
     @Authorized("ADMIN")
     @Query(() => [InformacionPersonal])
-    FilterParametro(
+    FilterInfoPersonal(
         @Arg("nombre", () => String) nombre: string,
     ) {
         if (nombre) {

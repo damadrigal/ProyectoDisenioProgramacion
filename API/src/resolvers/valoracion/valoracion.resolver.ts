@@ -12,7 +12,7 @@ export class ValoracionResolver {
     async Valoraciones() {
         return ValoracionServicio.find();
     }
-    
+
     @Mutation(() => ValoracionServicio)
     async createValoracion(
         @Arg("data", () => ValoracionInput) data: ValoracionInput
@@ -21,7 +21,7 @@ export class ValoracionResolver {
         return await newData.save();
     }
 
-   
+
     @Authorized([RolesTypes.CLIENTE])
     @Mutation(() => ValoracionServicio)
     async updateValoracion(
@@ -47,15 +47,9 @@ export class ValoracionResolver {
     }
 
     @Query(() => [ValoracionServicio])
-    ValoracionPorServicio(
+    TopServicioMejoresValorados(
         @Arg("servicioId", () => Int) servicioId: number
     ) {
-        return ValoracionServicio.find(
-            {
-                where: {
-                    servicioId
-                }
-            }
-        );
+        return ValoracionServicio.find({where: {servicioId}});
     }
 }

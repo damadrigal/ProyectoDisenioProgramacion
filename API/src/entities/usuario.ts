@@ -5,6 +5,7 @@ import { EstadosTypes } from "../enum/estados.enum";
 import { ValoracionServicio } from "./valoracionservicio";
 import { InformacionPersonal } from "./infoPersonal";
 import { Comentario } from "./comentario";
+import { Servicio } from "./servicio";
 
 
 registerEnumType(RolesTypes, {
@@ -76,18 +77,27 @@ export class Usuario extends BaseEntity {
     @Column("text", { nullable: true })
     estado!: EstadosTypes;
 
+    @Authorized(RolesTypes.ADMIN)
     @OneToMany(() => ValoracionServicio, valoracion => valoracion.usuario, { lazy: true })
     @Field(type => [ValoracionServicio])
     valoraciones!: Promise<ValoracionServicio[]>
 
+    @Authorized(RolesTypes.ADMIN)
     @OneToOne(() => InformacionPersonal, informacionPersonal => informacionPersonal.usuario, { lazy: true })
     @Field(type => InformacionPersonal)
     informacionPersonal!: Promise<InformacionPersonal>
 
+    @Authorized(RolesTypes.ADMIN)
     @OneToMany(() => Comentario, comentario => comentario.usuario, { lazy: true })
     @Field(type => [Comentario])
     comentarios!: Promise<Comentario[]>
+
+    @Authorized(RolesTypes.ADMIN)
+    @OneToOne(() => Servicio, servicio => servicio.usuario, { lazy: true })
+    @Field(type => Servicio)
+    servicio!: Promise<Servicio>
     
+    @Authorized(RolesTypes.ADMIN)
     @Field(() => String)
     @Column("text", { nullable: true })
     observacion!: string;

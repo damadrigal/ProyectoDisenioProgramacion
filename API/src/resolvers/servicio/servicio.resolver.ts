@@ -17,9 +17,23 @@ export class ServicioResolver {
         return Servicio.find();
     }
 
-    @Authorized("ADMIN")
+    @Authorized("OFERENTE")
+    @Mutation(() => Boolean)
+    async createServicio(
+        @Arg("data", () => Servicio) data: ServicioInput
+    ) {
+        try {
+            await Servicio.insert(data);
+        } catch (err) {
+            console.log(err);
+            return false;
+        }
+        return true;
+    }
+    
+    @Authorized("OFERENTE")
     @Mutation(() => Servicio)
-    async updateUsuario(
+    async updateServicio(
         @Arg("id", () => Int) id: number,
         @Arg("data", () => ServicioInput) data: ServicioInput
     ) {
@@ -27,4 +41,28 @@ export class ServicioResolver {
         const dataUpdated = await Servicio.findOne(id);
         return dataUpdated;
     }
+
+    @Authorized("OFERENTE")
+    @Mutation(() => Boolean)
+    async deleteServicio(
+        @Arg("id", () => Int) id: number
+    ) {
+        await Servicio.delete(id);
+        return true;
+    }
+
+    @Authorized("ADMIN")
+    @Query(() => [Servicio])
+    FilterRol(
+        @Arg("nombre", () => String) nombre: string,
+    ) {
+        if (nombre) {
+            return Servicio.find({ where: { nombre } });
+
+        } else {
+            return Servicio.find();
+        }
+    }
+
+
 }

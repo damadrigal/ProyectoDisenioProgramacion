@@ -4,11 +4,9 @@ import { EstadosTypes } from "../../enum/estados.enum";
 
 @InputType({ description: "información editable del usuario" })
 export class ServicioInput {
-    @Field({ nullable: true })
-    nombre!: string
 
-    @Field(type => EstadosTypes)
-    estado!: EstadosTypes;
+    @Field(() => String)
+    nombre!: string;
 
     @Field(() => String)
     Descripcion!: string;
@@ -16,6 +14,7 @@ export class ServicioInput {
     @Field(() => String)
     email!: string;
 
+    @Field(() => String)
     telefono!: string;
 
     @Field(type => Usuario)
@@ -31,8 +30,8 @@ export class ServicioInput {
     imagen!: string;
 
     @Field(()=> String)
-    createdAt!:string;
+    fechaCreacion!:string;
 
     @Field(()=> String)
-    updateAt!:string;
+    fechaModificacion!:string;
 }
