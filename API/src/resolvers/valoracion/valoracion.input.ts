@@ -1,13 +1,15 @@
 import { Field, InputType, Int } from "type-graphql";
+import { ServicioInput } from "../servicio/servicio.input";
+import { UsuarioInput } from "../users/usuario.input";
 
 @InputType({ description: "información de la valoración de un servicio" })
 export class ValoracionInput {
 
     @Field(()=>Int)
-    servicioId!: number;
+    servicio!: ServicioInput;
 
     @Field(()=>Int)
-    usuarioId!: number;
+    usuario!: UsuarioInput;
 
     @Field(()=>Int)
     valoracion!: number;

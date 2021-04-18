@@ -1,6 +1,7 @@
 import {Field, InputType } from "type-graphql";
 import { Usuario } from "../../entities/usuario";
 import { EstadosTypes } from "../../enum/estados.enum";
+import { UsuarioInput } from "../users/usuario.input";
 
 @InputType({ description: "información editable del usuario" })
 export class ServicioInput {
@@ -17,8 +18,8 @@ export class ServicioInput {
     @Field(() => String)
     telefono!: string;
 
-    @Field(type => Usuario)
-    usuario!: Usuario;
+    @Field(type => UsuarioInput)
+    usuario!: UsuarioInput;
 
     @Field(() => Number)
     salarioMinimo!: Number;

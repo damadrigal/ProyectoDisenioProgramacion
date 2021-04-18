@@ -37,19 +37,13 @@ export class ValoracionResolver {
     valoracionPorUsuario(
         @Arg("usuarioId", () => Int) usuarioId: number
     ) {
-        return ValoracionServicio.find(
-            {
-                where: {
-                    usuarioId
-                }
-            }
-        );
+        return ValoracionServicio.find({ where: { usuarioId } });
     }
 
     @Query(() => [ValoracionServicio])
     TopServicioMejoresValorados(
         @Arg("servicioId", () => Int) servicioId: number
     ) {
-        return ValoracionServicio.find({where: {servicioId}});
+        return ValoracionServicio.find({ where: { servicioId } });
     }
 }

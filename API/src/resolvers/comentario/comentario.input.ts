@@ -18,7 +18,7 @@ export class ComentarioInput {
     servicio!: Servicio;
 
     @Field({nullable:true})
-    comentarioPadre?: Comentario;
+    comentarioPadre?:Comentario;
 
     @Field(type => EstadosTypes)
     estado!: EstadosTypes;

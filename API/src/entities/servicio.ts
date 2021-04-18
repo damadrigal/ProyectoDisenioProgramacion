@@ -37,7 +37,7 @@ export class Servicio extends BaseEntity {
     @OneToOne( type => Usuario, usuario => usuario.servicio)
     @Field(type => Usuario)
     @Column("text", { nullable: true })
-    usuario!: Promise<Usuario>;
+    usuario!: Usuario;
 
     @Authorized()
     @Field(() => Number)
@@ -68,29 +68,29 @@ export class Servicio extends BaseEntity {
     @OneToMany( type => ValoracionServicio, valoracionServicio => valoracionServicio.servicio )
     @Column("text", { nullable: true })
     @Field(type => [ValoracionServicio])
-    ValoracionesServicio!: Promise<ValoracionServicio[]>
+    ValoracionesServicio!: ValoracionServicio[];
 
     @Authorized(RolesTypes.OFERENTE)
     @OneToMany( type => Categoria, categoria => categoria.servicios )
     @Field(type => Categoria)
     @Column("text", { nullable: true })
-    categoria!: Promise<Categoria>;
+    categoria!: Categoria;
 
     @Authorized(RolesTypes.OFERENTE)
     @OneToMany(() => Comentario, comentario => comentario.usuario, { lazy: true })
     @Field(type => [Comentario])
-    comentarios!: Promise<Comentario[]>
+    comentarios!: Comentario[];
 
     @Authorized(RolesTypes.OFERENTE)
     @OneToMany( type => TipoSalario, tipoSalario => tipoSalario.servicios )
     @Field(type => TipoSalario)
     @Column("text", { nullable: true })
-    tipoSalario!: Promise<TipoSalario>;
+    tipoSalario!:TipoSalario;
 
     @Authorized(RolesTypes.OFERENTE)
     @OneToOne( type => Direccion, direccion => direccion.servicio )
     @Field(type => Direccion)
     @Column("text", { nullable: true })
-    direccion!: Promise<Direccion>;
+    direccion!: Direccion;
 
 }

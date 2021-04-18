@@ -28,5 +28,5 @@ export class Direccion extends BaseEntity {
     @Authorized(RolesTypes.ADMIN)
     @OneToOne(() => Servicio, servicio => servicio.direccion, { lazy: true })
     @Field(type => Servicio)
-    servicio!: Promise<Servicio>
+    servicio!: Servicio;
 }

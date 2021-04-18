@@ -39,5 +39,5 @@ export class InformacionPersonal extends BaseEntity {
 
     @OneToOne(() => Usuario, usuario => usuario.informacionPersonal, { lazy: true })
     @Field(type => Usuario)
-    usuario!: Promise<Usuario>
+    usuario!: Usuario;
 }

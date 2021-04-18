@@ -19,11 +19,11 @@ export class ValoracionServicio extends BaseEntity {
     @ManyToOne( type => Servicio, servicio => servicio.ValoracionesServicio)
     @Field(() => Servicio)
     @Column("text", { nullable: true })
-    servicio!: Promise<Servicio>;
+    servicio!: Servicio;
 
     @Authorized( )
     @ManyToOne( type => Usuario, usuario => usuario.valoraciones)
     @Field(type => Usuario)
     @Column("text", { nullable: true })
-    usuario!: Promise<Usuario>;
+    usuario!: Usuario;
 }

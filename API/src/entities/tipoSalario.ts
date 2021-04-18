@@ -30,5 +30,5 @@ export class TipoSalario extends BaseEntity {
     @ManyToOne( type => Servicio, servicio => servicio.ValoracionesServicio)
     @Field(type => [Servicio])
     @Column("text", { nullable: true })
-    servicios!: Promise<Servicio[]>
+    servicios!: Servicio[];
 }

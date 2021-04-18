@@ -4,6 +4,8 @@ import { Servicio } from "../../entities/servicio";
 import { Usuario } from "../../entities/usuario";
 import { EstadosTypes } from "../../enum/estados.enum";
 import { RolesTypes } from "../../enum/roles.enum";
+import { ServicioInput } from "../servicio/servicio.input";
+import { UsuarioInput } from "../users/usuario.input";
 import { ComentarioInput } from "./comentario.input";
 
 @ObjectType()
@@ -37,9 +39,9 @@ export class ComentarioResolver {
     @Mutation(() => Comentario)
     async RegisterComentario(
         @Arg("descripcion") descripcion: string,
-        @Arg("usuario") usuario: Usuario,
-        @Arg("servicio") servicio: Servicio,
-        @Arg("comentarioPadre") comentarioPadre: Comentario,
+        @Arg("usuario") usuario: UsuarioInput,
+        @Arg("servicio") servicio: ServicioInput,
+        @Arg("comentarioPadre") comentarioPadre: ComentarioInput,
         @Arg("estado") estado: EstadosTypes
     ) {
         try {
@@ -60,7 +62,7 @@ export class ComentarioResolver {
 
     @Query(() => [Comentario])
     FilterComentario(
-        @Arg("servicio", () => Servicio) servicio: Usuario,
+        @Arg("servicio", () => ServicioInput) servicio: ServicioInput,
     ) {
         if (servicio) {
             return Comentario.find({ where: { servicio } });

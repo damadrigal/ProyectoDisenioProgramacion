@@ -30,5 +30,5 @@ export class Categoria extends BaseEntity {
     @ManyToOne( type => Servicio, servicio => servicio.categoria)
     @Field(type => [Servicio])
     @Column("text", { nullable: true })
-    servicios!: Promise<Servicio[]>
+    servicios!: Servicio[];
 }

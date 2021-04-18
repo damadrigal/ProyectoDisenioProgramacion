@@ -80,22 +80,22 @@ export class Usuario extends BaseEntity {
     @Authorized(RolesTypes.ADMIN)
     @OneToMany(() => ValoracionServicio, valoracion => valoracion.usuario, { lazy: true })
     @Field(type => [ValoracionServicio])
-    valoraciones!: Promise<ValoracionServicio[]>
+    valoraciones!: ValoracionServicio[];
 
     @Authorized(RolesTypes.ADMIN)
     @OneToOne(() => InformacionPersonal, informacionPersonal => informacionPersonal.usuario, { lazy: true })
     @Field(type => InformacionPersonal)
-    informacionPersonal!: Promise<InformacionPersonal>
+    informacionPersonal!: InformacionPersonal;
 
     @Authorized(RolesTypes.ADMIN)
     @OneToMany(() => Comentario, comentario => comentario.usuario, { lazy: true })
     @Field(type => [Comentario])
-    comentarios!: Promise<Comentario[]>
+    comentarios!: Comentario[];
 
     @Authorized(RolesTypes.ADMIN)
     @OneToOne(() => Servicio, servicio => servicio.usuario, { lazy: true })
     @Field(type => Servicio)
-    servicio!: Promise<Servicio>
+    servicio!: Servicio;
     
     @Authorized(RolesTypes.ADMIN)
     @Field(() => String)
