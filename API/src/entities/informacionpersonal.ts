@@ -41,9 +41,7 @@ export class InformacionPersonal extends BaseEntity {
     @Column("text", { nullable: true })
     direccion!: Direccion;
 
-    @Authorized(RolesTypes.ADMIN)
     @OneToOne(() => Usuario, usuario => usuario.informacionPersonal, { lazy: true })
     @Field(type => Usuario)
-    @Column("text", { nullable: true })
     usuario!: Usuario;
 }
