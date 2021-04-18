@@ -76,11 +76,12 @@ export class UsuarioResolver {
         return true;
     }
 
-    @Mutation(() => Usuario)
-    async Login(@Arg("email") email: string, @Arg("password") password: string, @Ctx() { res,req }: Context) {
+    @Mutation(() => LoginResponse)
+    async Login(@Arg("email") email: string, @Arg("password") password: string,@Ctx() { req,res }: Context) {
         const usuario = await Usuario.findOne({ where: { email } });
+
         if (!usuario) {
-            throw new Error("Could not find Usuario");
+            throw new Error("Could not find user");
         }
 
         const verify = await compare(password, usuario.password);
@@ -89,11 +90,21 @@ export class UsuarioResolver {
             throw new Error("Bad password");
         }
 
+
+        const refreshToken =  sign({ usuario: usuario }, enviroment.jwtSecretKey, {
+            expiresIn: "7d"
+        });
+        
         const accessToken = sign({ usuario: usuario }, enviroment.jwtSecretKey, {
             expiresIn: "10h"
         });
-        res.cookie("access-token",accessToken);
-        return usuario;
+        
+        res.cookie("authorization","bearer "+refreshToken,{httpOnly:true});
+        return {
+            accessToken: sign({ usuario: usuario }, enviroment.jwtSecretKey, {
+                expiresIn: "10h"
+            })
+        };
     }
 
     @Authorized(RolesTypes.ADMIN)

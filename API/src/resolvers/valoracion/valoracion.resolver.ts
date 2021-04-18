@@ -1,4 +1,5 @@
 import { Arg, Authorized, Int, Mutation, Query, Resolver } from "type-graphql";
+import { Servicio } from "../../entities/servicio";
 import { ValoracionServicio } from "../../entities/valoracionservicio";
 import { RolesTypes } from "../../enum/roles.enum";
 import { ValoracionInput } from "./valoracion.input";
@@ -33,17 +34,5 @@ export class ValoracionResolver {
         return dataUpdated;
     }
 
-    @Query(() => [ValoracionServicio])
-    valoracionPorUsuario(
-        @Arg("usuarioId", () => Int) usuarioId: number
-    ) {
-        return ValoracionServicio.find({ where: { usuarioId } });
-    }
-
-    @Query(() => [ValoracionServicio])
-    TopServicioMejoresValorados(
-        @Arg("servicioId", () => Int) servicioId: number
-    ) {
-        return ValoracionServicio.find({ where: { servicioId } });
-    }
+  
 }

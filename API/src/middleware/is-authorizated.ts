@@ -5,20 +5,22 @@ import { verify } from "jsonwebtoken";
 import enviroment from "../config/enviroments.config";
 
 export const isAuthorizated: AuthChecker<Context> = ({ context }, roles) => {
+    const authorization = context.req.headers["authorization"];
+    console.log(authorization);
 
-    console.log(context.req);
-    const authorization = context.req.cookies["access-token"];
-
-    const bearer ="bearer";
+    const bearer ="Bearer ";
     if (!authorization) {
         throw new Error("Not authenticated");
     }
+
     if (authorization.indexOf(bearer, 0) < 0) {
         throw new Error("Not authenticated");
     }
     try {
         const token = authorization.replace(bearer, "");
+        console.log(token);
         const payload = verify(token, enviroment.jwtSecretKey ?? '');
+        console.log(payload);
         context.usuario = (payload as Context).usuario;
     } catch (err) {
         throw new Error("Not authenticated");

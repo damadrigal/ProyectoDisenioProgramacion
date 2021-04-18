@@ -19,13 +19,14 @@ export class ComentarioResolver {
     }
 
     @Authorized([RolesTypes.CLIENTE, RolesTypes.OFERENTE])
-    @Query(() => Comentario)
+    @Mutation(() => Comentario)
     async createComentario(
         @Arg("data", () => ComentarioInput) data: ComentarioInput
     ) {
         const newData = Comentario.create(data);
         return await newData.save();
     }
+
     @Mutation(() => Comentario)
     async updateComentario(
         @Arg("id", () => Int) id: number,

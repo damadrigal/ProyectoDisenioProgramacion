@@ -1,3 +1,4 @@
+import "dotenv/config"
 export default {
     databaseUserName: process.env.DATABASE_USERNAME ?? 'root',
     databasePassword: process.env.DATABASE_PASSWORD ?? '',

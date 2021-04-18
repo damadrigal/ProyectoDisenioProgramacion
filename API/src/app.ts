@@ -12,6 +12,9 @@ import { ServicioResolver } from './resolvers/servicio/servicio.resolver';
 import { ParametroResolver } from './resolvers/parametro/parametro.resolver';
 import { InformacionPersonalResolver } from './resolvers/informacionPersonal/informacionpersonal.resolver';
 import { ComentarioResolver } from './resolvers/comentario/comentario.resolver';
+
+import cookieParser from 'cookie-parser';
+
 export async function startServer() {
     const app = express();
     const server = new ApolloServer({

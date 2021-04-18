@@ -20,7 +20,7 @@ export class ServicioResolver {
     @Authorized("OFERENTE")
     @Mutation(() => Boolean)
     async createServicio(
-        @Arg("data", () => Servicio) data: ServicioInput
+        @Arg("data", () => ServicioInput) data: ServicioInput
     ) {
         try {
             await Servicio.insert(data);
@@ -64,5 +64,17 @@ export class ServicioResolver {
         }
     }
 
+    @Query(() => [Servicio])
+    valoracionPorUsuario(
+        @Arg("usuarioId", () => Int) usuarioId: number
+    ) {
+        return Servicio.find({ where: { usuarioId } });
+    }
 
+    @Query(() => [Servicio])
+    TopServicioMejoresValorados(
+        @Arg("servicioId", () => Int) servicioId: number
+    ) {
+        return Servicio.find({ where: { servicioId } });
+    }
 }

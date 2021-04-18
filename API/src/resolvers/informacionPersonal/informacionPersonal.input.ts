@@ -3,6 +3,8 @@ import { RolesTypes } from "../../enum/roles.enum";
 import { EstadosTypes } from "../../enum/estados.enum";
 import { Direccion } from "../../entities/direccion";
 import { Usuario } from "../../entities/usuario";
+import { DireccionInput } from "../direccion/direccion.input";
+import { UsuarioInput } from "../users/usuario.input";
 
 
 @InputType({ description: "información Personal" })
@@ -29,12 +31,12 @@ export class InformacionPersonalInput {
     correo!: string;
 
     @Authorized(RolesTypes.ADMIN)
-    @Field(type => Direccion)
-    direccion!: Direccion;
+    @Field(type => DireccionInput)
+    direccion!: DireccionInput;
 
     @Authorized(RolesTypes.ADMIN)
-    @Field(type => Usuario)
-    usuario!: Usuario;
+    @Field(type => UsuarioInput)
+    usuario!: UsuarioInput;
 
     @Authorized(RolesTypes.ADMIN)
     @Field(type => EstadosTypes)

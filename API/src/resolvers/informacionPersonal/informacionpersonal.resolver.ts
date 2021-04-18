@@ -11,6 +11,8 @@ import {Usuario } from "../../entities/usuario";
 import { InformacionPersonalInput } from "./informacionPersonal.input";
 import { InformacionPersonal } from "../../entities/informacionpersonal";
 import { Direccion } from "../../entities/direccion";
+import { UsuarioInput } from "../users/usuario.input";
+import { DireccionInput } from "../direccion/direccion.input";
 
 @ObjectType()
 @Resolver()
@@ -41,8 +43,8 @@ export class InformacionPersonalResolver {
         @Arg("segapellido") segapellido: string,
         @Arg("telefono") telefono: string,
         @Arg("correo") correo: string,
-        @Arg("direccion") direccion: Direccion,
-        @Arg("usuario") usuario: Usuario
+        @Arg("direccion") direccion: DireccionInput,
+        @Arg("usuario") usuario: UsuarioInput
     ) {
         try {
             await InformacionPersonal.insert({
@@ -85,7 +87,7 @@ export class InformacionPersonalResolver {
 
         } else {
             return InformacionPersonal.find();
-        }InformacionPersonal
+        }
     }
 
     @Mutation(() => Boolean)

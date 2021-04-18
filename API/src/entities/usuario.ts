@@ -3,7 +3,7 @@ import { ObjectType, Field, ID, Authorized, registerEnumType } from "type-graphq
 import { RolesTypes } from "../enum/roles.enum";
 import { EstadosTypes } from "../enum/estados.enum";
 import { ValoracionServicio } from "./valoracionservicio";
-import { InformacionPersonal } from "./infoPersonal";
+import { InformacionPersonal } from "./informacionpersonal";
 import { Comentario } from "./comentario";
 import { Servicio } from "./servicio";
 
