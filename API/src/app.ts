@@ -14,6 +14,7 @@ import { InformacionPersonalResolver } from './resolvers/informacionPersonal/inf
 import { ComentarioResolver } from './resolvers/comentario/comentario.resolver';
 
 import cookieParser from 'cookie-parser';
+import { TipoSalarioResolver } from './resolvers/tipoSalario/tipoSalario.resolver';
 
 export async function startServer() {
     const app = express();
@@ -25,7 +26,7 @@ export async function startServer() {
                 ServicioResolver,
                 ParametroResolver,
                 InformacionPersonalResolver,
-                ComentarioResolver],
+                ComentarioResolver,TipoSalarioResolver],
             authChecker: isAuthorizated
         }),
         context: ({ req, res }) => ({ req, res }),

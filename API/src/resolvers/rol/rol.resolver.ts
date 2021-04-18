@@ -24,7 +24,7 @@ export class RolResolver {
 
     @Authorized("ADMIN")
     @Mutation(() => Rol)
-    async updateParametro(
+    async updateRol(
         @Arg("id", () => Int) id: number,
         @Arg("data", () => RolInput) data: RolInput
     ) {
@@ -36,16 +36,10 @@ export class RolResolver {
     @Authorized("ADMIN")
     @Mutation(() => Rol)
     async RegisterRol(
-        @Arg("codigo") codigo: string,
-        @Arg("descripcion") descripcion: string,
-        @Arg("estado") estado: EstadosTypes
+        @Arg("data" , () => RolInput) data: RolInput
     ) {
         try {
-            await Rol.insert({
-                codigo,
-                descripcion,
-                estado
-            });
+            await Rol.insert(data);
         } catch (err) {
             console.log(err);
             return false;

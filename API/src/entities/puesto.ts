@@ -1,7 +1,8 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, ManyToOne } from "typeorm";
 import { ObjectType, Field, ID, Authorized } from "type-graphql";
 import { RolesTypes } from "../enum/roles.enum";
 import { EstadosTypes } from "../enum/estados.enum";
+import { Servicio } from "./servicio";
 
 @ObjectType()
 @Entity()
@@ -24,4 +25,10 @@ export class Puesto extends BaseEntity {
     @Field(type => EstadosTypes)
     @Column("text")
     estado!: EstadosTypes;
+
+    @Authorized( )
+    @ManyToOne( type => Servicio, servicio => servicio.categoria)
+    @Field(type => [Servicio])
+    @Column("text", { nullable: true })
+    servicios!: Servicio[];
 }
