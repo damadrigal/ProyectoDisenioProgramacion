@@ -1,4 +1,4 @@
-import { Arg, Authorized, Int, Mutation, ObjectType, Query, Resolver } from "type-graphql";
+import { Arg, Authorized, Int, Mutation, ObjectType, Ctx,UseMiddleware, Query, Resolver } from "type-graphql";
 import { Comentario } from "../../entities/comentario";
 import { Servicio } from "../../entities/servicio";
 import { Usuario } from "../../entities/usuario";
@@ -7,6 +7,7 @@ import { RolesTypes } from "../../enum/roles.enum";
 import { ServicioInput } from "../servicio/servicio.input";
 import { UsuarioInput } from "../users/usuario.input";
 import { ComentarioInput } from "./comentario.input";
+import { isAuthenticated } from "../../middleware/is-authenticated";
 
 @ObjectType()
 @Resolver()
@@ -19,13 +20,15 @@ export class ComentarioResolver {
     }
 
     @Authorized([RolesTypes.CLIENTE, RolesTypes.OFERENTE])
-    @Query(() => Comentario)
+    @Mutation(() => Comentario)
     async createComentario(
         @Arg("data", () => ComentarioInput) data: ComentarioInput
     ) {
         const newData = Comentario.create(data);
         return await newData.save();
     }
+
+    @Authorized([RolesTypes.CLIENTE, RolesTypes.OFERENTE])
     @Mutation(() => Comentario)
     async updateComentario(
         @Arg("id", () => Int) id: number,
@@ -35,31 +38,6 @@ export class ComentarioResolver {
         const dataUpdated = await Comentario.findOne(id);
         return dataUpdated;
     }
- 
-    @Mutation(() => Comentario)
-    async RegisterComentario(
-        @Arg("descripcion") descripcion: string,
-        @Arg("usuario") usuario: UsuarioInput,
-        @Arg("servicio") servicio: ServicioInput,
-        @Arg("comentarioPadre") comentarioPadre: ComentarioInput,
-        @Arg("estado") estado: EstadosTypes
-    ) {
-        try {
-            await Comentario.insert({
-                descripcion,
-                usuario,
-                servicio,
-                comentarioPadre,
-                estado
-            });
-        } catch (err) {
-            console.log(err);
-            return false;
-        }
-
-        return true;
-    }
-
     @Query(() => [Comentario])
     FilterComentario(
         @Arg("servicio", () => ServicioInput) servicio: ServicioInput,
@@ -85,7 +63,9 @@ export class ComentarioResolver {
         }
     }
 
-    @Authorized("ADMIN")
+    
+    @Authorized([RolesTypes.CLIENTE, RolesTypes.OFERENTE])
+    @UseMiddleware(isAuthenticated)
     @Mutation(() => Boolean)
     async deleteComentario(
         @Arg("id", () => Int) id: number

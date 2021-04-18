@@ -11,6 +11,7 @@ import {Usuario } from "../../entities/usuario";
 import { InformacionPersonalInput } from "./informacionPersonal.input";
 import { InformacionPersonal } from "../../entities/informacionpersonal";
 import { Direccion } from "../../entities/direccion";
+import { RolesTypes } from "../../enum/roles.enum";
 
 @ObjectType()
 @Resolver()
@@ -22,7 +23,7 @@ export class InformacionPersonalResolver {
         return InformacionPersonal.find();
     }
 
-    @Authorized("ADMIN")
+    @Authorized([RolesTypes.ADMIN,RolesTypes.OFERENTE,RolesTypes.CLIENTE])
     @Mutation(() => InformacionPersonal)
     async updateInformacionPersonal(
         @Arg("id", () => Int) id: number,
@@ -33,7 +34,7 @@ export class InformacionPersonalResolver {
         return dataUpdated;
     }
 
-    @Authorized("ADMIN")
+    @Authorized([RolesTypes.ADMIN,RolesTypes.OFERENTE,RolesTypes.CLIENTE])
     @Mutation(() => InformacionPersonal)
     async RegisterInforPersonal(
         @Arg("nombre") nombre: string,
@@ -62,7 +63,7 @@ export class InformacionPersonalResolver {
         return true;
     }
 
-    @Authorized("ADMIN")
+    @Authorized([RolesTypes.ADMIN,RolesTypes.OFERENTE,RolesTypes.CLIENTE])
     @Query(() => [InformacionPersonal])
     FilterInfoPersonal(
         @Arg("nombre", () => String) nombre: string,
@@ -75,7 +76,7 @@ export class InformacionPersonalResolver {
         }
     }
 
-    @Authorized("ADMIN")
+    @Authorized([RolesTypes.ADMIN,RolesTypes.OFERENTE,RolesTypes.CLIENTE])
     @Query(() => [InformacionPersonal])
     FilterinformacionPersonalD(
         @Arg("ID", () => Int) id: string,
@@ -85,10 +86,11 @@ export class InformacionPersonalResolver {
 
         } else {
             return InformacionPersonal.find();
-        }InformacionPersonal
+        }
     }
 
     @Mutation(() => Boolean)
+    @Authorized([RolesTypes.ADMIN,RolesTypes.OFERENTE,RolesTypes.CLIENTE])
     async deleteInformacionPersonal(
         @Arg("id", () => Int) id: number
     ) {
