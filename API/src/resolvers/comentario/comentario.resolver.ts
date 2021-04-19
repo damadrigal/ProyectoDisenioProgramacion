@@ -1,12 +1,9 @@
 import { Arg, Authorized, Int, Mutation, ObjectType, Ctx,UseMiddleware, Query, Resolver } from "type-graphql";
 import { Comentario } from "../../entities/comentario";
-import { Servicio } from "../../entities/servicio";
-import { Usuario } from "../../entities/usuario";
 import { EstadosTypes } from "../../enum/estados.enum";
 import { RolesTypes } from "../../enum/roles.enum";
 import { ServicioInput } from "../servicio/servicio.input";
-import { UsuarioResolver } from "../users/usuario.resolver";
-import { UsuarioInput } from "../users/usuario.input";
+import { Context } from "../../interfaces/context.interface";
 import { ComentarioInput } from "./comentario.input";
 import { isAuthenticated } from "../../middleware/is-authenticated";
 
@@ -17,12 +14,12 @@ export class ComentarioResolver {
 
     @Query(() => [Comentario])
     async Comentarios() {
-        return Comentario.find();
+        return Comentario.find({ order: { "fechaCreacion":"DESC" } });
     }
 
     @Authorized([RolesTypes.CLIENTE, RolesTypes.OFERENTE])
     @Mutation(() => Comentario)
-    async createComentario(
+    async crearComentario(
         @Arg("data", () => ComentarioInput) data: ComentarioInput
     ) {
         const newData = Comentario.create(data);
@@ -31,7 +28,7 @@ export class ComentarioResolver {
 
     @Authorized([RolesTypes.CLIENTE, RolesTypes.OFERENTE])
     @Mutation(() => Comentario)
-    async updateComentario(
+    async ModifcarComentario(
         @Arg("id", () => Int) id: number,
         @Arg("data", () => ComentarioInput) data: ComentarioInput
     ) {
@@ -39,12 +36,13 @@ export class ComentarioResolver {
         const dataUpdated = await Comentario.findOne(id);
         return dataUpdated;
     }
+
     @Query(() => [Comentario])
-    FilterComentario(
+    FiltrarComentario(
         @Arg("servicio", () => ServicioInput) servicio: ServicioInput,
     ) {
         if (servicio) {
-            return Comentario.find({ where: { servicio } });
+            return Comentario.find({ where: { servicio }, order: { "fechaCreacion":"DESC" } });
 
         } else {
             return Comentario.find();
@@ -53,7 +51,7 @@ export class ComentarioResolver {
 
     
     @Query(() => [Comentario])
-    FilterComentarioID(
+    FiltrarComentarioID(
         @Arg("ID", () => Int) id: string,
     ) {
         if (id) {
@@ -66,7 +64,7 @@ export class ComentarioResolver {
 
     @Authorized(RolesTypes.ADMIN)
     @Mutation(() => Comentario)
-    async inactivarServicio(
+    async inactivarActivarComentario(
         @Arg("id", () => Int) id: number,
         @Arg("estado", () => EstadosTypes) estado: EstadosTypes
     ) {
@@ -78,10 +76,31 @@ export class ComentarioResolver {
     @Authorized([RolesTypes.CLIENTE, RolesTypes.OFERENTE])
     @UseMiddleware(isAuthenticated)
     @Mutation(() => Boolean)
-    async deleteComentario(
-        @Arg("id", () => Int) id: number
+    async eliminarComentario(
+        @Arg("id", () => Int) id: number,
+        @Ctx() { usuario }: Context
     ) {
-        await Comentario.delete(id);
+        if (usuario!.role == RolesTypes.ADMIN)
+        {
+            try{                
+                this.inactivarActivarComentario(id,EstadosTypes.INACTIVO)
+                return true;            
+            }catch (err) {
+                return false;
+            }
+        }
+        const consultaComentario = await Comentario.findOne({where : {id}});
+        if (usuario!.id == consultaComentario?.usuario.id)
+        {
+            try{                
+                await Comentario.delete(id);
+                return true;            
+            }catch (err) {
+                return false;
+            }
+        }        
         return true;
     }
+
+
 }

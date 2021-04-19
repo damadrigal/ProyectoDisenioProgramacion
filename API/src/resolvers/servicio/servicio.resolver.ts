@@ -9,6 +9,7 @@ import {
 import {Servicio } from "../../entities/servicio";
 import { ServicioInput } from "../servicio/servicio.input";
 import { RolesTypes } from "../../enum/roles.enum";
+import { EstadosTypes } from "../../enum/estados.enum";
 
 @Resolver()
 export class ServicioResolver {
@@ -16,11 +17,11 @@ export class ServicioResolver {
     @Query(() => [Servicio])
     async Servicios() {
         return Servicio.find();
-    }
+    }    
 
     @Authorized(RolesTypes.OFERENTE)
     @Mutation(() => Boolean)
-    async createServicio(
+    async crearServicio(
         @Arg("data", () => ServicioInput) data: ServicioInput
     ) {
         try {
@@ -32,9 +33,9 @@ export class ServicioResolver {
         return true;
     }
     
-    @Authorized(RolesTypes.OFERENTE)
+    @Authorized([RolesTypes.OFERENTE,RolesTypes.ADMIN])
     @Mutation(() => Servicio)
-    async updateServicio(
+    async modificarServicio(
         @Arg("id", () => Int) id: number,
         @Arg("data", () => ServicioInput) data: ServicioInput
     ) {
@@ -45,7 +46,7 @@ export class ServicioResolver {
 
     @Authorized(RolesTypes.OFERENTE)
     @Mutation(() => Boolean)
-    async deleteServicio(
+    async eliminarServicio(
         @Arg("id", () => Int) id: number
     ) {
         await Servicio.delete(id);
@@ -53,8 +54,19 @@ export class ServicioResolver {
     }
 
     @Authorized(RolesTypes.ADMIN)
+    @Mutation(() => Servicio)
+    async inactivarServicio(
+        @Arg("id", () => Int) id: number,
+        @Arg("estado", () => EstadosTypes) estado: EstadosTypes
+    ) {
+        await Servicio.update({ id }, {estado});
+        const dataUpdated = await Servicio.findOne(id);
+        return dataUpdated;
+    }
+
+    @Authorized(RolesTypes.ADMIN)
     @Query(() => [Servicio])
-    FilterRol( // cambiar nombre  verificar rol en autorización
+    filtrarServicio(
         @Arg("nombre", () => String) nombre: string,
     ) {
         if (nombre) {
@@ -62,6 +74,17 @@ export class ServicioResolver {
 
         } else {
             return Servicio.find();
+        }
+    }
+
+    @Authorized(RolesTypes.ADMIN)
+    @Query(() => [Servicio])
+    filtrarServicioEstado(
+        @Arg("estado", () => EstadosTypes) estado: EstadosTypes,
+    ) {
+        if (estado) {
+            return Servicio.find({ where: { estado } });
+
         }
     }
 
@@ -74,7 +97,7 @@ export class ServicioResolver {
 
     @Authorized(RolesTypes.ADMIN)
     @Query(() => [Servicio])
-    FilterServicioPorNombreSal( // cambiar nombre 
+    filtrarServicioNombreSal( 
         @Arg("nombre", () => String) nombre: string,
         @Arg("salarioMinimo", () => String) salarioMinimo: Number,
     ) {
@@ -91,5 +114,17 @@ export class ServicioResolver {
         @Arg("servicioId", () => Int) servicioId: number
     ) {
         return Servicio.find({ where: { servicioId } });
+    }
+
+    @Query(() => [Servicio])
+    ServiciosMejorValorados(
+    ) {
+        return Servicio.find({ order: { "valoracionPromedio":"DESC" } });
+    }
+
+    @Query(() => [Servicio])
+    ServiciosPeorValorados(
+    ) {
+        return Servicio.find({ order: { "valoracionPromedio":"ASC" } });
     }
 }

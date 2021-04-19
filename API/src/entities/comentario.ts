@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, ManyToOne, OneToMany } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, ManyToOne, OneToMany, CreateDateColumn } from "typeorm";
 import { ObjectType, Field, ID, Authorized } from "type-graphql";
 import { Usuario } from "./usuario";
 import { Servicio } from "./servicio";
@@ -15,6 +15,11 @@ export class Comentario extends BaseEntity {
     @Field(() => String)
     @Column("text", { nullable: true })
     descripcion!: string;
+
+    @Authorized()
+    @Field(()=> String)
+    @CreateDateColumn({type:'timestamp'})
+    fechaCreacion!:string;
 
     @Authorized( )
     @ManyToOne( type => Servicio, servicio => servicio.comentarios)

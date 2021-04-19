@@ -11,20 +11,21 @@ import {
 import { EstadosTypes } from "../../enum/estados.enum";
 import { RolInput } from "./rol.input";
 import { Rol } from "../../entities/rol";
+import { RolesTypes } from "../../enum/roles.enum";
 
 @ObjectType()
 @Resolver()
 
 export class RolResolver {
-    @Authorized("ADMIN")
+    @Authorized(RolesTypes.ADMIN)
     @Query(() => [Rol])
     async Roles() {
         return Rol.find();
     }
 
-    @Authorized("ADMIN")
+    @Authorized(RolesTypes.ADMIN)
     @Mutation(() => Rol)
-    async updateRol(
+    async modificarRol(
         @Arg("id", () => Int) id: number,
         @Arg("data", () => RolInput) data: RolInput
     ) {
@@ -33,9 +34,9 @@ export class RolResolver {
         return dataUpdated;
     }
 
-    @Authorized("ADMIN")
+    @Authorized(RolesTypes.ADMIN)
     @Mutation(() => Rol)
-    async RegisterRol(
+    async RegistrarRol(
         @Arg("data" , () => RolInput) data: RolInput
     ) {
         try {
@@ -44,13 +45,12 @@ export class RolResolver {
             console.log(err);
             return false;
         }
-
         return true;
     }
 
-    @Authorized("ADMIN")
+    @Authorized(RolesTypes.ADMIN)
     @Query(() => [Rol])
-    FilterRol(
+    filtrarRol(
         @Arg("nombre", () => String) nombre: string,
     ) {
         if (nombre) {
@@ -61,9 +61,9 @@ export class RolResolver {
         }
     }
 
-    @Authorized("ADMIN")
+    @Authorized(RolesTypes.ADMIN)
     @Query(() => [Rol])
-    FilterRolID(
+    filtrarRolID(
         @Arg("ID", () => Int) id: string,
     ) {
         if (id) {
@@ -74,11 +74,14 @@ export class RolResolver {
         }
     }
 
-    @Mutation(() => Boolean)
-    async deleteRol(
-        @Arg("id", () => Int) id: number
+    @Authorized(RolesTypes.ADMIN)
+    @Mutation(() => Rol)
+    async inactivarRol(
+        @Arg("id", () => Int) id: number,
+        @Arg("estado", () => EstadosTypes) estado: EstadosTypes
     ) {
-        await Rol.delete(id);
-        return true;
+        await Rol.update({ id }, {estado});
+        const dataUpdated = await Rol.findOne(id);
+        return dataUpdated;
     }
 }

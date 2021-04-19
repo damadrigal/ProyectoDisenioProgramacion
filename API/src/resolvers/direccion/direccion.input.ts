@@ -1,5 +1,4 @@
 import { InputType, Field } from "type-graphql";
-import { Servicio } from "../../entities/servicio";
 import { ServicioInput } from "../servicio/servicio.input";
 
 @InputType({ description: "información de la dirección" })

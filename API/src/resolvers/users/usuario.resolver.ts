@@ -20,7 +20,6 @@ import { Context } from "../../interfaces/context.interface";
 import { RolesTypes } from "../../enum/roles.enum";
 import { UsuarioInput } from "./usuario.input"
 import { EstadosTypes } from "../../enum/estados.enum";
-import { ValoracionResolver } from "../../resolvers/valoracion/valoracion.resolver";
 
 
 @ObjectType()
@@ -29,17 +28,31 @@ class LoginResponse {
     accessToken?: string;
 }
 
-
 @Resolver()
 export class UsuarioResolver {
     
+    @Authorized(RolesTypes.ADMIN)
     @Query(() => [Usuario])
     async Usuarios() {
         return Usuario.find();
     }
+
+    @Authorized(RolesTypes.ADMIN)
+    @Query(() => [Usuario])
+    FiltrarUsuarioEstado(
+        @Arg("estado", () => EstadosTypes) estado: EstadosTypes,
+    ) {
+        if (estado) {
+            return Usuario.find({ where: { estado } });
+
+        } else {
+            return Usuario.find();
+        }
+    }
+
     @Authorized(RolesTypes.ADMIN)
     @Mutation(() => Usuario)
-    async updateUsuario(
+    async modificarUsuario(
         @Arg("id", () => Int) id: number,
         @Arg("data", () => UsuarioInput) data: UsuarioInput
     ) {
@@ -50,9 +63,9 @@ export class UsuarioResolver {
 
     @Query(() => String)
     @UseMiddleware(isAuthenticated)
-    async Me(@Ctx() { usuario }: Context) {
+    async usuarioActual(@Ctx() { usuario }: Context) {
 
-        return `Your Usuario id : ${usuario!.id}`;
+        return `Su id Usuario : ${usuario!.id}`;
     }
 
     @Query(() => String)
@@ -62,13 +75,8 @@ export class UsuarioResolver {
         return usuario!.role;
     }
 
-    public indicarRol(@Ctx() { usuario }: Context){
-        this.obtenerRolUsuario;
-    }
-
-
     @Mutation(() => Boolean)
-    async Register(
+    async Registrar(
         @Arg("nombre") nombre: string,
         @Arg("email") email: string,
         @Arg("password") password: string,
@@ -95,13 +103,13 @@ export class UsuarioResolver {
         const usuario = await Usuario.findOne({ where: { email } });
 
         if (!usuario) {
-            throw new Error("Could not find user");
+            throw new Error("No se encontró el Usuario");
         }
 
         const verify = await compare(password, usuario.password);
 
         if (!verify) {
-            throw new Error("Bad password");
+            throw new Error("Contraseña erronea");
         }
 
 
@@ -123,18 +131,18 @@ export class UsuarioResolver {
 
     @Authorized(RolesTypes.ADMIN)
     @Mutation(() => Usuario)
-    async SetUsuarioPermision(@Arg("id") id: number, @Arg("rol") rol: RolesTypes) {
+    async AsignarRol(@Arg("id") id: number, @Arg("rol") rol: RolesTypes) {
         const usuario = await Usuario.findOne({ where: { id } });
 
         if (!usuario) {
-            throw new Error("Could not find Usuario");
+            throw new Error("No se encontró el Usuario");
         }
 
         if (!usuario?.role) {
             usuario.role = rol;
         }
 
-        return await this.updateUsuario(id, usuario);
+        return await this.modificarUsuario(id, usuario);
     }
     
 }

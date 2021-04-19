@@ -9,9 +9,8 @@ import {
 } from "type-graphql";
 import { InformacionPersonalInput } from "./informacionPersonal.input";
 import { InformacionPersonal } from "../../entities/informacionpersonal";
-import { UsuarioInput } from "../users/usuario.input";
-import { DireccionInput } from "../direccion/direccion.input";
 import { RolesTypes } from "../../enum/roles.enum";
+import { UsuarioInput } from "../users/usuario.input";
 
 @ObjectType()
 @Resolver()
@@ -26,7 +25,7 @@ export class InformacionPersonalResolver {
 
     @Authorized([RolesTypes.ADMIN,RolesTypes.OFERENTE,RolesTypes.CLIENTE])
     @Mutation(() => InformacionPersonal)
-    async updateInformacionPersonal(
+    async modificarInformacionPersonal(
         @Arg("id", () => Int) id: number,
         @Arg("data", () => InformacionPersonalInput) data: InformacionPersonalInput
     ) {
@@ -37,7 +36,7 @@ export class InformacionPersonalResolver {
 
     @Authorized([RolesTypes.ADMIN,RolesTypes.OFERENTE,RolesTypes.CLIENTE])
     @Mutation(() => InformacionPersonal)
-    async RegisterInforPersonal(
+    async RegistrarInforPersonal(
         @Arg("data", () => InformacionPersonalInput) data: InformacionPersonalInput
     ) {
         try {
@@ -53,7 +52,7 @@ export class InformacionPersonalResolver {
 
     @Authorized([RolesTypes.ADMIN,RolesTypes.OFERENTE,RolesTypes.CLIENTE])
     @Query(() => [InformacionPersonal])
-    FilterInfoPersonal(
+    FiltrarInfoPersonal(
         @Arg("nombre", () => String) nombre: string,
     ) {
         if (nombre) {
@@ -66,7 +65,20 @@ export class InformacionPersonalResolver {
 
     @Authorized([RolesTypes.ADMIN,RolesTypes.OFERENTE,RolesTypes.CLIENTE])
     @Query(() => [InformacionPersonal])
-    FilterinformacionPersonalD(
+    FiltrarInfoPersonalUsuario(
+        @Arg("usuario", () => UsuarioInput) usuario: UsuarioInput,
+    ) {
+        if (usuario) {
+            return InformacionPersonal.find({ where: { usuario } });
+
+        } else {
+            return InformacionPersonal.find();
+        }
+    }
+
+    @Authorized([RolesTypes.ADMIN,RolesTypes.OFERENTE,RolesTypes.CLIENTE])
+    @Query(() => [InformacionPersonal])
+    FiltrarinformacionPersonalD(
         @Arg("ID", () => Int) id: string,
     ) {
         if (id) {
@@ -78,8 +90,8 @@ export class InformacionPersonalResolver {
     }
 
     @Mutation(() => Boolean)
-    @Authorized([RolesTypes.ADMIN,RolesTypes.OFERENTE,RolesTypes.CLIENTE])
-    async deleteInformacionPersonal(
+    @Authorized(RolesTypes.OFERENTE)
+    async eliminarInformacionPersonal(
         @Arg("id", () => Int) id: number
     ) {
         await InformacionPersonal.delete(id);
