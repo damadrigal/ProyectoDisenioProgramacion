@@ -15,6 +15,8 @@ import { ComentarioResolver } from './resolvers/comentario/comentario.resolver';
 
 import cookieParser from 'cookie-parser';
 import { TipoSalarioResolver } from './resolvers/tipoSalario/tipoSalario.resolver';
+import { CategoriaResolver } from './resolvers/categoria/categoria.Resolver';
+import { PuestoResolver } from './resolvers/puesto/puesto.resolver';
 
 export async function startServer() {
     const app = express();
@@ -26,7 +28,8 @@ export async function startServer() {
                 ServicioResolver,
                 ParametroResolver,
                 InformacionPersonalResolver,
-                ComentarioResolver,TipoSalarioResolver],
+                ComentarioResolver,TipoSalarioResolver,
+            ParametroResolver,CategoriaResolver,PuestoResolver],
             authChecker: isAuthorizated
         }),
         context: ({ req, res }) => ({ req, res }),
