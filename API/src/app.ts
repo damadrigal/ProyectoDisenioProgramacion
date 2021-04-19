@@ -4,14 +4,32 @@ import { ApolloServer } from 'apollo-server-express'
 import { buildSchema } from "type-graphql"
 
 // import { ProductResolver } from "./resolvers/product/product.resolver";
- import { UserResolver } from './resolvers/users/user.resolver';
- import { isAuthorizated } from "./middleware/is-authorizated";
+import { UsuarioResolver } from './resolvers/users/usuario.resolver';
+import { isAuthorizated } from "./middleware/is-authorizated";
+import { ValoracionResolver } from './resolvers/valoracion/valoracion.resolver';
+import { RolResolver } from './resolvers/rol/rol.resolver';
+import { ServicioResolver } from './resolvers/servicio/servicio.resolver';
+import { ParametroResolver } from './resolvers/parametro/parametro.resolver';
+import { InformacionPersonalResolver } from './resolvers/informacionPersonal/informacionpersonal.resolver';
+import { ComentarioResolver } from './resolvers/comentario/comentario.resolver';
+
+import { TipoSalarioResolver } from './resolvers/tipoSalario/tipoSalario.resolver';
+import { CategoriaResolver } from './resolvers/categoria/categoria.resolver';
+import { PuestoResolver } from './resolvers/puesto/puesto.resolver';
+
 export async function startServer() {
     const app = express();
     const server = new ApolloServer({
         schema: await buildSchema({
-             resolvers: [UserResolver],
-             authChecker: isAuthorizated
+            resolvers: [UsuarioResolver,
+                ValoracionResolver,
+                RolResolver,
+                ServicioResolver,
+                ParametroResolver,
+                InformacionPersonalResolver,
+                ComentarioResolver,TipoSalarioResolver,
+            ParametroResolver,CategoriaResolver,PuestoResolver],
+            authChecker: isAuthorizated
         }),
         context: ({ req, res }) => ({ req, res }),
 
