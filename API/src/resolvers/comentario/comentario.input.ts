@@ -11,17 +11,17 @@ import { UsuarioInput } from "../users/usuario.input";
 export class ComentarioInput {
 
     @Field(()=> String)
-    descripcion!: string
+    descripcion?: string
 
     @Field({nullable:true})
-    usuario!: UsuarioInput;
+    usuario?: UsuarioInput;
 
     @Field({nullable:true})
-    servicio!: ServicioInput;
+    servicio?: ServicioInput;
 
     @Field({nullable:true})
     comentarioPadre?:ComentarioInput;
 
     @Field(type => EstadosTypes)
-    estado!: EstadosTypes;
+    estado?: EstadosTypes;
 }

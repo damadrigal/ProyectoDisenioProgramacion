@@ -6,14 +6,14 @@ import { ServicioInput } from "../servicio/servicio.input";
 export class TipoSalarioInput {
 
     @Field(() => String)
-    codigo!: string;
+    codigo?: string;
 
     @Field(() => String)
-    descripcion!: string;
+    descripcion?: string;
 
     @Field(type => EstadosTypes)
-    estado!: EstadosTypes;
+    estado?: EstadosTypes;
 
     @Field(type => [ServicioInput])
-    servicios!: ServicioInput[];
+    servicios?: ServicioInput[];
 }

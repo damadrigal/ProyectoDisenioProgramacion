@@ -7,32 +7,32 @@ import { UsuarioInput } from "../users/usuario.input";
 export class ServicioInput {
 
     @Field(() => String)
-    nombre!: string;
+    nombre?: string;
 
     @Field(() => String)
-    Descripcion!: string;
+    Descripcion?: string;
 
     @Field(() => String)
-    email!: string;
+    email?: string;
 
     @Field(() => String)
-    telefono!: string;
+    telefono?: string;
 
     @Field(type => UsuarioInput)
-    usuario!: UsuarioInput;
+    usuario?: UsuarioInput;
 
     @Field(() => Number)
-    salarioMinimo!: Number;
+    salarioMinimo?: Number;
 
     @Field(() => Number)
-    salarioMaximo!: Number;
+    salarioMaximo?: Number;
 
     @Field(() => String)
-    imagen!: string;
+    imagen?: string;
 
     @Field(()=> String)
-    fechaCreacion!:string;
+    fechaCreacion?:string;
 
     @Field(()=> String)
-    fechaModificacion!:string;
+    fechaModificacion?:string;
 }

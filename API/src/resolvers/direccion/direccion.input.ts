@@ -6,14 +6,14 @@ import { ServicioInput } from "../servicio/servicio.input";
 export class DireccionInput {
 
     @Field(() => String)
-    descripcion!: string;
+    descripcion?: string;
 
     @Field(() => String)
-    longitud!: string;
+    longitud?: string;
 
     @Field(() => String)
-    latitud!: string;
+    latitud?: string;
 
     @Field(type => ServicioInput)
-    servicio!: ServicioInput;
+    servicio?: ServicioInput;
 }

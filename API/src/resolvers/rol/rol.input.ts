@@ -8,13 +8,13 @@ export class RolInput {
 
     @Authorized(RolesTypes.ADMIN)
     @Field(()=> String)
-    codigo!: string
+    codigo?: string
 
     @Authorized(RolesTypes.ADMIN)
     @Field(() => String)
-    nombre!: string;
+    nombre?: string;
 
     @Authorized(RolesTypes.ADMIN)
     @Field(type => EstadosTypes)
-    estado!: EstadosTypes;
+    estado?: EstadosTypes;
 }

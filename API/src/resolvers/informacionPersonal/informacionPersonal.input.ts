@@ -11,26 +11,26 @@ import { UsuarioInput } from "../users/usuario.input";
 export class InformacionPersonalInput {
 
     @Field(() => String)
-    nombre!: string;
+    nombre?: string;
      
     @Field(() => String)
-    priapellido!: string;
+    priapellido?: string;
      
     @Field(() => String)
-    segapellido!: string;
+    segapellido?: string;
      
     @Field(() => String)
-    telefono!: string;
+    telefono?: string;
      
     @Field(() => String)
-    correo!: string;
+    correo?: string;
 
     @Field(type => DireccionInput)
-    direccion!: Direccion;
+    direccion?: Direccion;
 
     @Field(type => UsuarioInput)
-    usuario!: Usuario;
+    usuario?: Usuario;
 
     @Field(type => EstadosTypes)
-    estado!: EstadosTypes;
+    estado?: EstadosTypes;
 }

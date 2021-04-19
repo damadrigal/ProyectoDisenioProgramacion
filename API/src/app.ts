@@ -15,7 +15,7 @@ import { ComentarioResolver } from './resolvers/comentario/comentario.resolver';
 
 import cookieParser from 'cookie-parser';
 import { TipoSalarioResolver } from './resolvers/tipoSalario/tipoSalario.resolver';
-import { CategoriaResolver } from './resolvers/categoria/categoria.Resolver';
+import { CategoriaResolver } from './resolvers/categoria/categoria.resolver';
 import { PuestoResolver } from './resolvers/puesto/puesto.resolver';
 
 export async function startServer() {
