@@ -53,6 +53,18 @@ export class UsuarioResolver {
         return `Your Usuario id : ${usuario!.id}`;
     }
 
+    @Query(() => String)
+    @UseMiddleware(isAuthenticated)
+    async obtenerRolUsuario(@Ctx() { usuario }: Context) {
+
+        return usuario!.role;
+    }
+
+    public indicarRol(@Ctx() { usuario }: Context){
+        this.obtenerRolUsuario;
+    }
+
+
     @Mutation(() => Boolean)
     async Register(
         @Arg("nombre") nombre: string,

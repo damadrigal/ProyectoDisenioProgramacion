@@ -17,9 +17,10 @@ import { RolesTypes } from "../../enum/roles.enum";
 @Resolver()
 
 export class InformacionPersonalResolver {
-    
+
+    @Authorized([RolesTypes.ADMIN,RolesTypes.OFERENTE,RolesTypes.CLIENTE])
     @Query(() => [InformacionPersonal])
-    async Parametros() {
+    async InformacionPersonal() {
         return InformacionPersonal.find();
     }
 
@@ -37,24 +38,11 @@ export class InformacionPersonalResolver {
     @Authorized([RolesTypes.ADMIN,RolesTypes.OFERENTE,RolesTypes.CLIENTE])
     @Mutation(() => InformacionPersonal)
     async RegisterInforPersonal(
-        @Arg("nombre") nombre: string,
-        @Arg("priapellido") priapellido: string,
-        @Arg("segapellido") segapellido: string,
-        @Arg("telefono") telefono: string,
-        @Arg("correo") correo: string,
-        @Arg("direccion") direccion: Direccion,
-        @Arg("usuario") usuario: Usuario
+        @Arg("data", () => InformacionPersonalInput) data: InformacionPersonalInput
     ) {
         try {
-            await InformacionPersonal.insert({
-                nombre,
-                priapellido,
-                segapellido,
-                telefono,
-                correo,
-                direccion,
-                usuario
-            });
+            const newData = InformacionPersonal.create(data);
+            return await newData.save();
         } catch (err) {
             console.log(err);
             return false;
