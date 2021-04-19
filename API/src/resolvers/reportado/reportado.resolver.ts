@@ -26,30 +26,6 @@ export class ReportadoResolver {
     }
 
     @Authorized(RolesTypes.ADMIN)
-    @Mutation(() => InfoReportada)
-    async modificarInfoReportada(
-        @Arg("id", () => Int) id: number,
-        @Arg("data", () => ReportadoInput) data: ReportadoInput
-    ) {
-        await InfoReportada.update({ id }, data);
-        const dataUpdated = await InfoReportada.findOne(id);
-        return dataUpdated;
-    }
-
-    @Authorized(RolesTypes.ADMIN)
-    @Mutation(() => InfoReportada)
-    async RegistrarInfoReportada(
-        @Arg("data" , () => ReportadoInput) data: ReportadoInput
-    ) {
-        try {
-            await InfoReportada.insert(data);
-        } catch (err) {
-            return false;
-        }
-        return true;
-    }
-
-    @Authorized(RolesTypes.ADMIN)
     @Query(() => [InfoReportada])
     filtrarInfoReportada(
         @Arg("usuario", () => UsuarioInput) usuario: UsuarioInput,
@@ -74,6 +50,30 @@ export class ReportadoResolver {
         } else {
             return InfoReportada.find();
         }
+    }
+
+    @Authorized(RolesTypes.ADMIN)
+    @Mutation(() => InfoReportada)
+    async modificarInfoReportada(
+        @Arg("id", () => Int) id: number,
+        @Arg("data", () => ReportadoInput) data: ReportadoInput
+    ) {
+        await InfoReportada.update({ id }, data);
+        const dataUpdated = await InfoReportada.findOne(id);
+        return dataUpdated;
+    }
+
+    @Authorized(RolesTypes.ADMIN)
+    @Mutation(() => InfoReportada)
+    async RegistrarInfoReportada(
+        @Arg("data" , () => ReportadoInput) data: ReportadoInput
+    ) {
+        try {
+            await InfoReportada.insert(data);
+        } catch (err) {
+            return false;
+        }
+        return true;
     }
 
     @Authorized(RolesTypes.ADMIN)

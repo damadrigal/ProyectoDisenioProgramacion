@@ -17,26 +17,6 @@ export class ComentarioResolver {
         return Comentario.find({ order: { "fechaCreacion":"DESC" } });
     }
 
-    @Authorized([RolesTypes.CLIENTE, RolesTypes.OFERENTE])
-    @Mutation(() => Comentario)
-    async crearComentario(
-        @Arg("data", () => ComentarioInput) data: ComentarioInput
-    ) {
-        const newData = Comentario.create(data);
-        return await newData.save();
-    }
-
-    @Authorized([RolesTypes.CLIENTE, RolesTypes.OFERENTE])
-    @Mutation(() => Comentario)
-    async ModifcarComentario(
-        @Arg("id", () => Int) id: number,
-        @Arg("data", () => ComentarioInput) data: ComentarioInput
-    ) {
-        await Comentario.update({ id }, data);
-        const dataUpdated = await Comentario.findOne(id);
-        return dataUpdated;
-    }
-
     @Query(() => [Comentario])
     FiltrarComentario(
         @Arg("servicio", () => ServicioInput) servicio: ServicioInput,
@@ -60,6 +40,26 @@ export class ComentarioResolver {
         } else {
             return Comentario.find();
         }
+    }
+
+    @Authorized([RolesTypes.CLIENTE, RolesTypes.OFERENTE])
+    @Mutation(() => Comentario)
+    async crearComentario(
+        @Arg("data", () => ComentarioInput) data: ComentarioInput
+    ) {
+        const newData = Comentario.create(data);
+        return await newData.save();
+    }
+
+    @Authorized([RolesTypes.CLIENTE, RolesTypes.OFERENTE])
+    @Mutation(() => Comentario)
+    async ModifcarComentario(
+        @Arg("id", () => Int) id: number,
+        @Arg("data", () => ComentarioInput) data: ComentarioInput
+    ) {
+        await Comentario.update({ id }, data);
+        const dataUpdated = await Comentario.findOne(id);
+        return dataUpdated;
     }
 
     @Authorized(RolesTypes.ADMIN)

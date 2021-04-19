@@ -24,33 +24,6 @@ export class InformacionPersonalResolver {
     }
 
     @Authorized([RolesTypes.ADMIN,RolesTypes.OFERENTE,RolesTypes.CLIENTE])
-    @Mutation(() => InformacionPersonal)
-    async modificarInformacionPersonal(
-        @Arg("id", () => Int) id: number,
-        @Arg("data", () => InformacionPersonalInput) data: InformacionPersonalInput
-    ) {
-        await InformacionPersonal.update({ id }, data);
-        const dataUpdated = await InformacionPersonal.findOne(id);
-        return dataUpdated;
-    }
-
-    @Authorized([RolesTypes.ADMIN,RolesTypes.OFERENTE,RolesTypes.CLIENTE])
-    @Mutation(() => InformacionPersonal)
-    async RegistrarInforPersonal(
-        @Arg("data", () => InformacionPersonalInput) data: InformacionPersonalInput
-    ) {
-        try {
-            const newData = InformacionPersonal.create(data);
-            return await newData.save();
-        } catch (err) {
-            console.log(err);
-            return false;
-        }
-
-        return true;
-    }
-
-    @Authorized([RolesTypes.ADMIN,RolesTypes.OFERENTE,RolesTypes.CLIENTE])
     @Query(() => [InformacionPersonal])
     FiltrarInfoPersonal(
         @Arg("nombre", () => String) nombre: string,
@@ -87,6 +60,33 @@ export class InformacionPersonalResolver {
         } else {
             return InformacionPersonal.find();
         }
+    }
+
+    @Authorized([RolesTypes.ADMIN,RolesTypes.OFERENTE,RolesTypes.CLIENTE])
+    @Mutation(() => InformacionPersonal)
+    async modificarInformacionPersonal(
+        @Arg("id", () => Int) id: number,
+        @Arg("data", () => InformacionPersonalInput) data: InformacionPersonalInput
+    ) {
+        await InformacionPersonal.update({ id }, data);
+        const dataUpdated = await InformacionPersonal.findOne(id);
+        return dataUpdated;
+    }
+
+    @Authorized([RolesTypes.ADMIN,RolesTypes.OFERENTE,RolesTypes.CLIENTE])
+    @Mutation(() => InformacionPersonal)
+    async RegistrarInforPersonal(
+        @Arg("data", () => InformacionPersonalInput) data: InformacionPersonalInput
+    ) {
+        try {
+            const newData = InformacionPersonal.create(data);
+            return await newData.save();
+        } catch (err) {
+            console.log(err);
+            return false;
+        }
+
+        return true;
     }
 
     @Mutation(() => Boolean)

@@ -21,32 +21,7 @@ export class RolResolver {
     @Query(() => [Rol])
     async Roles() {
         return Rol.find();
-    }
-
-    @Authorized(RolesTypes.ADMIN)
-    @Mutation(() => Rol)
-    async modificarRol(
-        @Arg("id", () => Int) id: number,
-        @Arg("data", () => RolInput) data: RolInput
-    ) {
-        await Rol.update({ id }, data);
-        const dataUpdated = await Rol.findOne(id);
-        return dataUpdated;
-    }
-
-    @Authorized(RolesTypes.ADMIN)
-    @Mutation(() => Rol)
-    async RegistrarRol(
-        @Arg("data" , () => RolInput) data: RolInput
-    ) {
-        try {
-            await Rol.insert(data);
-        } catch (err) {
-            console.log(err);
-            return false;
-        }
-        return true;
-    }
+    }   
 
     @Authorized(RolesTypes.ADMIN)
     @Query(() => [Rol])
@@ -72,6 +47,31 @@ export class RolResolver {
         } else {
             return Rol.find();
         }
+    }
+
+    @Authorized(RolesTypes.ADMIN)
+    @Mutation(() => Rol)
+    async modificarRol(
+        @Arg("id", () => Int) id: number,
+        @Arg("data", () => RolInput) data: RolInput
+    ) {
+        await Rol.update({ id }, data);
+        const dataUpdated = await Rol.findOne(id);
+        return dataUpdated;
+    }
+
+    @Authorized(RolesTypes.ADMIN)
+    @Mutation(() => Rol)
+    async RegistrarRol(
+        @Arg("data" , () => RolInput) data: RolInput
+    ) {
+        try {
+            await Rol.insert(data);
+        } catch (err) {
+            console.log(err);
+            return false;
+        }
+        return true;
     }
 
     @Authorized(RolesTypes.ADMIN)

@@ -17,51 +17,6 @@ export class ServicioResolver {
     @Query(() => [Servicio])
     async Servicios() {
         return Servicio.find();
-    }    
-
-    @Authorized(RolesTypes.OFERENTE)
-    @Mutation(() => Boolean)
-    async crearServicio(
-        @Arg("data", () => ServicioInput) data: ServicioInput
-    ) {
-        try {
-            await Servicio.insert(data);
-        } catch (err) {
-            console.log(err);
-            return false;
-        }
-        return true;
-    }
-    
-    @Authorized([RolesTypes.OFERENTE,RolesTypes.ADMIN])
-    @Mutation(() => Servicio)
-    async modificarServicio(
-        @Arg("id", () => Int) id: number,
-        @Arg("data", () => ServicioInput) data: ServicioInput
-    ) {
-        await Servicio.update({ id }, data);
-        const dataUpdated = await Servicio.findOne(id);
-        return dataUpdated;
-    }
-
-    @Authorized(RolesTypes.OFERENTE)
-    @Mutation(() => Boolean)
-    async eliminarServicio(
-        @Arg("id", () => Int) id: number
-    ) {
-        await Servicio.delete(id);
-        return true;
-    }
-
-    @Authorized(RolesTypes.ADMIN)
-    @Mutation(() => Servicio)
-    async inactivarServicio(
-        @Arg("id", () => Int) id: number,
-        @Arg("estado", () => EstadosTypes) estado: EstadosTypes
-    ) {
-        await Servicio.update({ id }, {estado});
-        const dataUpdated = await Servicio.findOne(id);
-        return dataUpdated;
     }
 
     @Authorized(RolesTypes.ADMIN)
@@ -126,5 +81,50 @@ export class ServicioResolver {
     ServiciosPeorValorados(
     ) {
         return Servicio.find({ order: { "valoracionPromedio":"ASC" } });
+    }    
+
+    @Authorized(RolesTypes.OFERENTE)
+    @Mutation(() => Boolean)
+    async crearServicio(
+        @Arg("data", () => ServicioInput) data: ServicioInput
+    ) {
+        try {
+            await Servicio.insert(data);
+        } catch (err) {
+            console.log(err);
+            return false;
+        }
+        return true;
+    }
+    
+    @Authorized([RolesTypes.OFERENTE,RolesTypes.ADMIN])
+    @Mutation(() => Servicio)
+    async modificarServicio(
+        @Arg("id", () => Int) id: number,
+        @Arg("data", () => ServicioInput) data: ServicioInput
+    ) {
+        await Servicio.update({ id }, data);
+        const dataUpdated = await Servicio.findOne(id);
+        return dataUpdated;
+    }
+
+    @Authorized(RolesTypes.OFERENTE)
+    @Mutation(() => Boolean)
+    async eliminarServicio(
+        @Arg("id", () => Int) id: number
+    ) {
+        await Servicio.delete(id);
+        return true;
+    }
+
+    @Authorized(RolesTypes.ADMIN)
+    @Mutation(() => Servicio)
+    async inactivarServicio(
+        @Arg("id", () => Int) id: number,
+        @Arg("estado", () => EstadosTypes) estado: EstadosTypes
+    ) {
+        await Servicio.update({ id }, {estado});
+        const dataUpdated = await Servicio.findOne(id);
+        return dataUpdated;
     }
 }

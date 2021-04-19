@@ -12,6 +12,14 @@ export class TipoSalarioResolver {
         return TipoSalario.find();
     }
 
+    @Authorized([RolesTypes.ADMIN,RolesTypes.OFERENTE])
+    @Query(() => [TipoSalario])
+    FiltrarTipoSalarioID(
+        @Arg("codigo", () => Int) codigo: string,
+    ) {
+        return TipoSalario.find({ where: { codigo } });        
+    }
+
     @Authorized(RolesTypes.ADMIN)
     @Mutation(() => TipoSalario)
     async modificarTipoSalario(
@@ -36,14 +44,6 @@ export class TipoSalarioResolver {
         }
 
         return true;
-    }
-
-    @Authorized([RolesTypes.ADMIN,RolesTypes.OFERENTE])
-    @Query(() => [TipoSalario])
-    FiltrarTipoSalarioID(
-        @Arg("codigo", () => Int) codigo: string,
-    ) {
-        return TipoSalario.find({ where: { codigo } });        
     }
 
     @Authorized(RolesTypes.ADMIN)

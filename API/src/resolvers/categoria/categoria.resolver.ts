@@ -17,26 +17,6 @@ export class CategoriaResolver {
         return Categoria.find();
     }
 
-    @Authorized(RolesTypes.ADMIN)
-    @Mutation(() => Categoria)
-    async crearCategoria(
-        @Arg("data", () => CategoriaInput) data: CategoriaInput
-    ) {
-        const newData = Categoria.create(data);
-        return await newData.save();
-    }
-
-    @Authorized(RolesTypes.ADMIN)
-    @Mutation(() => Categoria)
-    async modificarCategoria(
-        @Arg("id", () => Int) id: number,
-        @Arg("data", () => CategoriaInput) data: CategoriaInput
-    ) {
-        await Categoria.update({ id }, data);
-        const dataUpdated = await Categoria.findOne(id);
-        return dataUpdated;
-    }
-
     @Query(() => [Categoria])
     FiltrarCategoria(
         @Arg("servicio", () => ServicioInput) servicio: ServicioInput,
@@ -72,6 +52,26 @@ export class CategoriaResolver {
         } else {
             return Categoria.find();
         }
+    }
+
+    @Authorized(RolesTypes.ADMIN)
+    @Mutation(() => Categoria)
+    async crearCategoria(
+        @Arg("data", () => CategoriaInput) data: CategoriaInput
+    ) {
+        const newData = Categoria.create(data);
+        return await newData.save();
+    }
+
+    @Authorized(RolesTypes.ADMIN)
+    @Mutation(() => Categoria)
+    async modificarCategoria(
+        @Arg("id", () => Int) id: number,
+        @Arg("data", () => CategoriaInput) data: CategoriaInput
+    ) {
+        await Categoria.update({ id }, data);
+        const dataUpdated = await Categoria.findOne(id);
+        return dataUpdated;
     }
     
     @Authorized(RolesTypes.ADMIN)

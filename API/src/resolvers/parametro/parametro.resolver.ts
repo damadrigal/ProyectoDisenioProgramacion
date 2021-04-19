@@ -21,25 +21,7 @@ export class ParametroResolver {
     async Parametros() {
         return Parametro.find();
     }
-    @Authorized(RolesTypes.ADMIN)
-    @Mutation(() => Parametro)
-    async ModificarParametro(
-        @Arg("id", () => Int) id: number,
-        @Arg("data", () => ParametroInput) data: ParametroInput
-    ) {
-        await Parametro.update({ id }, data);
-        const dataUpdated = await Parametro.findOne(id);
-        return dataUpdated;
-    }
-
-    @Authorized(RolesTypes.ADMIN)
-    @Mutation(() => Parametro)
-    async RegistrarParametro( @Arg("data", () => ParametroInput) data: ParametroInput
-    ) {
-        const newData = Parametro.create(data);
-        return await newData.save();
-    }
-
+    
     @Authorized(RolesTypes.ADMIN)
     @Query(() => [Parametro])
     FiltrarParametro(
@@ -64,6 +46,25 @@ export class ParametroResolver {
         } else {
             return Parametro.find();
         }
+    }
+
+    @Authorized(RolesTypes.ADMIN)
+    @Mutation(() => Parametro)
+    async ModificarParametro(
+        @Arg("id", () => Int) id: number,
+        @Arg("data", () => ParametroInput) data: ParametroInput
+    ) {
+        await Parametro.update({ id }, data);
+        const dataUpdated = await Parametro.findOne(id);
+        return dataUpdated;
+    }
+
+    @Authorized(RolesTypes.ADMIN)
+    @Mutation(() => Parametro)
+    async RegistrarParametro( @Arg("data", () => ParametroInput) data: ParametroInput
+    ) {
+        const newData = Parametro.create(data);
+        return await newData.save();
     }
     
     @Authorized(RolesTypes.ADMIN)

@@ -50,17 +50,6 @@ export class UsuarioResolver {
         }
     }
 
-    @Authorized(RolesTypes.ADMIN)
-    @Mutation(() => Usuario)
-    async modificarUsuario(
-        @Arg("id", () => Int) id: number,
-        @Arg("data", () => UsuarioInput) data: UsuarioInput
-    ) {
-        await Usuario.update({ id }, data);
-        const dataUpdated = await Usuario.findOne(id);
-        return dataUpdated;
-    }
-
     @Query(() => String)
     @UseMiddleware(isAuthenticated)
     async usuarioActual(@Ctx() { usuario }: Context) {
@@ -73,6 +62,17 @@ export class UsuarioResolver {
     async obtenerRolUsuario(@Ctx() { usuario }: Context) {
 
         return usuario!.role;
+    }
+
+    @Authorized(RolesTypes.ADMIN)
+    @Mutation(() => Usuario)
+    async modificarUsuario(
+        @Arg("id", () => Int) id: number,
+        @Arg("data", () => UsuarioInput) data: UsuarioInput
+    ) {
+        await Usuario.update({ id }, data);
+        const dataUpdated = await Usuario.findOne(id);
+        return dataUpdated;
     }
 
     @Mutation(() => Boolean)

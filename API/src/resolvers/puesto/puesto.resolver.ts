@@ -11,32 +11,6 @@ export class PuestoResolver {
         return Puesto.find();
     }
 
-    @Authorized(RolesTypes.ADMIN)
-    @Mutation(() => Puesto)
-    async modificaPuesto(
-        @Arg("id", () => Int) id: number,
-        @Arg("data", () => PuestoInput) data: PuestoInput
-    ) {
-        await Puesto.update({ id }, data);
-        const dataUpdated = await Puesto.findOne(id);
-        return dataUpdated;
-    }
-
-    @Authorized(RolesTypes.ADMIN)
-    @Mutation(() => Puesto)
-    async RegistrarPuesto(
-        @Arg("data") data: PuestoInput
-    ) {
-        try {
-            await Puesto.insert(data);
-        } catch (err) {
-            console.log(err);
-            return false;
-        }
-
-        return true;
-    }
-
     @Query(() => [Puesto])
     FiltrarPuesto(
         @Arg("nombre", () => String) nombre: string,
@@ -71,5 +45,31 @@ export class PuestoResolver {
         await Puesto.update({ id }, {estado});
         const dataUpdated = await Puesto.findOne(id);
         return dataUpdated;
+    }
+    
+    @Authorized(RolesTypes.ADMIN)
+    @Mutation(() => Puesto)
+    async modificaPuesto(
+        @Arg("id", () => Int) id: number,
+        @Arg("data", () => PuestoInput) data: PuestoInput
+    ) {
+        await Puesto.update({ id }, data);
+        const dataUpdated = await Puesto.findOne(id);
+        return dataUpdated;
+    }
+
+    @Authorized(RolesTypes.ADMIN)
+    @Mutation(() => Puesto)
+    async RegistrarPuesto(
+        @Arg("data") data: PuestoInput
+    ) {
+        try {
+            await Puesto.insert(data);
+        } catch (err) {
+            console.log(err);
+            return false;
+        }
+
+        return true;
     }
 }
