@@ -5,6 +5,7 @@ import { Usuario } from "../../entities/usuario";
 import { EstadosTypes } from "../../enum/estados.enum";
 import { RolesTypes } from "../../enum/roles.enum";
 import { ServicioInput } from "../servicio/servicio.input";
+import { UsuarioResolver } from "../users/usuario.resolver";
 import { UsuarioInput } from "../users/usuario.input";
 import { ComentarioInput } from "./comentario.input";
 import { isAuthenticated } from "../../middleware/is-authenticated";
@@ -63,6 +64,16 @@ export class ComentarioResolver {
         }
     }
 
+    @Authorized(RolesTypes.ADMIN)
+    @Mutation(() => Comentario)
+    async inactivarServicio(
+        @Arg("id", () => Int) id: number,
+        @Arg("estado", () => EstadosTypes) estado: EstadosTypes
+    ) {
+        await Comentario.update({ id }, {estado});
+        const dataUpdated = await Comentario.findOne(id);
+        return dataUpdated;
+    }
     
     @Authorized([RolesTypes.CLIENTE, RolesTypes.OFERENTE])
     @UseMiddleware(isAuthenticated)

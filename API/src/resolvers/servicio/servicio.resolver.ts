@@ -54,7 +54,7 @@ export class ServicioResolver {
 
     @Authorized(RolesTypes.ADMIN)
     @Query(() => [Servicio])
-    FilterRol(
+    FilterRol( // cambiar nombre  verificar rol en autorización
         @Arg("nombre", () => String) nombre: string,
     ) {
         if (nombre) {
@@ -70,6 +70,20 @@ export class ServicioResolver {
         @Arg("usuarioId", () => Int) usuarioId: number
     ) {
         return Servicio.find({ where: { usuarioId } });
+    }
+
+    @Authorized(RolesTypes.ADMIN)
+    @Query(() => [Servicio])
+    FilterServicioPorNombreSal( // cambiar nombre 
+        @Arg("nombre", () => String) nombre: string,
+        @Arg("salarioMinimo", () => String) salarioMinimo: Number,
+    ) {
+        if (nombre) {
+            return Servicio.find({ where: { nombre,salarioMinimo } });
+
+        } else {
+            return Servicio.find();
+        }
     }
 
     @Query(() => [Servicio])

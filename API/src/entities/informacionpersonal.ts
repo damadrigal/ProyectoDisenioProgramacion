@@ -11,17 +11,14 @@ export class InformacionPersonal extends BaseEntity {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @Authorized(RolesTypes.ADMIN)
     @Field(() => String)
     @Column("text", { nullable: true })
     nombre!: string;
 
-    @Authorized(RolesTypes.ADMIN)
     @Field(() => String)
     @Column("text", { nullable: true })
     priapellido!: string;
 
-    @Authorized(RolesTypes.ADMIN)
     @Field(() => String)
     @Column("text", { nullable: true })
     segapellido!: string;
@@ -40,6 +37,9 @@ export class InformacionPersonal extends BaseEntity {
     @Field(() => Direccion)
     @Column("text", { nullable: true })
     direccion!: Direccion;
+    
+    @Column()
+    usuarioId!: number;
 
     @OneToOne(() => Usuario, usuario => usuario.informacionPersonal, { lazy: true })
     @Field(type => Usuario)
