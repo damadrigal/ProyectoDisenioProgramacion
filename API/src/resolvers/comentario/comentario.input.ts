@@ -1,17 +1,17 @@
-import { InputType, Field, ID, Authorized } from "type-graphql";
+import { InputType, Field } from "type-graphql";
 import { EstadosTypes } from "../../enum/estados.enum";
-import { Usuario } from "../../entities/usuario";
-import { Servicio } from "../../entities/servicio";
-import { Comentario } from "../../entities/comentario";
 import { ServicioInput } from "../servicio/servicio.input";
 import { UsuarioInput } from "../users/usuario.input";
 
 
-@InputType({ description: "información de los parámetros" })
+@InputType({ description: "información de los comentarios" })
 export class ComentarioInput {
 
     @Field(()=> String)
     descripcion?: string
+
+    @Field(()=> String)
+    fechaCreacion!:string;
 
     @Field({nullable:true})
     usuario?: UsuarioInput;

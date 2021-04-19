@@ -1,12 +1,8 @@
-import { Arg, Authorized, Int, Mutation, ObjectType, Ctx,UseMiddleware, Query, Resolver } from "type-graphql";
+import { Arg, Authorized, Int, Mutation, ObjectType, UseMiddleware, Query, Resolver } from "type-graphql";
 import { Categoria } from "../../entities/categoria";
-import { Servicio } from "../../entities/servicio";
-import { Usuario } from "../../entities/usuario";
 import { EstadosTypes } from "../../enum/estados.enum";
 import { RolesTypes } from "../../enum/roles.enum";
 import { ServicioInput } from "../servicio/servicio.input";
-import { UsuarioResolver } from "../users/usuario.resolver";
-import { UsuarioInput } from "../users/usuario.input";
 import { CategoriaInput } from "./categoria.input";
 import { isAuthenticated } from "../../middleware/is-authenticated";
 
@@ -14,35 +10,15 @@ import { isAuthenticated } from "../../middleware/is-authenticated";
 @Resolver()
 
 export class CategoriaResolver { 
+   
     @Authorized([RolesTypes.ADMIN,RolesTypes.OFERENTE,RolesTypes.CLIENTE])
     @Query(() => [Categoria])
     async Categorias() {
         return Categoria.find();
     }
 
-
-    @Authorized(RolesTypes.ADMIN)
-    @Mutation(() => Categoria)
-    async createCategoria(
-        @Arg("data", () => CategoriaInput) data: CategoriaInput
-    ) {
-        const newData = Categoria.create(data);
-        return await newData.save();
-    }
-
-    @Authorized(RolesTypes.ADMIN)
-    @Mutation(() => Categoria)
-    async updateCategoria(
-        @Arg("id", () => Int) id: number,
-        @Arg("data", () => CategoriaInput) data: CategoriaInput
-    ) {
-        await Categoria.update({ id }, data);
-        const dataUpdated = await Categoria.findOne(id);
-        return dataUpdated;
-    }
-
     @Query(() => [Categoria])
-    FilterCategoria(
+    FiltrarCategoria(
         @Arg("servicio", () => ServicioInput) servicio: ServicioInput,
     ) {
         if (servicio) {
@@ -54,7 +30,7 @@ export class CategoriaResolver {
     }
 
     @Query(() => [Categoria])
-    FilterCategoriaCodigo(
+    FiltrarCategoriaCodigo(
         @Arg("codigo", () => String) codigo: String,
     ) {
         if (codigo) {
@@ -67,7 +43,7 @@ export class CategoriaResolver {
 
     
     @Query(() => [Categoria])
-    FilterCategoriaID(
+    FiltrarCategoriaID(
         @Arg("ID", () => Int) id: string,
     ) {
         if (id) {
@@ -77,14 +53,36 @@ export class CategoriaResolver {
             return Categoria.find();
         }
     }
+
+    @Authorized(RolesTypes.ADMIN)
+    @Mutation(() => Categoria)
+    async crearCategoria(
+        @Arg("data", () => CategoriaInput) data: CategoriaInput
+    ) {
+        const newData = Categoria.create(data);
+        return await newData.save();
+    }
+
+    @Authorized(RolesTypes.ADMIN)
+    @Mutation(() => Categoria)
+    async modificarCategoria(
+        @Arg("id", () => Int) id: number,
+        @Arg("data", () => CategoriaInput) data: CategoriaInput
+    ) {
+        await Categoria.update({ id }, data);
+        const dataUpdated = await Categoria.findOne(id);
+        return dataUpdated;
+    }
     
     @Authorized(RolesTypes.ADMIN)
     @UseMiddleware(isAuthenticated)
     @Mutation(() => Boolean)
-    async deleteCategoria(
-        @Arg("id", () => Int) id: number
+    async eliminarCategoria(
+        @Arg("id", () => Int) id: number,
+        @Arg("estado", () => EstadosTypes) estado: EstadosTypes
     ) {
-        await Categoria.delete(id);
-        return true;
+        await Categoria.update({ id }, {estado});
+        const dataUpdated = await Categoria.findOne(id);
+        return dataUpdated;
     }
 }

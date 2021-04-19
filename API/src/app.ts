@@ -13,7 +13,6 @@ import { ParametroResolver } from './resolvers/parametro/parametro.resolver';
 import { InformacionPersonalResolver } from './resolvers/informacionPersonal/informacionpersonal.resolver';
 import { ComentarioResolver } from './resolvers/comentario/comentario.resolver';
 
-import cookieParser from 'cookie-parser';
 import { TipoSalarioResolver } from './resolvers/tipoSalario/tipoSalario.resolver';
 import { CategoriaResolver } from './resolvers/categoria/categoria.resolver';
 import { PuestoResolver } from './resolvers/puesto/puesto.resolver';

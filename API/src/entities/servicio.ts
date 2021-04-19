@@ -1,5 +1,6 @@
 import { Authorized, Field, ID, ObjectType } from "type-graphql";
 import { BaseEntity, Column, CreateDateColumn, Entity, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { EstadosTypes } from "../enum/estados.enum";
 import { RolesTypes } from "../enum/roles.enum";
 import { Categoria } from "./categoria";
 import { Comentario } from "./comentario";
@@ -32,6 +33,11 @@ export class Servicio extends BaseEntity {
     @Column("text", { nullable: true })
     telefono!: string;
 
+    @Authorized(RolesTypes.ADMIN)
+    @Field(() => EstadosTypes)
+    @Column("text", { nullable: true })
+    estado!: EstadosTypes;
+
     @OneToOne( type => Usuario, usuario => usuario.servicio)
     @Field(type => Usuario)
     @Column("text", { nullable: true })
@@ -44,6 +50,10 @@ export class Servicio extends BaseEntity {
     @Field(() => Number)
     @Column("text", { nullable: true })
     salarioMaximo!: Number;
+
+    @Field(() => Number)
+    @Column("text", { nullable: true })
+    valoracionPromedio!: Number;
 
     @Field(() => String)
     @Column("text", { nullable: true })

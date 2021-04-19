@@ -1,5 +1,4 @@
 import {Field, InputType } from "type-graphql";
-import { Usuario } from "../../entities/usuario";
 import { EstadosTypes } from "../../enum/estados.enum";
 import { UsuarioInput } from "../users/usuario.input";
 
@@ -18,6 +17,9 @@ export class ServicioInput {
     @Field(() => String)
     telefono?: string;
 
+    @Field(() => EstadosTypes)
+    estado!: EstadosTypes;
+
     @Field(type => UsuarioInput)
     usuario?: UsuarioInput;
 
@@ -26,6 +28,9 @@ export class ServicioInput {
 
     @Field(() => Number)
     salarioMaximo?: Number;
+
+    @Field(() => Number)
+    valoracionPromedio!: Number;
 
     @Field(() => String)
     imagen?: string;

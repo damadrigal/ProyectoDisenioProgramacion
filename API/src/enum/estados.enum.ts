@@ -1,4 +1,5 @@
 export enum EstadosTypes {
     ACTIVO = "A",
-    INACTIVO = "I"
+    INACTIVO = "I",
+    APROBADO = "AP"
 }

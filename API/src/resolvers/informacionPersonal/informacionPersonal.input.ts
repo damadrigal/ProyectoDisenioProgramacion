@@ -1,5 +1,4 @@
 import { InputType, Field, ID, Authorized } from "type-graphql";
-import { RolesTypes } from "../../enum/roles.enum";
 import { EstadosTypes } from "../../enum/estados.enum";
 import { Direccion } from "../../entities/direccion";
 import { Usuario } from "../../entities/usuario";

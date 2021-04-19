@@ -1,4 +1,4 @@
-import { InputType, Field, ID, Authorized } from "type-graphql";
+import { InputType, Field } from "type-graphql";
 import { EstadosTypes } from "../../enum/estados.enum";
 import { ServicioInput } from "../servicio/servicio.input";
 

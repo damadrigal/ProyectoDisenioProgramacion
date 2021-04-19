@@ -1,5 +1,4 @@
 import { Arg, Authorized, Int, Mutation, Query, Resolver } from "type-graphql";
-import { Servicio } from "../../entities/servicio";
 import { ValoracionServicio } from "../../entities/valoracionservicio";
 import { RolesTypes } from "../../enum/roles.enum";
 import { ValoracionInput } from "./valoracion.input";
@@ -16,17 +15,16 @@ export class ValoracionResolver {
 
     @Authorized([RolesTypes.ADMIN])
     @Mutation(() => ValoracionServicio)
-    async createValoracion(
+    async crearValoracion(
         @Arg("data", () => ValoracionInput) data: ValoracionInput
     ) {
         const newData = ValoracionServicio.create(data);
         return await newData.save();
     }
 
-
     @Authorized([RolesTypes.CLIENTE])
     @Mutation(() => ValoracionServicio)
-   public async updateValoracion(
+    public async modificarValoracion(
         @Arg("id", () => Int) id: number,
         @Arg("data", () => ValoracionInput) data: ValoracionInput
     ) {
