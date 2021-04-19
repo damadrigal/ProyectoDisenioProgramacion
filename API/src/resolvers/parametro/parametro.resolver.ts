@@ -9,7 +9,7 @@ import {
 } from "type-graphql";
 import { EstadosTypes } from "../../enum/estados.enum";
 import { ParametroInput } from "./parametro.input";
-import { Parametro } from "../../entities/parametros";
+import { Parametro } from "../../entities/parametro";
 import { RolesTypes } from "../../enum/roles.enum";
 
 @ObjectType()

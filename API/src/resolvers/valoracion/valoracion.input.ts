@@ -5,12 +5,12 @@ import { UsuarioInput } from "../users/usuario.input";
 @InputType({ description: "información de la valoración de un servicio" })
 export class ValoracionInput {
 
-    @Field(()=>Int)
-    servicio!: ServicioInput;
+    @Field(()=>UsuarioInput)
+    servicio?: ServicioInput;
+
+    @Field(()=>UsuarioInput)
+    usuario?: UsuarioInput;
 
     @Field(()=>Int)
-    usuario!: UsuarioInput;
-
-    @Field(()=>Int)
-    valoracion!: number;
+    valoracion?: number;
 }

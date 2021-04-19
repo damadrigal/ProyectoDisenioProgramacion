@@ -20,6 +20,8 @@ import { Context } from "../../interfaces/context.interface";
 import { RolesTypes } from "../../enum/roles.enum";
 import { UsuarioInput } from "./usuario.input"
 import { EstadosTypes } from "../../enum/estados.enum";
+import { ValoracionResolver } from "../../resolvers/valoracion/valoracion.resolver";
+
 
 @ObjectType()
 class LoginResponse {

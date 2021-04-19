@@ -14,6 +14,7 @@ export class ValoracionResolver {
         return ValoracionServicio.find();
     }
 
+    @Authorized([RolesTypes.ADMIN])
     @Mutation(() => ValoracionServicio)
     async createValoracion(
         @Arg("data", () => ValoracionInput) data: ValoracionInput
@@ -25,7 +26,7 @@ export class ValoracionResolver {
 
     @Authorized([RolesTypes.CLIENTE])
     @Mutation(() => ValoracionServicio)
-    async updateValoracion(
+   public async updateValoracion(
         @Arg("id", () => Int) id: number,
         @Arg("data", () => ValoracionInput) data: ValoracionInput
     ) {
@@ -34,5 +35,4 @@ export class ValoracionResolver {
         return dataUpdated;
     }
 
-  
 }
