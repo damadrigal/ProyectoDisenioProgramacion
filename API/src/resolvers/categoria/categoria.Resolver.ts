@@ -1,16 +1,36 @@
-import { Authorized, Query, Mutation, Arg, Int } from "type-graphql";
+import { Arg, Authorized, Int, Mutation, ObjectType, Ctx,UseMiddleware, Query, Resolver } from "type-graphql";
 import { Categoria } from "../../entities/categoria";
+import { Servicio } from "../../entities/servicio";
+import { Usuario } from "../../entities/usuario";
 import { EstadosTypes } from "../../enum/estados.enum";
+import { RolesTypes } from "../../enum/roles.enum";
+import { ServicioInput } from "../servicio/servicio.input";
+import { UsuarioResolver } from "../users/usuario.resolver";
+import { UsuarioInput } from "../users/usuario.input";
 import { CategoriaInput } from "./categoria.input";
+import { isAuthenticated } from "../../middleware/is-authenticated";
 
-export class CategoriaResolver {
-    @Authorized("ADMIN")
+@ObjectType()
+@Resolver()
+
+export class CategoriaResolver { 
+    @Authorized([RolesTypes.ADMIN,RolesTypes.OFERENTE,RolesTypes.CLIENTE])
     @Query(() => [Categoria])
-    async Categoriaes() {
+    async Categorias() {
         return Categoria.find();
     }
 
-    @Authorized("ADMIN")
+
+    @Authorized(RolesTypes.ADMIN)
+    @Mutation(() => Categoria)
+    async createCategoria(
+        @Arg("data", () => CategoriaInput) data: CategoriaInput
+    ) {
+        const newData = Categoria.create(data);
+        return await newData.save();
+    }
+
+    @Authorized(RolesTypes.ADMIN)
     @Mutation(() => Categoria)
     async updateCategoria(
         @Arg("id", () => Int) id: number,
@@ -21,35 +41,31 @@ export class CategoriaResolver {
         return dataUpdated;
     }
 
-    @Authorized("ADMIN")
-    @Mutation(() => Categoria)
-    async RegisterCategoria(
-        @Arg("data") data: CategoriaInput,
-    ) {
-        try {
-            await Categoria.insert(data);
-        } catch (err) {
-            console.log(err);
-            return false;
-        }
-
-        return true;
-    }
-
-    @Authorized("ADMIN")
     @Query(() => [Categoria])
     FilterCategoria(
-        @Arg("nombre", () => String) nombre: string,
+        @Arg("servicio", () => ServicioInput) servicio: ServicioInput,
     ) {
-        if (nombre) {
-            return Categoria.find({ where: { nombre } });
+        if (servicio) {
+            return Categoria.find({ where: { servicio } });
 
         } else {
             return Categoria.find();
         }
     }
 
-    @Authorized("ADMIN")
+    @Query(() => [Categoria])
+    FilterCategoriaCodigo(
+        @Arg("codigo", () => String) codigo: String,
+    ) {
+        if (codigo) {
+            return Categoria.find({ where: { codigo } });
+
+        } else {
+            return Categoria.find();
+        }
+    }
+
+    
     @Query(() => [Categoria])
     FilterCategoriaID(
         @Arg("ID", () => Int) id: string,
@@ -61,7 +77,9 @@ export class CategoriaResolver {
             return Categoria.find();
         }
     }
-
+    
+    @Authorized(RolesTypes.ADMIN)
+    @UseMiddleware(isAuthenticated)
     @Mutation(() => Boolean)
     async deleteCategoria(
         @Arg("id", () => Int) id: number
