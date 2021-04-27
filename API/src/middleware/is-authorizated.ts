@@ -6,7 +6,7 @@ import enviroment from "../config/enviroments.config";
 
 export const isAuthorizated: AuthChecker<Context> = ({ context }, roles) => {
     const authorization = context.req.headers["authorization"];
-
+console.log(authorization);
     const bearer ="Bearer ";
     if (!authorization) {
         throw new Error("Not authenticated");

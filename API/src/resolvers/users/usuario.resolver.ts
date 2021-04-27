@@ -144,5 +144,10 @@ export class UsuarioResolver {
 
         return await this.modificarUsuario(id, usuario);
     }
-    
+
+    @Query(() => Number)
+    async CantidadUsuarios() {
+        var cantidad = await Usuario.count();
+        return cantidad;
+    }   
 }
