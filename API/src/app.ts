@@ -16,6 +16,7 @@ import { ComentarioResolver } from './resolvers/comentario/comentario.resolver';
 import { TipoSalarioResolver } from './resolvers/tipoSalario/tipoSalario.resolver';
 import { CategoriaResolver } from './resolvers/categoria/categoria.resolver';
 import { PuestoResolver } from './resolvers/puesto/puesto.resolver';
+import { GustosUsuarioResolver } from './resolvers/gustosUsuario/gustosUsuarios.resolver';
 
 export async function startServer() {
     const app = express();
@@ -27,8 +28,12 @@ export async function startServer() {
                 ServicioResolver,
                 ParametroResolver,
                 InformacionPersonalResolver,
-                ComentarioResolver,TipoSalarioResolver,
-            ParametroResolver,CategoriaResolver,PuestoResolver],
+                ComentarioResolver,
+                TipoSalarioResolver,
+                ParametroResolver,
+                CategoriaResolver,
+                PuestoResolver,
+                GustosUsuarioResolver],
             authChecker: isAuthorizated
         }),
         context: ({ req, res }) => ({ req, res }),

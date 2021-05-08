@@ -90,7 +90,7 @@ export class ComentarioResolver {
             }
         }
         const consultaComentario = await Comentario.findOne({where : {id}});
-        if (usuario!.id == consultaComentario?.usuario.id)
+        if (usuario!.id == consultaComentario?.usuario!.id)
         {
             try{                
                 await Comentario.delete(id);
@@ -98,7 +98,7 @@ export class ComentarioResolver {
             }catch (err) {
                 return false;
             }
-        }        
+        }       
         return true;
     }
 

@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, ManyToOne } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, ManyToOne, OneToMany } from "typeorm";
 import { ObjectType, Field, ID, Authorized } from "type-graphql";
 import { RolesTypes } from "../enum/roles.enum";
 import { EstadosTypes } from "../enum/estados.enum";
@@ -26,9 +26,7 @@ export class Puesto extends BaseEntity {
     @Column("text")
     estado!: EstadosTypes;
 
-    @Authorized( )
-    @ManyToOne( type => Servicio, servicio => servicio.categoria)
-    @Field(type => [Servicio])
-    @Column("text", { nullable: true })
-    servicios!: Servicio[];
+    @Field(type => Servicio,{nullable:true})
+    @OneToMany( () => Servicio, servicio => servicio.puesto)
+    servicio?: Servicio;
 }

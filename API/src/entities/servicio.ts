@@ -1,5 +1,5 @@
 import { Authorized, Field, ID, ObjectType } from "type-graphql";
-import { BaseEntity, Column, CreateDateColumn, Entity, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { EstadosTypes } from "../enum/estados.enum";
 import { RolesTypes } from "../enum/roles.enum";
 import { Categoria } from "./categoria";
@@ -33,15 +33,10 @@ export class Servicio extends BaseEntity {
     @Column("text", { nullable: true })
     telefono!: string;
 
-    @Authorized(RolesTypes.ADMIN)
+    
     @Field(() => EstadosTypes)
     @Column("text", { nullable: true })
     estado!: EstadosTypes;
-
-    @OneToOne( type => Usuario, usuario => usuario.servicio)
-    @Field(type => Usuario)
-    @Column("text", { nullable: true })
-    usuario!: Usuario;
 
     @Field(() => Number)
     @Column("text", { nullable: true })
@@ -67,33 +62,35 @@ export class Servicio extends BaseEntity {
     @CreateDateColumn({type:'timestamp'})
     fechaModificacion!:string;
 
-    @OneToMany( type => ValoracionServicio, valoracionServicio => valoracionServicio.servicio )
-    @Column("text", { nullable: true })
-    @Field(type => [ValoracionServicio])
-    ValoracionesServicio!: ValoracionServicio[];
 
-    @OneToMany( type => Categoria, categoria => categoria.servicios )
-    @Field(type => Categoria)
-    @Column("text", { nullable: true })
-    categoria!: Categoria;
+    @Field(() => Usuario,{nullable:true})
+    @OneToOne( () => Usuario, usuario => usuario.servicio,{eager:true,cascade:true})
+    @JoinColumn()
+    usuario!: Usuario;
 
-    @OneToMany(() => Comentario, comentario => comentario.usuario, { lazy: true })
-    @Field(type => [Comentario])
-    comentarios!: Comentario[];
-
-    @OneToMany( type => TipoSalario, tipoSalario => tipoSalario.servicios )
-    @Field(type => TipoSalario)
-    @Column("text", { nullable: true })
-    tipoSalario!:TipoSalario;
-
-    @OneToMany( type => Puesto, puesto => puesto.servicios )
-    @Field(type => Puesto)
-    @Column("text", { nullable: true })
-    puesto!:Puesto;
-
-    @OneToOne( type => Direccion, direccion => direccion.servicio )
-    @Field(type => Direccion)
-    @Column("text", { nullable: true })
+    @Field (() => Direccion,{nullable:true})
+    @OneToOne( () => Direccion,direccion => direccion.servicio,{eager:true,cascade:true})
+    @JoinColumn()
     direccion!: Direccion;
+
+    @Field(() => [ValoracionServicio],{nullable:true})
+    @OneToMany( () => ValoracionServicio, (valoraciones) => valoraciones.servicio,{eager:true,cascade:true})
+    valoraciones?: ValoracionServicio[];
+
+    @Field(type => [Comentario],{nullable:true})
+    @OneToMany( () => Comentario, (comentarios) => comentarios.servicio,{eager:true,cascade:true})
+    comentarios?: Comentario[];
+
+    @Field(type => TipoSalario,{nullable:true})
+    @ManyToOne(() => TipoSalario, tipoSalario => tipoSalario.servicio,{eager:true})
+    tipoSalario?: TipoSalario;
+
+    @Field(type => Categoria,{nullable:true})
+    @ManyToOne(() => Categoria, categoria => categoria.servicio,{eager:true})
+    categoria?: Categoria;
+
+    @Field(type => Puesto,{nullable:true})
+    @ManyToOne(() => Puesto, puesto => puesto.servicio,{eager:true})
+    puesto?: Puesto;
 
 }

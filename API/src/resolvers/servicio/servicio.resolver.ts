@@ -44,10 +44,17 @@ export class ServicioResolver {
     }
 
     @Query(() => [Servicio])
-    valoracionPorUsuario(
+    filtrarServicioPorUsuario(
         @Arg("usuarioId", () => Int) usuarioId: number
     ) {
         return Servicio.find({ where: { usuarioId } });
+    }
+
+    @Query(() => [Servicio])
+    filtrarServicioPorId(
+        @Arg("servicioId", () => Int) servicioId: number
+    ) {
+        return Servicio.find({ where: { servicioId } });
     }
 
     @Authorized(RolesTypes.ADMIN)
@@ -62,13 +69,6 @@ export class ServicioResolver {
         } else {
             return Servicio.find();
         }
-    }
-
-    @Query(() => [Servicio])
-    TopServicioMejoresValorados(
-        @Arg("servicioId", () => Int) servicioId: number
-    ) {
-        return Servicio.find({ where: { servicioId } });
     }
 
     @Query(() => [Servicio])
