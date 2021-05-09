@@ -10,23 +10,22 @@ export class Direccion extends BaseEntity {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @Authorized()
+    @Authorized([RolesTypes.ADMIN,RolesTypes.OFERENTE,RolesTypes.CLIENTE])
     @Field(() => String)
     @Column("text", { nullable: true })
     descripcion!: string;
 
-    @Authorized()
+    @Authorized([RolesTypes.ADMIN,RolesTypes.OFERENTE,RolesTypes.CLIENTE])
     @Field(() => String)
     @Column("text", { nullable: true })
     longitud!: string;
 
-    @Authorized()
+    @Authorized([RolesTypes.ADMIN,RolesTypes.OFERENTE,RolesTypes.CLIENTE])
     @Field(() => String)
     @Column("text", { nullable: true })
     latitud!: string;
 
-    @Authorized(RolesTypes.ADMIN)
-    @OneToOne(() => Servicio, servicio => servicio.direccion, { lazy: true })
-    @Field(type => Servicio)
+    @Field (() => Servicio,{nullable:true})
+    @OneToOne( () => Servicio, servicio => servicio.usuario)
     servicio!: Servicio;
 }

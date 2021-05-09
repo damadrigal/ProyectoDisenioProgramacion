@@ -16,11 +16,11 @@ export class InfoReportada extends BaseEntity {
     @Column("text", { nullable: true })
     descripcion!: string;
 
-    @Authorized( )
+    /*@Authorized( )
     @ManyToOne( type => Usuario, usuario => usuario.id)
     @Field(type => Usuario)
     @Column("text", { nullable: true })
-    usuario!: Usuario;
+    usuario!: Usuario;*/
 
     @Authorized( )
     @Field(type => EstadosTypes)
