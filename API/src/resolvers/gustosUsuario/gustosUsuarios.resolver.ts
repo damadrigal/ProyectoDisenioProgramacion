@@ -65,7 +65,7 @@ export class GustosUsuarioResolver {
 
     //@Authorized([RolesTypes.ADMIN,RolesTypes.OFERENTE,RolesTypes.CLIENTE])
     @Mutation(() => InformacionPersonal)
-    async RegistrarInforPersonal(
+    async RegistrarGustosPersonal(
         @Arg("data", () => GustosUsuariosInput) data: GustosUsuariosInput
     ) {
         try {

@@ -8,11 +8,19 @@ export class UsuarioInput {
     id?: number;
     
     @Field({ nullable: true })
-    nombre?: string
+    nombre?: string;
+
+    @Field({ nullable: true })
+    email?: string;
+
+    @Field({ nullable: true })
+    password?: string;
 
     @Field(type => RolesTypes)
     role?: RolesTypes;
 
     @Field(type => EstadosTypes)
     estado?: EstadosTypes;
+
+
 }

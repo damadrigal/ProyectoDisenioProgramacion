@@ -92,7 +92,7 @@ export class Usuario extends BaseEntity {
 
     //@Authorized( )
     @Field(type => Rol,{nullable:true})
-    @ManyToOne(() => Rol, rol => rol.usuario,{eager:true})
+    @ManyToOne(() => Rol, rol => rol.usuario,{eager:true,cascade:true})
     rol?: Rol;
 
     @Field(() => [ValoracionServicio],{nullable:true})
