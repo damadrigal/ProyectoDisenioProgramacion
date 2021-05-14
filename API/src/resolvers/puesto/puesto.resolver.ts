@@ -8,37 +8,37 @@ export class PuestoResolver {
     
     @Query(() => [Puesto])
     async Puestos() {
-        return Puesto.find();
+        return await Puesto.find();
     }
 
     @Query(() => [Puesto])
-    FiltrarPuesto(
+    async FiltrarPuesto(
         @Arg("nombre", () => String) nombre: string,
     ) {
         if (nombre) {
-            return Puesto.find({ where: { nombre } });
+            return await Puesto.find({ where: { nombre } });
 
         } else {
-            return Puesto.find();
+            return await Puesto.find();
         }
     }
 
     @Query(() => [Puesto])
-    FiltrarPuestoID(
+    async FiltrarPuestoID(
         @Arg("ID", () => Int) id: string,
     ) {
         if (id) {
-            return Puesto.find({ where: { id } });
+            return await Puesto.find({ where: { id } });
 
         } else {
-            return Puesto.find();
+            return await Puesto.find();
         }
     }
 
 
     @Authorized(RolesTypes.ADMIN)
     @Mutation(() => Puesto)
-    async inactivarPuesto(
+    async InactivarPuesto(
         @Arg("id", () => Int) id: number,
         @Arg("estado", () => EstadosTypes) estado: EstadosTypes
     ) {
@@ -49,7 +49,7 @@ export class PuestoResolver {
     
     @Authorized(RolesTypes.ADMIN)
     @Mutation(() => Puesto)
-    async modificaPuesto(
+    async ModificarPuesto(
         @Arg("id", () => Int) id: number,
         @Arg("data", () => PuestoInput) data: PuestoInput
     ) {
@@ -66,10 +66,8 @@ export class PuestoResolver {
         try {
             await Puesto.insert(data);
         } catch (err) {
-            console.log(err);
             return false;
         }
-
         return true;
     }
 }

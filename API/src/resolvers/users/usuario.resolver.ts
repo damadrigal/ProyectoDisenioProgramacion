@@ -39,12 +39,11 @@ export class UsuarioResolver {
 
     @Authorized(RolesTypes.ADMIN)
     @Query(() => [Usuario])
-    FiltrarUsuarioEstado(
+    async FiltrarUsuarioEstado(
         @Arg("estado", () => EstadosTypes) estado: EstadosTypes,
     ) {
         if (estado) {
             return Usuario.find({ where: { estado } });
-
         } else {
             return Usuario.find();
         }
@@ -52,21 +51,21 @@ export class UsuarioResolver {
 
     @Query(() => String)
     @UseMiddleware(isAuthenticated)
-    async usuarioActual(@Ctx() { usuario }: Context) {
-
+    async UsuarioActual(@Ctx() { usuario }: Context) {
+        console.log(usuario);
         return `Su id Usuario : ${usuario!.id}`;
     }
 
     @Query(() => String)
     @UseMiddleware(isAuthenticated)
-    async obtenerRolUsuario(@Ctx() { usuario }: Context) {
+    async ObtenerRolUsuario(@Ctx() { usuario }: Context) {
 
         return usuario!.role;
     }
 
     @Authorized(RolesTypes.ADMIN)
     @Mutation(() => Usuario)
-    async modificarUsuario(
+    async ModificarUsuario(
         @Arg("id", () => Int) id: number,
         @Arg("data", () => UsuarioInput) data: UsuarioInput
     ) {
@@ -94,8 +93,8 @@ export class UsuarioResolver {
         } catch (err) {
             return false;
         }
-
         return true;
+
     }
 
     @Mutation(() => LoginResponse)
@@ -111,21 +110,13 @@ export class UsuarioResolver {
         if (!verify) {
             throw new Error("Contraseña erronea");
         }
-
-
-        const refreshToken =  sign({ usuario: usuario }, enviroment.jwtSecretKey, {
-            expiresIn: "7d"
-        });
         
         const accessToken = sign({ usuario: usuario }, enviroment.jwtSecretKey, {
             expiresIn: "10h"
         });
         
-        res.cookie("authorization","bearer "+refreshToken,{httpOnly:true});
         return {
-            accessToken: sign({ usuario: usuario }, enviroment.jwtSecretKey, {
-                expiresIn: "10h"
-            })
+            accessToken
         };
     }
 
@@ -142,7 +133,12 @@ export class UsuarioResolver {
             usuario.role = rol;
         }
 
-        return await this.modificarUsuario(id, usuario);
+        return await this.ModificarUsuario(id, usuario);
     }
-    
+
+    @Query(() => Number)
+    async CantidadUsuarios() {
+        var cantidad = await Usuario.count();
+        return cantidad;
+    }   
 }

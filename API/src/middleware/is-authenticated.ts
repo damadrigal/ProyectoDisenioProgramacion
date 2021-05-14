@@ -5,8 +5,7 @@ import  enviroment   from "../config/enviroments.config";
 
 export const isAuthenticated: MiddlewareFn<Context> = ({ context }, next) => {
   const authorization = context.req.headers["authorization"];
-
-  const bearer = "bearer ";
+  const bearer = "Bearer ";
   if (!authorization) {
     throw new Error("No Autenticado");
   }
@@ -19,6 +18,7 @@ export const isAuthenticated: MiddlewareFn<Context> = ({ context }, next) => {
     const payload = verify(token, enviroment.jwtSecretKey ?? ''); 
     context.usuario = (payload as Context).usuario;
   } catch (err) {
+
     throw new Error("No Autenticado");
   }
   return next();
