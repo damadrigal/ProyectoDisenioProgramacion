@@ -41,8 +41,8 @@ export class InformacionPersonal extends BaseEntity {
     @Column("text", { nullable: true })
     direccion!: Direccion;
     
-    @Column()
-    usuarioId!: number;
+    // @Column()
+    // usuarioId!: number;
 
     @Field (() => Usuario,{nullable:true})
     @OneToOne( () => Usuario,usuario => usuario.informacion,{eager:true,cascade:true})

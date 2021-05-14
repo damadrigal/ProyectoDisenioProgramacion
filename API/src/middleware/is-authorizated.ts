@@ -6,21 +6,23 @@ import enviroment from "../config/enviroments.config";
 
 export const isAuthorizated: AuthChecker<Context> = ({ context }, roles) => {
     const authorization = context.req.headers["authorization"];
-console.log(authorization);
     const bearer ="Bearer ";
     if (!authorization) {
-        throw new Error("Not authenticated");
+        throw new Error("Not authorizated");
     }
 
     if (authorization.indexOf(bearer, 0) < 0) {
-        throw new Error("Not authenticated");
+        throw new Error("Not authorizated");
     }
     try {
         const token = authorization.replace(bearer, "");
+
         const payload = verify(token, enviroment.jwtSecretKey ?? '');
+
         context.usuario = (payload as Context).usuario;
     } catch (err) {
-        throw new Error("Not authenticated");
+
+        throw new Error("Not authorizated");
     }
 
     const usuario = context.usuario;

@@ -17,54 +17,55 @@ import { UsuarioInput } from "../users/usuario.input";
 
 export class InformacionPersonalResolver {
 
+    //TODO: analisar el acceso a esta informacion por parte de los roles
     @Authorized([RolesTypes.ADMIN,RolesTypes.OFERENTE,RolesTypes.CLIENTE])
     @Query(() => [InformacionPersonal])
-    async InformacionPersonal() {
-        return InformacionPersonal.find();
+    async InfoPersonal() {
+        return await InformacionPersonal.find();
     }
 
     @Authorized([RolesTypes.ADMIN,RolesTypes.OFERENTE,RolesTypes.CLIENTE])
     @Query(() => [InformacionPersonal])
-    FiltrarInfoPersonal(
+    async FiltrarInfoPersonal(
         @Arg("nombre", () => String) nombre: string,
     ) {
         if (nombre) {
-            return InformacionPersonal.find({ where: { nombre } });
+            return await InformacionPersonal.find({ where: { nombre } });
 
         } else {
-            return InformacionPersonal.find();
+            return await InformacionPersonal.find();
         }
     }
 
     @Authorized([RolesTypes.ADMIN,RolesTypes.OFERENTE,RolesTypes.CLIENTE])
     @Query(() => [InformacionPersonal])
-    FiltrarInfoPersonalUsuario(
+    async FiltrarInfoPersonalUsuario(
         @Arg("usuario", () => UsuarioInput) usuario: UsuarioInput,
     ) {
         if (usuario) {
-            return InformacionPersonal.find({ where: { usuario } });
+            return await InformacionPersonal.find({ where: { usuario } });
 
         } else {
-            return InformacionPersonal.find();
+            return await InformacionPersonal.find();
         }
     }
 
     @Authorized([RolesTypes.ADMIN,RolesTypes.OFERENTE,RolesTypes.CLIENTE])
     @Query(() => [InformacionPersonal])
-    FiltrarinformacionPersonalD(
+    async FiltrarInfoPersonalID(
         @Arg("ID", () => Int) id: string,
     ) {
         if (id) {
-            return InformacionPersonal.find({ where: { id } });
+            return await InformacionPersonal.find({ where: { id } });
 
         } else {
-            return InformacionPersonal.find();
+            return await InformacionPersonal.find();
         }
     }
 
     @Authorized([RolesTypes.ADMIN,RolesTypes.OFERENTE,RolesTypes.CLIENTE])
     @Mutation(() => InformacionPersonal)
-    async modificarInformacionPersonal(
+    async ModificarInfoPersonal(
         @Arg("id", () => Int) id: number,
         @Arg("data", () => InformacionPersonalInput) data: InformacionPersonalInput
     ) {
@@ -75,7 +76,7 @@ export class InformacionPersonalResolver {
 
     @Authorized([RolesTypes.ADMIN,RolesTypes.OFERENTE,RolesTypes.CLIENTE])
     @Mutation(() => InformacionPersonal)
-    async RegistrarInforPersonal(
+    async RegistrarInfoPersonal(
         @Arg("data", () => InformacionPersonalInput) data: InformacionPersonalInput
     ) {
         try {
@@ -91,7 +92,7 @@ export class InformacionPersonalResolver {
 
     @Mutation(() => Boolean)
     @Authorized(RolesTypes.OFERENTE)
-    async eliminarInformacionPersonal(
+    async EliminarInfoPersonal(
         @Arg("id", () => Int) id: number
     ) {
         await InformacionPersonal.delete(id);

@@ -14,15 +14,15 @@ export class TipoSalarioResolver {
 
     @Authorized([RolesTypes.ADMIN,RolesTypes.OFERENTE])
     @Query(() => [TipoSalario])
-    FiltrarTipoSalarioID(
-        @Arg("codigo", () => Int) codigo: string,
+    async FiltrarTipoSalarioCodigo(
+        @Arg("codigo", () => String) codigo: string,
     ) {
-        return TipoSalario.find({ where: { codigo } });        
+        return await TipoSalario.find({ where: { codigo } });        
     }
 
     @Authorized(RolesTypes.ADMIN)
     @Mutation(() => TipoSalario)
-    async modificarTipoSalario(
+    async ModificarTipoSalario(
         @Arg("id", () => Int) id: number,
         @Arg("data", () => TipoSalarioInput) data: TipoSalarioInput
     ) {
@@ -48,7 +48,7 @@ export class TipoSalarioResolver {
 
     @Authorized(RolesTypes.ADMIN)
     @Mutation(() => TipoSalario)
-    async inactivarTipoSalario(
+    async InactivarTipoSalario(
         @Arg("id", () => Int) id: number,
         @Arg("estado", () => EstadosTypes) estado: EstadosTypes
     ) {

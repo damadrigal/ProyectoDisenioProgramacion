@@ -25,7 +25,7 @@ export class RolResolver {
 
     @Authorized(RolesTypes.ADMIN)
     @Query(() => [Rol])
-    filtrarRol(
+    async FiltrarRol(
         @Arg("nombre", () => String) nombre: string,
     ) {
         if (nombre) {
