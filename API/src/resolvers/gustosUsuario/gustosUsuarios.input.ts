@@ -6,7 +6,8 @@ import { CategoriaInput } from "../categoria/categoria.input";
 
 @InputType({ description: "Gustos de los usuarios" })
 export class GustosUsuariosInput {
-     
+    @Field(() => Number)
+    id!: number;
     @Field(() => String)
     descripcion?: string;
      

@@ -6,7 +6,7 @@ import { EstadosTypes } from "../../enum/estados.enum";
 export class ParametroInput {
 
     @Field(()=> String)
-    codigo?: string
+    codigo?: string;
 
     @Field(() => String)
     nombre?: string;

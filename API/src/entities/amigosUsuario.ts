@@ -2,6 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, ManyToOne,OneToOne,
 import { ObjectType, Field, ID, Authorized } from "type-graphql";
 import { Usuario } from "./usuario";
 import { EstadosTypes } from "../enum/estados.enum";
+import { InformacionPersonal } from "./informacionpersonal";
 
 @ObjectType()
 @Entity()
@@ -10,29 +11,20 @@ export class AmigosUsuario extends BaseEntity {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    //@Authorized( )
     @Field(() => String)
     @Column("text", { nullable: true })
     descripcion?: string;
 
-    //@Authorized()
     @Field(()=> String)
     @CreateDateColumn({type:'timestamp'})
     fechaCreacion!:string;
 	
-	//@Authorized( )
-    //@Field(type => Usuario,{nullable:true})
-    //@ManyToOne(() => Usuario, usuarioAmigo => usuarioAmigo.amigoUsu,{eager:true}) // amigos del usuario
-    //usuarioAmigo?: Usuario;
-    
-	
-	//@Authorized( )
-    //@Field(type => Usuario,{nullable:true})
-    //@ManyToOne(() => Usuario, usuario => usuario.amigos) // usuario dueño
-    //amigos?: Usuario;
+    @Field(type => Usuario,{nullable:true})
+    @ManyToOne(() => Usuario, usuario => usuario.amigos,{eager:true})
+    usuario?: Usuario;
 
-    //@Authorized( )
-    @Field(type => EstadosTypes)
-    @Column("text")
-    estado?: EstadosTypes;
+    @Field(type => InformacionPersonal,{nullable:true})
+    @ManyToOne( type => InformacionPersonal, duenoAmigo => duenoAmigo.amigos)
+    duenoAmigo?: InformacionPersonal;
+    
 }

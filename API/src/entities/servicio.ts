@@ -4,7 +4,6 @@ import { EstadosTypes } from "../enum/estados.enum";
 import { RolesTypes } from "../enum/roles.enum";
 import { Categoria } from "./categoria";
 import { Comentario } from "./comentario";
-import { Direccion } from "./direccion";
 import { Puesto } from "./puesto";
 import { TipoSalario } from "./tipoSalario";
 import { Usuario } from "./usuario";
@@ -54,6 +53,14 @@ export class Servicio extends BaseEntity {
     @Column("text", { nullable: true })
     imagen!: string;
 
+    @Field(() => String)
+    @Column("text", { nullable: true })
+    longitud!: string;
+
+    @Field(() => String)
+    @Column("text", { nullable: true })
+    latitud!: string;
+
     @Field(()=> String)
     @CreateDateColumn({type:'timestamp'})
     fechaCreacion!:string;
@@ -67,11 +74,6 @@ export class Servicio extends BaseEntity {
     @OneToOne( () => Usuario, usuario => usuario.servicio,{eager:true,cascade:true})
     @JoinColumn()
     usuario!: Usuario;
-
-    @Field (() => Direccion,{nullable:true})
-    @OneToOne( () => Direccion,direccion => direccion.servicio,{eager:true,cascade:true})
-    @JoinColumn()
-    direccion!: Direccion;
 
     @Field(() => [ValoracionServicio],{nullable:true})
     @OneToMany( () => ValoracionServicio, (valoraciones) => valoraciones.servicio,{eager:true,cascade:true})

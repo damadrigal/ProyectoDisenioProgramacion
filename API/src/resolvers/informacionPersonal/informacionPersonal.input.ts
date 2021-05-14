@@ -1,8 +1,6 @@
 import { InputType, Field, ID, Authorized } from "type-graphql";
 import { EstadosTypes } from "../../enum/estados.enum";
-import { Direccion } from "../../entities/direccion";
 import { Usuario } from "../../entities/usuario";
-import { DireccionInput } from "../direccion/direccion.input";
 import { UsuarioInput } from "../users/usuario.input";
 
 
@@ -24,9 +22,7 @@ export class InformacionPersonalInput {
     @Field(() => String)
     correo?: string;
 
-    @Field(type => DireccionInput)
-    direccion?: Direccion;
-
+  
     @Field(type => UsuarioInput)
     usuario?: Usuario;
 

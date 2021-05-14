@@ -1,8 +1,8 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToOne, JoinColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToOne, JoinColumn, OneToMany } from "typeorm";
 import { ObjectType, Field, ID, Authorized } from "type-graphql";
 import { RolesTypes } from "../enum/roles.enum";
 import { Usuario } from "./usuario";
-import { Direccion} from "./direccion";
+import { AmigosUsuario } from "./amigosUsuario";
 
 @ObjectType()
 @Entity()
@@ -34,12 +34,7 @@ export class InformacionPersonal extends BaseEntity {
     @Authorized([RolesTypes.ADMIN,RolesTypes.OFERENTE,RolesTypes.CLIENTE])
     @Field(() => String)
     @Column("text", { nullable: true })
-    correo!: string;
-
-    @Authorized([RolesTypes.ADMIN,RolesTypes.OFERENTE,RolesTypes.CLIENTE])
-    @Field(() => Direccion)
-    @Column("text", { nullable: true })
-    direccion!: Direccion;
+    correo!: string;    
     
     @Column()
     usuarioId!: number;
@@ -48,4 +43,8 @@ export class InformacionPersonal extends BaseEntity {
     @OneToOne( () => Usuario,usuario => usuario.informacion,{eager:true,cascade:true})
     @JoinColumn()
     usuario!: Usuario;
+
+    @Field(type => [AmigosUsuario],{nullable:true})
+    @OneToMany( () => AmigosUsuario, (amigos) => amigos.duenoAmigo,{eager:true,cascade:true})
+    amigos?: AmigosUsuario[];
 }

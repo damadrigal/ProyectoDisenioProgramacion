@@ -112,12 +112,7 @@ export class Usuario extends BaseEntity {
     @OneToMany( () => GustosUsuarios, (gustos) => gustos.usuario,{eager:true})
     gustos?: GustosUsuarios[];
 
-    //@Authorized( )
-    //@Field(type => [AmigosUsuario],{nullable:true})
-    //@OneToMany( () => AmigosUsuario, (amigos) => amigos.amigos,{eager:true})
-    //amigos?: AmigosUsuario[];
-
-    //@Field(type => AmigosUsuario,{nullable:true})
-    //@OneToMany( () => AmigosUsuario, amigos => amigos.usuarioAmigo)
-    //amigoUsu?: AmigosUsuario;
+    @Field(type => AmigosUsuario,{nullable:true})
+    @OneToMany( () => AmigosUsuario, amigos => amigos.usuario)
+    amigos?: AmigosUsuario;
 }

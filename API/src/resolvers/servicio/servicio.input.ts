@@ -35,6 +35,12 @@ export class ServicioInput {
     @Field(() => String)
     imagen?: string;
 
+    @Field(() => String)
+    longitud!: string;
+
+    @Field(() => String)
+    latitud!: string;
+
     @Field(()=> String)
     fechaCreacion?:string;
 

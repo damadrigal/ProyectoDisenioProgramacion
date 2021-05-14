@@ -40,11 +40,10 @@ export class CategoriaResolver {
             return Categoria.find();
         }
     }
-
     
     @Query(() => [Categoria])
     FiltrarCategoriaID(
-        @Arg("ID", () => Int) id: string,
+        @Arg("ID", () => Int) id: number,
     ) {
         if (id) {
             return Categoria.find({ where: { id } });
@@ -76,9 +75,9 @@ export class CategoriaResolver {
     
     @Authorized(RolesTypes.ADMIN)
     @UseMiddleware(isAuthenticated)
-    @Mutation(() => Boolean)
+    @Mutation(() => Categoria)
     async eliminarCategoria(
-        @Arg("id", () => Int) id: number,
+        @Arg("id", () => Number) id: number,
         @Arg("estado", () => EstadosTypes) estado: EstadosTypes
     ) {
         await Categoria.update({ id }, {estado});

@@ -5,6 +5,8 @@ import { ServicioInput } from "../servicio/servicio.input";
 
 @InputType({ description: "información de las categorias" })
 export class CategoriaInput {
+    @Field(() => Number)
+    id!: number;
 
     @Field(() => String)
     codigo?: string;
