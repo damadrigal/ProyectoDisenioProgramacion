@@ -16,13 +16,13 @@ import { RolesTypes } from "../../enum/roles.enum";
 @Resolver()
 
 export class ParametroResolver {
-    @Authorized(RolesTypes.ADMIN)
+   // @Authorized(RolesTypes.ADMIN)
     @Query(() => [Parametro])
     async Parametros() {
         return Parametro.find();
     }
     
-    @Authorized(RolesTypes.ADMIN)
+    //@Authorized(RolesTypes.ADMIN)
     @Query(() => [Parametro])
     FiltrarParametro(
         @Arg("nombre", () => String) nombre: string,
@@ -35,7 +35,7 @@ export class ParametroResolver {
         }
     }
 
-    @Authorized(RolesTypes.ADMIN)
+    //@Authorized(RolesTypes.ADMIN)
     @Query(() => [Parametro])
     FiltrarParametroID(
         @Arg("ID", () => Int) id: string,
@@ -48,7 +48,7 @@ export class ParametroResolver {
         }
     }
 
-    @Authorized(RolesTypes.ADMIN)
+    //@Authorized(RolesTypes.ADMIN)
     @Mutation(() => Parametro)
     async ModificarParametro(
         @Arg("id", () => Int) id: number,
@@ -59,7 +59,7 @@ export class ParametroResolver {
         return dataUpdated;
     }
 
-    @Authorized(RolesTypes.ADMIN)
+    //@Authorized(RolesTypes.ADMIN)
     @Mutation(() => Parametro)
     async RegistrarParametro( @Arg("data", () => ParametroInput) data: ParametroInput
     ) {
@@ -67,9 +67,9 @@ export class ParametroResolver {
         return await newData.save();
     }
     
-    @Authorized(RolesTypes.ADMIN)
+//@Authorized(RolesTypes.ADMIN)
     @Mutation(() => Parametro)
-    async inactivarParametro(
+    async InactivarParametro(
         @Arg("id", () => Int) id: number,
         @Arg("estado", () => EstadosTypes) estado: EstadosTypes
     ) {

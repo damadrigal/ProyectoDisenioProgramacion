@@ -16,7 +16,4 @@ export class CategoriaInput {
 
     @Field(type => EstadosTypes)
     estado?: EstadosTypes;
-
-    @Field(type => [ServicioInput])
-    servicios?: ServicioInput[];
 }
