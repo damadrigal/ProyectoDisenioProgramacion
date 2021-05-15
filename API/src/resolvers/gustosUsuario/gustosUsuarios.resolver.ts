@@ -81,7 +81,7 @@ export class GustosUsuarioResolver {
     
     //@Authorized(RolesTypes.OFERENTE)
     @Mutation(() => Boolean)
-    async eliminarGusto(
+    async EliminarGusto(
         @Arg("id", () => Int) id: number
     ) {
         await GustosUsuarios.delete(id);
@@ -90,7 +90,7 @@ export class GustosUsuarioResolver {
 
    // @Authorized(RolesTypes.ADMIN)
     @Mutation(() => GustosUsuarios)
-    async inactivarGusto(
+    async InactivarGusto(
         @Arg("id", () => Int) id: number,
         @Arg("estado", () => EstadosTypes) estado: EstadosTypes
     ) {

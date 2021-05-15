@@ -55,7 +55,7 @@ export class CategoriaResolver {
 
     @Authorized(RolesTypes.ADMIN)
     @Mutation(() => Categoria)
-    async crearCategoria(
+    async CrearCategoria(
         @Arg("data", () => CategoriaInput) data: CategoriaInput
     ) {
         const newData = Categoria.create(data);
@@ -64,7 +64,7 @@ export class CategoriaResolver {
 
     @Authorized(RolesTypes.ADMIN)
     @Mutation(() => Categoria)
-    async modificarCategoria(
+    async ModificarCategoria(
         @Arg("id", () => Int) id: number,
         @Arg("data", () => CategoriaInput) data: CategoriaInput
     ) {
@@ -76,8 +76,8 @@ export class CategoriaResolver {
     @Authorized(RolesTypes.ADMIN)
     @UseMiddleware(isAuthenticated)
     @Mutation(() => Categoria)
-    async eliminarCategoria(
-        @Arg("id", () => Number) id: number,
+    async InactivarCategoria(
+        @Arg("id", () => Int) id: number,
         @Arg("estado", () => EstadosTypes) estado: EstadosTypes
     ) {
         await Categoria.update({ id }, {estado});
