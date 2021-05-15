@@ -4,7 +4,7 @@ import { Context } from "../interfaces/context.interface";
 import { verify } from "jsonwebtoken";
 import enviroment from "../config/enviroments.config";
 
-export const isAuthorizated: AuthChecker<Context> = ({ context }, roles) => {
+export const isAuthorizated: AuthChecker<Context> = ({context}, roles) => {
     const authorization = context.req.headers["authorization"];
     const bearer ="Bearer ";
     if (!authorization) {

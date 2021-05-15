@@ -17,6 +17,7 @@ import { TipoSalarioResolver } from './resolvers/tipoSalario/tipoSalario.resolve
 import { CategoriaResolver } from './resolvers/categoria/categoria.resolver';
 import { PuestoResolver } from './resolvers/puesto/puesto.resolver';
 import { GustosUsuarioResolver } from './resolvers/gustosUsuario/gustosUsuarios.resolver';
+import { isAuthenticated } from './middleware/is-authenticated';
 
 export async function startServer() {
     const app = express();
@@ -34,7 +35,8 @@ export async function startServer() {
                 CategoriaResolver,
                 PuestoResolver,
                 GustosUsuarioResolver],
-            authChecker: isAuthorizated
+                authChecker:isAuthorizated
+
         }),
         context: ({ req, res }) => ({ req, res }),
 

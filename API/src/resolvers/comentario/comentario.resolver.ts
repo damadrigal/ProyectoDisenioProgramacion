@@ -14,37 +14,37 @@ export class ComentarioResolver {
 
     @Query(() => [Comentario])
     async Comentarios() {
-        return Comentario.find({ order: { "fechaCreacion":"DESC" } });
+        return await Comentario.find({ order: { "fechaCreacion":"DESC" } });
     }
 
     @Query(() => [Comentario])
-    FiltrarComentario(
+    async FiltrarComentario(
         @Arg("servicio", () => ServicioInput) servicio: ServicioInput,
     ) {
         if (servicio) {
-            return Comentario.find({ where: { servicio }, order: { "fechaCreacion":"DESC" } });
+            return await Comentario.find({ where: { servicio }, order: { "fechaCreacion":"DESC" } });
 
         } else {
-            return Comentario.find();
+            return await Comentario.find();
         }
     }
 
     
     @Query(() => [Comentario])
-    FiltrarComentarioID(
-        @Arg("ID", () => Int) id: string,
+    async FiltrarComentarioId(
+        @Arg("id", () => Int) id: string,
     ) {
         if (id) {
-            return Comentario.find({ where: { id } });
+            return await Comentario.find({ where: { id } });
 
         } else {
-            return Comentario.find();
+            return await Comentario.find();
         }
     }
 
     @Authorized([RolesTypes.CLIENTE, RolesTypes.OFERENTE])
     @Mutation(() => Comentario)
-    async crearComentario(
+    async CrearComentario(
         @Arg("data", () => ComentarioInput) data: ComentarioInput
     ) {
         const newData = Comentario.create(data);
@@ -53,7 +53,7 @@ export class ComentarioResolver {
 
     @Authorized([RolesTypes.CLIENTE, RolesTypes.OFERENTE])
     @Mutation(() => Comentario)
-    async ModifcarComentario(
+    async ModificarComentario(
         @Arg("id", () => Int) id: number,
         @Arg("data", () => ComentarioInput) data: ComentarioInput
     ) {
@@ -64,7 +64,7 @@ export class ComentarioResolver {
 
     @Authorized(RolesTypes.ADMIN)
     @Mutation(() => Comentario)
-    async inactivarActivarComentario(
+    async InactivarActivarComentario(
         @Arg("id", () => Int) id: number,
         @Arg("estado", () => EstadosTypes) estado: EstadosTypes
     ) {
@@ -76,14 +76,14 @@ export class ComentarioResolver {
     @Authorized([RolesTypes.CLIENTE, RolesTypes.OFERENTE])
     @UseMiddleware(isAuthenticated)
     @Mutation(() => Boolean)
-    async eliminarComentario(
+    async EliminarComentario(
         @Arg("id", () => Int) id: number,
         @Ctx() { usuario }: Context
     ) {
         if (usuario!.role == RolesTypes.ADMIN)
         {
             try{                
-                this.inactivarActivarComentario(id,EstadosTypes.INACTIVO)
+                await this.InactivarActivarComentario(id,EstadosTypes.INACTIVO)
                 return true;            
             }catch (err) {
                 return false;
