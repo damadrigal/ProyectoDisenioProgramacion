@@ -6,7 +6,9 @@ import { UsuarioInput } from "../users/usuario.input";
 
 @InputType({ description: "información de los comentarios" })
 export class ComentarioInput {
-
+    @Field(() => Number)
+    id!: number;
+    
     @Field(()=> String)
     descripcion?: string
 

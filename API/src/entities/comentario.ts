@@ -4,6 +4,7 @@ import { Usuario } from "./usuario";
 import { Servicio } from "./servicio";
 import { EstadosTypes } from "../enum/estados.enum";
 import { RolesTypes } from "../enum/roles.enum";
+import { InfoReportada } from "./reportado";
 
 @ObjectType()
 @Entity()
@@ -44,4 +45,8 @@ export class Comentario extends BaseEntity {
     @Field(type => [Comentario])
     @Column("text",{nullable: true})
     comentariosHijos!: Comentario[];
+
+    @Field(type => [InfoReportada],{nullable:true})
+    @OneToMany( () => InfoReportada, reportados => reportados.comentarioReportado,{eager:true})
+    reportados?: InfoReportada[];
 }

@@ -67,7 +67,7 @@ export class Servicio extends BaseEntity {
 
     @Field(()=> String)
     @CreateDateColumn({type:'timestamp'})
-    fechaModificacion!:string;
+    fechaModificacion?:string;
 
 
     @Field(() => Usuario,{nullable:true})

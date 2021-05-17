@@ -9,6 +9,7 @@ import { Servicio } from "./servicio";
 import { Rol } from "./rol";
 import { GustosUsuarios } from "./gustosUsuarios";
 import { AmigosUsuario } from "./amigosUsuario";
+import { InfoReportada } from "./reportado";
 
 
 registerEnumType(RolesTypes, {
@@ -115,4 +116,8 @@ export class Usuario extends BaseEntity {
     @Field(type => AmigosUsuario,{nullable:true})
     @OneToMany( () => AmigosUsuario, amigos => amigos.usuario)
     amigos?: AmigosUsuario;
+
+    @Field(type => [InfoReportada],{nullable:true})
+    @OneToMany( () => InfoReportada, reportados => reportados.usuarioReporta,{eager:true})
+    reportados?: InfoReportada[];
 }

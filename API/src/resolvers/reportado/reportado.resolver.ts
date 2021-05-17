@@ -19,7 +19,6 @@ import { UsuarioInput } from "../users/usuario.input";
 
 export class ReportadoResolver {
 
-    @Authorized(RolesTypes.ADMIN)
     @Query(() => [InfoReportada])
     async Reportados() {
         return InfoReportada.find();
@@ -27,7 +26,7 @@ export class ReportadoResolver {
 
     @Authorized(RolesTypes.ADMIN)
     @Query(() => [InfoReportada])
-    filtrarInfoReportada(
+    FiltrarInfoReportada(
         @Arg("usuario", () => UsuarioInput) usuario: UsuarioInput,
 
     ) {
@@ -41,7 +40,7 @@ export class ReportadoResolver {
 
     @Authorized(RolesTypes.ADMIN)
     @Query(() => [InfoReportada])
-    filtrarInfoReportaID(
+    FiltrarInfoReportaID(
         @Arg("ID", () => Int) id: string,
     ) {
         if (id) {
@@ -54,7 +53,7 @@ export class ReportadoResolver {
 
     @Authorized(RolesTypes.ADMIN)
     @Mutation(() => InfoReportada)
-    async modificarInfoReportada(
+    async ModificarInfoReportada(
         @Arg("id", () => Int) id: number,
         @Arg("data", () => ReportadoInput) data: ReportadoInput
     ) {
@@ -63,7 +62,7 @@ export class ReportadoResolver {
         return dataUpdated;
     }
 
-    @Authorized(RolesTypes.ADMIN)
+    @Authorized([RolesTypes.ADMIN,RolesTypes.OFERENTE,RolesTypes.CLIENTE])
     @Mutation(() => InfoReportada)
     async RegistrarInfoReportada(
         @Arg("data" , () => ReportadoInput) data: ReportadoInput
@@ -78,7 +77,7 @@ export class ReportadoResolver {
 
     @Authorized(RolesTypes.ADMIN)
     @Mutation(() => InfoReportada)
-    async inactivarRol(
+    async InactivarInfoReportada(
         @Arg("id", () => Int) id: number,
         @Arg("estado", () => EstadosTypes) estado: EstadosTypes
     ) {
