@@ -11,25 +11,19 @@ export class InfoReportada extends BaseEntity {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @Authorized( )
     @Field(() => String)
     @Column("text", { nullable: true })
     descripcion!: string;
 
-    /*@Authorized( )
-    @ManyToOne( type => Usuario, usuario => usuario.id)
-    @Field(type => Usuario)
-    @Column("text", { nullable: true })
-    usuario!: Usuario;*/
-
-    @Authorized( )
     @Field(type => EstadosTypes)
     @Column("text")
     estado!: EstadosTypes;
 
-    @Authorized( )
-    @ManyToOne(() => Comentario, comentario => comentario.id, { lazy: true })
-    @Field(type => Comentario)
-    @Column("text",{nullable: true})
-    comentario!: Comentario;
+    @Field(type => Usuario,{nullable:true})
+    @ManyToOne(() => Usuario, usuarioReporta => usuarioReporta.reportados)
+    usuarioReporta?: Usuario;
+
+    @Field(type => Comentario,{nullable:true})
+    @ManyToOne(() => Comentario, comentarioReportado => comentarioReportado.reportados)
+    comentarioReportado!: Comentario;
 }

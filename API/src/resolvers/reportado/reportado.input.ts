@@ -8,7 +8,7 @@ import { ComentarioInput } from "../comentario/comentario.input";
 export class ReportadoInput {
 
     @Field(() => String)
-    descripción!: string;
+    descripcion!: string;
 
     @Field({nullable:true})
     usuario!: UsuarioInput;

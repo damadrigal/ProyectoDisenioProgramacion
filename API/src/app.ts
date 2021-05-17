@@ -3,7 +3,7 @@ import { ApolloServer } from 'apollo-server-express'
 
 import { buildSchema } from "type-graphql"
 
-// import { ProductResolver } from "./resolvers/product/product.resolver";
+
 import { UsuarioResolver } from './resolvers/users/usuario.resolver';
 import { isAuthorizated } from "./middleware/is-authorizated";
 import { ValoracionResolver } from './resolvers/valoracion/valoracion.resolver';
@@ -18,6 +18,8 @@ import { CategoriaResolver } from './resolvers/categoria/categoria.resolver';
 import { PuestoResolver } from './resolvers/puesto/puesto.resolver';
 import { GustosUsuarioResolver } from './resolvers/gustosUsuario/gustosUsuarios.resolver';
 import { isAuthenticated } from './middleware/is-authenticated';
+import { ReportadoResolver } from './resolvers/reportado/reportado.resolver';
+import { AmigosUsuarioResolver } from './resolvers/amigos/amigo.resolver';
 
 export async function startServer() {
     const app = express();
@@ -34,9 +36,10 @@ export async function startServer() {
                 ParametroResolver,
                 CategoriaResolver,
                 PuestoResolver,
-                GustosUsuarioResolver],
+                GustosUsuarioResolver,
+                ReportadoResolver,
+                AmigosUsuarioResolver],
                 authChecker:isAuthorizated
-
         }),
         context: ({ req, res }) => ({ req, res }),
 
