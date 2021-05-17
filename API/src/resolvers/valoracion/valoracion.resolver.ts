@@ -15,7 +15,7 @@ export class ValoracionResolver {
 
     @Authorized([RolesTypes.ADMIN])
     @Mutation(() => ValoracionServicio)
-    async crearValoracion(
+    async CrearValoracion(
         @Arg("data", () => ValoracionInput) data: ValoracionInput
     ) {
         const newData = ValoracionServicio.create(data);
@@ -24,7 +24,7 @@ export class ValoracionResolver {
 
     @Authorized([RolesTypes.CLIENTE])
     @Mutation(() => ValoracionServicio)
-    public async modificarValoracion(
+    public async ModificarValoracion(
         @Arg("id", () => Int) id: number,
         @Arg("data", () => ValoracionInput) data: ValoracionInput
     ) {
