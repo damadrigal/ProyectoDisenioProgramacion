@@ -37,12 +37,12 @@ export class InformacionPersonal extends BaseEntity {
     correo!: string;    
     
     // @Column()
-    // usuarioId!: number;
+    // usuarioId?: number;
 
     @Field (() => Usuario,{nullable:true})
     @OneToOne( () => Usuario,usuario => usuario.informacion,{eager:true,cascade:true})
     @JoinColumn()
-    usuario!: Usuario;
+    usuario?: Usuario;
 
     @Field(type => [AmigosUsuario],{nullable:true})
     @OneToMany( () => AmigosUsuario, (amigos) => amigos.duenoAmigo,{eager:true,cascade:true})

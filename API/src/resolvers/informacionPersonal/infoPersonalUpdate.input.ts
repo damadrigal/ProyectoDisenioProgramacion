@@ -5,7 +5,7 @@ import { UsuarioInput } from "../users/usuario.input";
 
 
 @InputType({ description: "información Personal" })
-export class InformacionPersonalInput {
+export class InfoPersonalUpdateInput {
 
     @Field(() => String)
     nombre?: string;
@@ -18,14 +18,10 @@ export class InformacionPersonalInput {
      
     @Field(() => String)
     telefono?: string;
-     
+
     @Field(() => String)
     correo?: string;
 
-  
     @Field(type => UsuarioInput)
     usuario?: Usuario;
-
-    @Field(type => EstadosTypes)
-    estado?: EstadosTypes;
 }

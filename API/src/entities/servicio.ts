@@ -22,7 +22,7 @@ export class Servicio extends BaseEntity {
 
     @Field(() => String)
     @Column("text", { nullable: true })
-    Descripcion!: string;
+    descripcion!: string;
 
     @Field(() => String)
     @Column("text", { nullable: true })

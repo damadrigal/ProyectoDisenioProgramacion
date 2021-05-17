@@ -14,9 +14,7 @@ import { hash, compare } from "bcryptjs";
 import { Usuario } from "../../entities/usuario";
 import enviroment from "../../config/enviroments.config";
 import { sign } from "jsonwebtoken";
-
 import { isAuthenticated } from "../../middleware/is-authenticated";
-
 import { Context } from "../../interfaces/context.interface";
 import { RolesTypes } from "../../enum/roles.enum";
 import { UsuarioInput } from "./usuario.input";
@@ -48,23 +46,15 @@ export class UsuarioResolver {
     }
   }
 
-  @UseMiddleware(isAuthenticated)
   @Query(() => String)
+  @UseMiddleware(isAuthenticated)
   async UsuarioActual(@Ctx() { usuario }: Context) {
-    console.log(usuario);
     return `Su id Usuario : ${usuario!.id}`;
   }
 
   @UseMiddleware(isAuthenticated)
   @Query(() => String)
-  async Me(@Ctx() { usuario }: Context) {
-    return `Your user id : ${usuario!.id}`;
-  }
-
-  @UseMiddleware(isAuthenticated)
-  @Query(() => String)
   async ObtenerRolUsuario(@Ctx() { usuario }: Context) {
-    console.log(usuario);
     return usuario!.role;
   }
 
@@ -118,10 +108,13 @@ export class UsuarioResolver {
     if (!verify) {
       throw new Error("Contraseña erronea");
     }
-
-    const accessToken = sign({ usuario: usuario }, enviroment.jwtSecretKey, {
-      expiresIn: "10h",
-    });
+    const accessToken = sign(
+      { usuario: usuario },
+      enviroment.jwtSecretKey,
+      {
+        expiresIn: "10h",
+      }
+    );
 
     return {
       accessToken,

@@ -26,8 +26,6 @@ export const isAuthorizated: AuthChecker<Context> = ({context}, roles) => {
     }
 
     const usuario = context.usuario;
-
-    
     if (!usuario) {
         return false;
     }
