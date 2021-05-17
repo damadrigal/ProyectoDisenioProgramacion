@@ -9,7 +9,7 @@ export class ServicioInput {
     nombre?: string;
 
     @Field(() => String)
-    Descripcion?: string;
+    descripcion?: string;
 
     @Field(() => String)
     email?: string;
