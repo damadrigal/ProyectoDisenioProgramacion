@@ -2,7 +2,7 @@ import {Field, InputType } from "type-graphql";
 import { EstadosTypes } from "../../enum/estados.enum";
 import { UsuarioInput } from "../users/usuario.input";
 
-@InputType({ description: "información editable del usuario" })
+@InputType({ description: "información editable del servicio" })
 export class ServicioInput {
 
     @Field(() => String)
@@ -30,16 +30,16 @@ export class ServicioInput {
     salarioMaximo?: Number;
 
     @Field(() => Number)
-    valoracionPromedio!: Number;
+    valoracionPromedio?: Number;
 
     @Field(() => String)
     imagen?: string;
 
-    @Field(() => String)
-    longitud!: string;
+    @Field(() => Number)
+    longitud!: Number;
 
-    @Field(() => String)
-    latitud!: string;
+    @Field(() => Number)
+    latitud!: Number;
 
     @Field(()=> String)
     fechaCreacion?:string;

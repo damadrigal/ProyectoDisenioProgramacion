@@ -53,13 +53,13 @@ export class Servicio extends BaseEntity {
     @Column("text", { nullable: true })
     imagen!: string;
 
-    @Field(() => String)
+    @Field(() => Number)
     @Column("text", { nullable: true })
-    longitud!: string;
+    longitud!: Number;
 
-    @Field(() => String)
+    @Field(() => Number)
     @Column("text", { nullable: true })
-    latitud!: string;
+    latitud!: Number;
 
     @Field(()=> String)
     @CreateDateColumn({type:'timestamp'})

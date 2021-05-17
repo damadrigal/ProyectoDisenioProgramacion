@@ -21,7 +21,7 @@ export class ServicioResolver {
 
     @Authorized(RolesTypes.ADMIN)
     @Query(() => [Servicio])
-    filtrarServicio(
+    FiltrarServicio(
         @Arg("nombre", () => String) nombre: string,
     ) {
         if (nombre) {
@@ -34,7 +34,7 @@ export class ServicioResolver {
 
     @Authorized(RolesTypes.ADMIN)
     @Query(() => [Servicio])
-    filtrarServicioEstado(
+    FltrarServicioEstado(
         @Arg("estado", () => EstadosTypes) estado: EstadosTypes,
     ) {
         if (estado) {
@@ -44,14 +44,14 @@ export class ServicioResolver {
     }
 
     @Query(() => [Servicio])
-    filtrarServicioPorUsuario(
+    FiltrarServicioPorUsuario(
         @Arg("usuarioId", () => Int) usuarioId: number
     ) {
         return Servicio.find({ where: { usuarioId } });
     }
 
     @Query(() => [Servicio])
-    filtrarServicioPorId(
+    FiltrarServicioPorId(
         @Arg("servicioId", () => Int) servicioId: number
     ) {
         return Servicio.find({ where: { servicioId } });

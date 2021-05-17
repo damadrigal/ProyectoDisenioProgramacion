@@ -11,6 +11,8 @@ import { GustosUsuarios } from "../../entities/gustosUsuarios";
 import { InformacionPersonal } from "../../entities/informacionpersonal";
 import { EstadosTypes } from "../../enum/estados.enum";
 import { RolesTypes } from "../../enum/roles.enum";
+import { CategoriaInput } from "../categoria/categoria.input";
+import { UsuarioInput } from "../users/usuario.input";
 import { GustosUsuariosInput } from "./gustosUsuarios.input";
 
 @ObjectType()
@@ -27,7 +29,7 @@ export class GustosUsuarioResolver {
     //@Authorized([RolesTypes.ADMIN,RolesTypes.OFERENTE,RolesTypes.CLIENTE])
     @Query(() => [GustosUsuarios])
     FiltrarGustosCategoria(
-        @Arg("categoria", () => String) categoria: string,
+        @Arg("categoria", () => CategoriaInput) categoria: CategoriaInput,
     ) {
         if (categoria) {
             return GustosUsuarios.find({ where: { categoria } });
@@ -40,7 +42,7 @@ export class GustosUsuarioResolver {
     //@Authorized([RolesTypes.ADMIN,RolesTypes.OFERENTE,RolesTypes.CLIENTE])
     @Query(() => [GustosUsuarios])
     FiltrarGustosUsuario(
-        @Arg("usuario", () => String) usuario: string,
+        @Arg("usuario", () => UsuarioInput) usuario: UsuarioInput,
     ) {
         if (usuario) {
             return GustosUsuarios.find({ where: { usuario } });

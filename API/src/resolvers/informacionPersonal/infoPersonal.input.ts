@@ -1,6 +1,4 @@
 import { InputType, Field} from "type-graphql";
-import { Usuario } from "../../entities/usuario";
-import { UsuarioInput } from "../users/usuario.input";
 
 
 @InputType({ description: "información Personal" })
