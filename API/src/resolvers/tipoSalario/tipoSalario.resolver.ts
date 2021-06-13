@@ -12,6 +12,17 @@ export class TipoSalarioResolver {
         return TipoSalario.find();
     }
 
+    @Query(() => TipoSalario)
+    FiltrarTipoSalarioID(
+        @Arg("ID", () => Int) id: number,
+    ) {
+        if (id) {
+            return TipoSalario.findOne({ where: { id } });
+        } else {
+            return TipoSalario.findOne();
+        }
+    }
+
     @Authorized([RolesTypes.ADMIN,RolesTypes.OFERENTE])
     @Query(() => [TipoSalario])
     async FiltrarTipoSalarioCodigo(

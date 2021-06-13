@@ -23,15 +23,28 @@ export class PuestoResolver {
         }
     }
 
-    @Query(() => [Puesto])
+    
+    @Query(() => Puesto)
+    FiltrarPuestoCodigo(
+        @Arg("codigo", () => String) codigo: String,
+    ) {
+        if (codigo) {
+            return Puesto.findOne({ where: { codigo } });
+
+        } else {
+            return Puesto.findOne();
+        }
+    }
+
+    @Query(() => Puesto)
     async FiltrarPuestoID(
         @Arg("ID", () => Int) id: string,
     ) {
         if (id) {
-            return await Puesto.find({ where: { id } });
+            return await Puesto.findOne({ where: { id } });
 
         } else {
-            return await Puesto.find();
+            return await Puesto.findOne();
         }
     }
 
@@ -60,14 +73,10 @@ export class PuestoResolver {
 
     @Authorized(RolesTypes.ADMIN)
     @Mutation(() => Puesto)
-    async RegistrarPuesto(
+    async CrearPuesto(
         @Arg("data") data: PuestoInput
     ) {
-        try {
-            await Puesto.insert(data);
-        } catch (err) {
-            return false;
-        }
-        return true;
+        const newData = Puesto.create(data);
+        return await newData.save();
     }
 }
