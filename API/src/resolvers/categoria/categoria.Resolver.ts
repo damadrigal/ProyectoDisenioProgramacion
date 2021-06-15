@@ -29,27 +29,26 @@ export class CategoriaResolver {
         }
     }
 
-    @Query(() => [Categoria])
+    @Query(() => Categoria)
     FiltrarCategoriaCodigo(
         @Arg("codigo", () => String) codigo: String,
     ) {
         if (codigo) {
-            return Categoria.find({ where: { codigo } });
+            return Categoria.findOne({ where: { codigo } });
 
         } else {
-            return Categoria.find();
+            return Categoria.findOne();
         }
     }
     
-    @Query(() => [Categoria])
+    @Query(() => Categoria)
     FiltrarCategoriaID(
         @Arg("ID", () => Int) id: number,
     ) {
         if (id) {
-            return Categoria.find({ where: { id } });
-
+            return Categoria.findOne({ where: { id } });
         } else {
-            return Categoria.find();
+            return Categoria.findOne();
         }
     }
 
