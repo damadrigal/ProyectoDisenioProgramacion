@@ -46,6 +46,18 @@ export class UsuarioResolver {
     }
   }
 
+  @Authorized(RolesTypes.ADMIN)
+  @Query(() => [Usuario])
+  async FiltrarUsuarioId(
+    @Arg("id", () => String) id: Number
+  ) {
+    if (id) {
+      return Usuario.find({ where: { id } });
+    } else {
+      return Usuario.find();
+    }
+  }
+
   @Query(() => String)
   @UseMiddleware(isAuthenticated)
   async UsuarioActual(@Ctx() { usuario }: Context) {

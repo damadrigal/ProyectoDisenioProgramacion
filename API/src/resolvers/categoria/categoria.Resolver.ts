@@ -54,14 +54,22 @@ export class CategoriaResolver {
     }
 
     @Authorized(RolesTypes.ADMIN)
-    @Mutation(() => Categoria)
+    @Mutation(() => Boolean)
     async CrearCategoria(
-        @Arg("data", () => CategoriaInput) data: CategoriaInput
+        @Arg("codigo") codigo: string,
+        @Arg("descripcion") descripcion: string
     ) {
-        const newData = Categoria.create(data);
-        return await newData.save();
+        try {
+            await Categoria.insert({
+              codigo,
+              descripcion,
+              estado: EstadosTypes.ACTIVO,
+            });
+          } catch (err) {
+            return false;
+          }
+          return true;
     }
-
     @Authorized(RolesTypes.ADMIN)
     @Mutation(() => Categoria)
     async ModificarCategoria(
@@ -74,13 +82,12 @@ export class CategoriaResolver {
     }
     
     @Authorized(RolesTypes.ADMIN)
-    @UseMiddleware(isAuthenticated)
+    //@UseMiddleware(isAuthenticated)
     @Mutation(() => Categoria)
     async InactivarCategoria(
-        @Arg("id", () => Int) id: number,
-        @Arg("estado", () => EstadosTypes) estado: EstadosTypes
+        @Arg("id", () => Int) id: number
     ) {
-        await Categoria.update({ id }, {estado});
+        await Categoria.update({ id }, {estado: EstadosTypes.INACTIVO});
         const dataUpdated = await Categoria.findOne(id);
         return dataUpdated;
     }

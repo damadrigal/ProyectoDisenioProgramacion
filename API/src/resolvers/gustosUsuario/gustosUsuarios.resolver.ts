@@ -7,8 +7,10 @@ import {
     Int,
     Authorized
 } from "type-graphql";
+import { Categoria } from "../../entities/categoria";
 import { GustosUsuarios } from "../../entities/gustosUsuarios";
 import { InformacionPersonal } from "../../entities/informacionpersonal";
+import { Usuario } from "../../entities/usuario";
 import { EstadosTypes } from "../../enum/estados.enum";
 import { RolesTypes } from "../../enum/roles.enum";
 import { CategoriaInput } from "../categoria/categoria.input";
@@ -29,10 +31,10 @@ export class GustosUsuarioResolver {
     //@Authorized([RolesTypes.ADMIN,RolesTypes.OFERENTE,RolesTypes.CLIENTE])
     @Query(() => [GustosUsuarios])
     FiltrarGustosCategoria(
-        @Arg("categoria", () => CategoriaInput) categoria: CategoriaInput,
+        @Arg("idCategoria", () => String) idCategoria: Categoria,
     ) {
-        if (categoria) {
-            return GustosUsuarios.find({ where: { categoria } });
+        if (idCategoria) {
+            return GustosUsuarios.find({ where: { categoria: idCategoria } });
 
         } else {
             return GustosUsuarios.find();
@@ -42,7 +44,7 @@ export class GustosUsuarioResolver {
     //@Authorized([RolesTypes.ADMIN,RolesTypes.OFERENTE,RolesTypes.CLIENTE])
     @Query(() => [GustosUsuarios])
     FiltrarGustosUsuario(
-        @Arg("usuario", () => UsuarioInput) usuario: UsuarioInput,
+        @Arg("usuario", () => Int) usuario: UsuarioInput,
     ) {
         if (usuario) {
             return GustosUsuarios.find({ where: { usuario } });
@@ -66,7 +68,7 @@ export class GustosUsuarioResolver {
     }
 
     //@Authorized([RolesTypes.ADMIN,RolesTypes.OFERENTE,RolesTypes.CLIENTE])
-    @Mutation(() => InformacionPersonal)
+    @Mutation(() => GustosUsuarios)
     async RegistrarGustosPersonal(
         @Arg("data", () => GustosUsuariosInput) data: GustosUsuariosInput
     ) {
@@ -79,6 +81,26 @@ export class GustosUsuarioResolver {
         }
 
         return true;
+    }
+
+    //@Authorized(RolesTypes.ADMIN)
+    @Mutation(() => Boolean)
+    async AsignarGusto(
+        @Arg("idUsuario", () => String) idUsuario: Usuario,
+        @Arg("idCategoria", () => String) idCategoria: Categoria,
+    ) {
+        try {
+            
+            await GustosUsuarios.insert({
+              categoria: idCategoria,
+              usuario: idUsuario,
+              descripcion: "Se guarda",
+              estado: EstadosTypes.ACTIVO,
+            });
+          } catch (err) {
+            return false;
+          }
+          return true;
     }
     
     //@Authorized(RolesTypes.OFERENTE)

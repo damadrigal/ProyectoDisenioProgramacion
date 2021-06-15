@@ -37,7 +37,7 @@ export class InformacionPersonalResolver {
   @Authorized([RolesTypes.ADMIN, RolesTypes.OFERENTE, RolesTypes.CLIENTE])
   @Query(() => [InformacionPersonal])
   async FiltrarInfoPersonalUsuario(
-    @Arg("usuario", () => UsuarioInput) usuario: UsuarioInput
+    @Arg("usuario", () => Int) usuario: UsuarioInput
   ) {
     if (usuario) {
       return await InformacionPersonal.find({ where: { usuario } });

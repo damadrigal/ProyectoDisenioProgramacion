@@ -10,6 +10,12 @@ import {Servicio } from "../../entities/servicio";
 import { ServicioInput } from "../servicio/servicio.input";
 import { RolesTypes } from "../../enum/roles.enum";
 import { EstadosTypes } from "../../enum/estados.enum";
+import { getRepository } from "typeorm";
+import { UsuarioInput } from "../users/usuario.input";
+import { Puesto } from "../../entities/puesto";
+import { Categoria } from "../../entities/categoria";
+import { Usuario } from "../../entities/usuario";
+import { TipoSalario } from "../../entities/tipoSalario";
 
 @Resolver()
 export class ServicioResolver {
@@ -47,7 +53,7 @@ export class ServicioResolver {
     FiltrarServicioPorUsuario(
         @Arg("usuarioId", () => Int) usuarioId: number
     ) {
-        return Servicio.find({ where: { usuarioId } });
+        return Servicio.find({ where: { usuario: usuarioId } });
     }
 
     @Query(() => [Servicio])
@@ -84,19 +90,43 @@ export class ServicioResolver {
     }    
 
     @Authorized(RolesTypes.OFERENTE)
-    @Mutation(() => Boolean)
+    @Mutation(() => Servicio)
     async crearServicio(
         @Arg("data", () => ServicioInput) data: ServicioInput
     ) {
+        data.estado = EstadosTypes.ACTIVO;
         try {
             await Servicio.insert(data);
+            const nombre = data.nombre;
+            const correo = data.email;
+            const descrip = data.descripcion;
+            const dataUpdated = await Servicio.findOne({ where: { nombre,email:correo,descripcion:descrip } });
+            console.log(dataUpdated);
+            return dataUpdated;
         } catch (err) {
             console.log(err);
+            return;
+        }
+    }
+    @Authorized([RolesTypes.OFERENTE,RolesTypes.ADMIN])
+    @Mutation(() => Boolean)
+    async modificarOtrosServicio(
+        @Arg("idServicio", () => String) id: number,
+        @Arg("idCategoria", () => String) idCategoria: Categoria,
+        @Arg("idPuesto", () => String) idPuesto: Puesto,
+        @Arg("idTipoSalario", () => String) idTipoSalario: TipoSalario,
+        @Arg("idUsuario", () => String) idUsuario: Usuario
+    ) {
+        console.log(id,idCategoria,idPuesto,idTipoSalario,idUsuario)
+        try{
+            await Servicio.update({id}, {puesto:idPuesto,categoria:idCategoria,tipoSalario:idTipoSalario,usuario:idUsuario});
+            return true;
+        } catch (err) {
             return false;
         }
         return true;
+        
     }
-    
     @Authorized([RolesTypes.OFERENTE,RolesTypes.ADMIN])
     @Mutation(() => Servicio)
     async modificarServicio(

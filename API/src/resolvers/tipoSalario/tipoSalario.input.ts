@@ -13,7 +13,4 @@ export class TipoSalarioInput {
 
     @Field(type => EstadosTypes)
     estado?: EstadosTypes;
-
-    @Field(type => [ServicioInput])
-    servicios?: ServicioInput[];
 }
