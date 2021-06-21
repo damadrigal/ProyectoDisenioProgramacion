@@ -20,9 +20,6 @@ export class ServicioInput {
     @Field(() => EstadosTypes)
     estado!: EstadosTypes;
 
-    @Field(type => UsuarioInput)
-    usuario?: UsuarioInput;
-
     @Field(() => Number)
     salarioMinimo?: Number;
 
