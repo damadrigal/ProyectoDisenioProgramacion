@@ -58,10 +58,10 @@ export class UsuarioResolver {
     }
   }
 
-  @Query(() => String)
+  @Query(() => Usuario)
   @UseMiddleware(isAuthenticated)
   async UsuarioActual(@Ctx() { usuario }: Context) {
-    return `Su id Usuario : ${usuario!.id}`;
+    return usuario!;
   }
 
   @UseMiddleware(isAuthenticated)
