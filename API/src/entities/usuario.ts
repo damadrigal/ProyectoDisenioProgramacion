@@ -48,7 +48,6 @@ export class Usuario extends BaseEntity {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    //@Authorized()
     @Field(() => String)
     @Column("text", { nullable: true })
     nombre!: string;
@@ -61,37 +60,30 @@ export class Usuario extends BaseEntity {
     @Column("text", { nullable: true })
     password!: string;
 
-    @Authorized(RolesTypes.ADMIN)
     @Field(type => RolesTypes)
     @Column("text", { nullable: true })
     role!: RolesTypes;
 
-    //@Authorized(RolesTypes.ADMIN)
     @Field(()=> String)
     @CreateDateColumn({type:'timestamp'})
     fechaCreacion!:string;
 
-    //@Authorized(RolesTypes.ADMIN)
     @Field(()=> String)
     @CreateDateColumn({type:'timestamp'})
     fechaModificacion!:string;
 
-    //@Authorized(RolesTypes.ADMIN)
     @Field(type => EstadosTypes)
     @Column("text", { nullable: true })
     estado!: EstadosTypes;
     
-    //@Authorized(RolesTypes.ADMIN)
     @Field(() => String)
     @Column("text", { nullable: true })
     observacion!: string;
 
-    //@Authorized(RolesTypes.ADMIN)
     @Field (() => Servicio,{nullable:true})
     @OneToOne( () => Servicio, servicio => servicio.usuario)
     servicio!: Servicio;
 
-    //@Authorized( )
     @Field(type => Rol,{nullable:true})
     @ManyToOne(() => Rol, rol => rol.usuario,{eager:true,cascade:true})
     rol?: Rol;
@@ -108,7 +100,6 @@ export class Usuario extends BaseEntity {
     @OneToMany( () => Comentario, (comentarios) => comentarios.usuario,{eager:true,cascade:true})
     comentarios?: Comentario[];
 
-    //@Authorized( )
     @Field(type => [GustosUsuarios],{nullable:true})
     @OneToMany( () => GustosUsuarios, (gustos) => gustos.usuario,{eager:true})
     gustos?: GustosUsuarios[];
