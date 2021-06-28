@@ -78,11 +78,11 @@ export class Usuario extends BaseEntity {
     
     @Field(() => String)
     @Column("text", { nullable: true })
-    observacion!: string;
+    observacion?: string;
 
     @Field (() => Servicio,{nullable:true})
     @OneToOne( () => Servicio, servicio => servicio.usuario)
-    servicio!: Servicio;
+    servicio?: Servicio;
 
     @Field(type => Rol,{nullable:true})
     @ManyToOne(() => Rol, rol => rol.usuario,{eager:true,cascade:true})
@@ -94,7 +94,7 @@ export class Usuario extends BaseEntity {
 
     @Field (() => InformacionPersonal,{nullable:true})
     @OneToOne( () => InformacionPersonal, informacion => informacion.usuario)
-    informacion!: InformacionPersonal;
+    informacion?: InformacionPersonal;
 
     @Field(() => [Comentario],{nullable:true})
     @OneToMany( () => Comentario, (comentarios) => comentarios.usuario,{eager:true,cascade:true})

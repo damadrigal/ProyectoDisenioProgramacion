@@ -3,6 +3,7 @@ import path = require("path")
 import  enviroment   from "./enviroments.config";
 
 export async function connect(){
+    console.log(enviroment.databaseUserName);
     await createConnection({
         type: 'mysql',
         host: enviroment.databaseHost,

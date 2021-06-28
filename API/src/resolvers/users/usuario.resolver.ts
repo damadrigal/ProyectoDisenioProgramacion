@@ -61,6 +61,7 @@ export class UsuarioResolver {
   @Query(() => Usuario)
   @UseMiddleware(isAuthenticated)
   async UsuarioActual(@Ctx() { usuario }: Context) {
+
     return usuario!;
   }
 
