@@ -23,6 +23,13 @@ export class ValoracionResolver {
         return ValoracionServicio.find({ where: { usuario: idUsuario, servicio: idServicio} });
     }
 
+    @Query(() => [ValoracionServicio])
+    async ValoracionPorServicio(
+         @Arg("idServicio", () => Int) idServicio: Servicio) 
+    {
+        return ValoracionServicio.find({ where: { servicio: idServicio} });
+    }
+
     //@Authorized([RolesTypes.ADMIN])
     @Mutation(() => Boolean)
     async CrearValoracion(
