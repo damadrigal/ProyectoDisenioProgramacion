@@ -7,6 +7,9 @@ import { UsuarioInput } from "../users/usuario.input";
 @InputType({ description: "información Personal" })
 export class InfoPersonalUpdateInput {
 
+    @Field(() => ID)
+    id?: number;
+    
     @Field(() => String)
     nombre?: string;
      

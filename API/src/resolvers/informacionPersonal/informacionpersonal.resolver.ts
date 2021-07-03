@@ -75,8 +75,6 @@ export class InformacionPersonalResolver {
     @Arg("idUsuario", () => Int!) idUsuario: Usuario,
     @Arg("data", () => InfoPersonalInput) data: InfoPersonalInput
   ) {
-      console.log(data);
-      console.log(idUsuario);
     try {
       const newData = InformacionPersonal.create(data);
       await newData.save();
