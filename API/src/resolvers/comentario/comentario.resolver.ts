@@ -6,6 +6,8 @@ import { ServicioInput } from "../servicio/servicio.input";
 import { Context } from "../../interfaces/context.interface";
 import { ComentarioInput } from "./comentario.input";
 import { isAuthenticated } from "../../middleware/is-authenticated";
+import { Servicio } from "../../entities/servicio";
+import { Usuario } from "../../entities/usuario";
 
 @ObjectType()
 @Resolver()
@@ -19,7 +21,7 @@ export class ComentarioResolver {
 
     @Query(() => [Comentario])
     async FiltrarComentario(
-        @Arg("servicio", () => ServicioInput) servicio: ServicioInput,
+        @Arg("servicio", () => Int) servicio: ServicioInput,
     ) {
         if (servicio) {
             return await Comentario.find({ where: { servicio }, order: { "fechaCreacion":"DESC" } });
@@ -45,10 +47,20 @@ export class ComentarioResolver {
     @Authorized([RolesTypes.CLIENTE, RolesTypes.OFERENTE])
     @Mutation(() => Comentario)
     async CrearComentario(
-        @Arg("data", () => ComentarioInput) data: ComentarioInput
+        @Arg("idUsuario", () => Int) idUsuario: Usuario,
+        @Arg("idServicio", () => Int) idServicio: Servicio,
+        @Arg("descripcion", () => String) descripcion: string
     ) {
-        const newData = Comentario.create(data);
-        return await newData.save();
+        try {
+            await Comentario.insert({
+            usuario: idUsuario,
+            servicio: idServicio,
+            descripcion: descripcion 
+            });
+        } catch (err) {
+            return false;
+        }
+        return true;
     }
 
     @Authorized([RolesTypes.CLIENTE, RolesTypes.OFERENTE])

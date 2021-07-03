@@ -67,7 +67,7 @@ export class ServicioResolver {
     FiltrarServicioPorId(
         @Arg("servicioId", () => Int) servicioId: number
     ) {
-        return Servicio.find({ where: { servicioId } });
+        return Servicio.find({ where: { id:servicioId } });
     }
 
     @Authorized(RolesTypes.ADMIN)

@@ -1,4 +1,6 @@
 import { Arg, Authorized, Int, Mutation, Query, Resolver } from "type-graphql";
+import { Servicio } from "../../entities/servicio";
+import { Usuario } from "../../entities/usuario";
 import { ValoracionServicio } from "../../entities/valoracionservicio";
 import { RolesTypes } from "../../enum/roles.enum";
 import { ValoracionInput } from "./valoracion.input";
@@ -13,13 +15,31 @@ export class ValoracionResolver {
         return ValoracionServicio.find();
     }
 
-    @Authorized([RolesTypes.ADMIN])
-    @Mutation(() => ValoracionServicio)
+    @Query(() => [ValoracionServicio])
+    async ValoracionPorServicioUsuario(
+         @Arg("idUsuario", () => Int) idUsuario: Usuario,
+         @Arg("idServicio", () => Int) idServicio: Servicio) 
+    {
+        return ValoracionServicio.find({ where: { usuario: idUsuario, servicio: idServicio} });
+    }
+
+    //@Authorized([RolesTypes.ADMIN])
+    @Mutation(() => Boolean)
     async CrearValoracion(
-        @Arg("data", () => ValoracionInput) data: ValoracionInput
+        @Arg("idUsuario", () => Int) idUsuario: Usuario,
+        @Arg("idServicio", () => Int) idServicio: Servicio,
+        @Arg("valor", () => Int) valor: Number
     ) {
-        const newData = ValoracionServicio.create(data);
-        return await newData.save();
+        try {
+            await ValoracionServicio.insert({
+              usuario: idUsuario,
+              servicio: idServicio,
+              valoracion: valor 
+            });
+          } catch (err) {
+            return false;
+          }
+        return true;
     }
 
     @Authorized([RolesTypes.CLIENTE])
