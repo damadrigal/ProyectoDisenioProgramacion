@@ -32,7 +32,7 @@ export class AmigosUsuarioResolver {
 
     @Query(() => [AmigosUsuario])
     ListarDeQuienSoyAmigo(
-        @Arg("usuario", () => UsuarioInput) usuario: UsuarioInput,
+        @Arg("usuario", () => Int) usuario: UsuarioInput,
     ) {
         if (usuario) {
             return AmigosUsuario.find({ where: { usuario } });
@@ -41,24 +41,28 @@ export class AmigosUsuarioResolver {
             return AmigosUsuario.find();
         }
     }
+    @Query(() => [AmigosUsuario])
+    ExisteAmigosDeUnUsuario(
+        @Arg("idUsuario", () => Int) idUsuario: Usuario,
+        @Arg("idDueno", () => Int) idDueno: InformacionPersonal
+    ) {
+            return AmigosUsuario.find({ where: { usuario: idUsuario, duenoAmigo: idDueno} });
+    }
 
     //@Authorized([RolesTypes.ADMIN,RolesTypes.OFERENTE,RolesTypes.CLIENTE])
-    @Mutation(() => AmigosUsuario)
+    @Mutation(() => Boolean)
     async RegistrarAmigos(
         @Arg("idUsuario", () => Int) idUsuario: Usuario,
         @Arg("idDueno", () => Int) idDueno: InformacionPersonal
     ) {
         try {
-            var data!: AmigosUsuarioInput;
-            data.duenoAmigo = idDueno;
-            data.usuario = idUsuario;
-            const newData = AmigosUsuario.create(data);
-            return await newData.save();
-        } catch (err) {
-            console.log(err);
+            await AmigosUsuario.insert({
+              duenoAmigo: idDueno,
+              usuario: idUsuario
+            });
+          } catch (err) {
             return false;
-        }
-
+          }
         return true;
     }
     
