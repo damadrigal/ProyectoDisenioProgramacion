@@ -156,7 +156,7 @@ export class ServicioResolver {
 
     @Authorized(RolesTypes.ADMIN)
     @Mutation(() => Servicio)
-    async inactivarServicio(
+    async InactivarServicio(
         @Arg("id", () => Int) id: number,
         @Arg("estado", () => EstadosTypes) estado: EstadosTypes
     ) {
