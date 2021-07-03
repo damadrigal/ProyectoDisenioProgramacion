@@ -11,17 +11,14 @@ export class ValoracionServicio extends BaseEntity {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @Authorized([RolesTypes.ADMIN,RolesTypes.OFERENTE,RolesTypes.CLIENTE])
     @Field(() => Number)
     @Column("text", { nullable: true })
     valoracion!: Number;
 
-    @Authorized([RolesTypes.ADMIN,RolesTypes.OFERENTE,RolesTypes.CLIENTE])
     @Field(type => Servicio,{nullable:true})
     @ManyToOne(() => Servicio, servicio => servicio.valoraciones)
     servicio?: Servicio;
 
-    @Authorized([RolesTypes.ADMIN,RolesTypes.OFERENTE,RolesTypes.CLIENTE])
     @Field(type => Usuario,{nullable:true})
     @ManyToOne(() => Usuario, usuario => usuario.valoraciones)
     usuario?: Usuario;

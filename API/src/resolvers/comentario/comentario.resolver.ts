@@ -44,8 +44,8 @@ export class ComentarioResolver {
         }
     }
 
-    @Authorized([RolesTypes.CLIENTE, RolesTypes.OFERENTE])
-    @Mutation(() => Comentario)
+    //@Authorized([RolesTypes.CLIENTE, RolesTypes.OFERENTE])
+    @Mutation(() => Boolean)
     async CrearComentario(
         @Arg("idUsuario", () => Int) idUsuario: Usuario,
         @Arg("idServicio", () => Int) idServicio: Servicio,

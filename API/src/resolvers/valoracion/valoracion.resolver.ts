@@ -42,13 +42,13 @@ export class ValoracionResolver {
         return true;
     }
 
-    @Authorized([RolesTypes.CLIENTE])
+   // @Authorized([RolesTypes.CLIENTE])
     @Mutation(() => ValoracionServicio)
     public async ModificarValoracion(
         @Arg("id", () => Int) id: number,
-        @Arg("data", () => ValoracionInput) data: ValoracionInput
+        @Arg("valor", () => Int) valor: Number
     ) {
-        await ValoracionServicio.update({ id }, data);
+        await ValoracionServicio.update({ id }, {valoracion: valor});
         const dataUpdated = await ValoracionServicio.findOne(id);
         return dataUpdated;
     }
