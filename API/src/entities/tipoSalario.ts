@@ -11,17 +11,14 @@ export class TipoSalario extends BaseEntity {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    //@Authorized(RolesTypes.ADMIN)
     @Field(() => String)
     @Column("text", { nullable: true })
     codigo!: string;
 
-    //@Authorized(RolesTypes.ADMIN)
     @Field(() => String)
     @Column("text", { nullable: true })
     descripcion!: string;
 
-    //@Authorized(RolesTypes.ADMIN)
     @Field(type => EstadosTypes)
     @Column("text")
     estado!: EstadosTypes;
