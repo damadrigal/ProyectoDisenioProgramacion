@@ -11,7 +11,6 @@ import { isAuthenticated } from "../../middleware/is-authenticated";
 
 export class CategoriaResolver { 
    
-    @Authorized([RolesTypes.ADMIN,RolesTypes.OFERENTE,RolesTypes.CLIENTE])
     @Query(() => [Categoria])
     async Categorias() {
         return Categoria.find();
