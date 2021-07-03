@@ -25,6 +25,11 @@ export class ServicioResolver {
         return Servicio.find();
     }
 
+    @Query(() => [Servicio])
+    async ServiciosActivos() {
+        return Servicio.find({ where: { estado:EstadosTypes.ACTIVO} } );
+    }
+
     @Authorized(RolesTypes.ADMIN)
     @Query(() => [Servicio])
     FiltrarServicio(
@@ -53,14 +58,21 @@ export class ServicioResolver {
     FiltrarServicioPorUsuario(
         @Arg("usuarioId", () => Int) usuarioId: number
     ) {
-        return Servicio.find({ where: { usuario: usuarioId } });
+        return Servicio.find({ where: { usuario: usuarioId, estado:EstadosTypes.ACTIVO} });
+    }
+
+    @Query(() => [Servicio])
+    FiltrarMiServicio(
+        @Arg("usuarioId", () => Int) usuarioId: number
+    ) {
+        return Servicio.find({ where: { usuario: usuarioId} });
     }
 
     @Query(() => [Servicio])
     FiltrarServicioPorCategoria(
         @Arg("categoria", () => Int) categoria: Categoria
     ) {
-        return Servicio.find({ where: { categoria } });
+        return Servicio.find({ where: { categoria , estado:EstadosTypes.ACTIVO} });
     }
 
     @Query(() => [Servicio])
@@ -101,7 +113,7 @@ export class ServicioResolver {
     async crearServicio(
         @Arg("data", () => ServicioInput) data: ServicioInput
     ) {
-        data.estado = EstadosTypes.ACTIVO;
+        data.estado = EstadosTypes.PORAPROBAR;
         try {
             await Servicio.insert(data);
             const nombre = data.nombre;
