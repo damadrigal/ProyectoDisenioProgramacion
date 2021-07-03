@@ -13,6 +13,8 @@ import { InfoPersonalUpdateInput } from "./infoPersonalUpdate.input";
 import { InformacionPersonal } from "../../entities/informacionpersonal";
 import { RolesTypes } from "../../enum/roles.enum";
 import { UsuarioInput } from "../users/usuario.input";
+import { UsuarioResolver } from "../users/usuario.resolver";
+import { Usuario } from "../../entities/usuario";
 
 @ObjectType()
 @Resolver()
@@ -34,7 +36,7 @@ export class InformacionPersonalResolver {
     }
   }
 
-  @Authorized([RolesTypes.ADMIN, RolesTypes.OFERENTE, RolesTypes.CLIENTE])
+  //@Authorized([RolesTypes.ADMIN, RolesTypes.OFERENTE, RolesTypes.CLIENTE])
   @Query(() => [InformacionPersonal])
   async FiltrarInfoPersonalUsuario(
     @Arg("usuario", () => Int) usuario: UsuarioInput
@@ -46,7 +48,7 @@ export class InformacionPersonalResolver {
     }
   }
 
-  @Authorized([RolesTypes.ADMIN, RolesTypes.OFERENTE, RolesTypes.CLIENTE])
+  //@Authorized([RolesTypes.ADMIN, RolesTypes.OFERENTE, RolesTypes.CLIENTE])
   @Query(() => [InformacionPersonal])
   async FiltrarInfoPersonalID(@Arg("id", () => Int) id: string) {
     if (id) {
@@ -56,7 +58,7 @@ export class InformacionPersonalResolver {
     }
   }
 
-  @Authorized([RolesTypes.ADMIN, RolesTypes.OFERENTE, RolesTypes.CLIENTE])
+ // @Authorized([RolesTypes.ADMIN, RolesTypes.OFERENTE, RolesTypes.CLIENTE])
   @Mutation(() => InformacionPersonal)
   async ModificarInfoPersonal(
     @Arg("id", () => Int) id: number,
@@ -67,15 +69,21 @@ export class InformacionPersonalResolver {
     return dataUpdated;
   }
 
-  @Authorized([RolesTypes.ADMIN, RolesTypes.OFERENTE, RolesTypes.CLIENTE])
+  //@Authorized([RolesTypes.ADMIN, RolesTypes.OFERENTE, RolesTypes.CLIENTE])
   @Mutation(() => InformacionPersonal)
   async RegistrarInfoPersonal(
+    @Arg("idUsuario", () => Int!) idUsuario: Usuario,
     @Arg("data", () => InfoPersonalInput) data: InfoPersonalInput
   ) {
       console.log(data);
+      console.log(idUsuario);
     try {
       const newData = InformacionPersonal.create(data);
-      return await newData.save();
+      await newData.save();
+      await InformacionPersonal.update({ id: newData.id }, {usuario:idUsuario});
+      const dataUpdated = await InformacionPersonal.findOne(newData.id);
+      return dataUpdated;
+
     } catch (err) {
       console.log(err);
       return false;

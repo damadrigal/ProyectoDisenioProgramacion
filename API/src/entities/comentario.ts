@@ -13,12 +13,12 @@ export class Comentario extends BaseEntity {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @Authorized([RolesTypes.ADMIN,RolesTypes.OFERENTE,RolesTypes.CLIENTE])
+    //@Authorized([RolesTypes.ADMIN,RolesTypes.OFERENTE,RolesTypes.CLIENTE])
     @Field(() => String)
     @Column("text", { nullable: true })
     descripcion!: string;
 
-    @Authorized([RolesTypes.ADMIN,RolesTypes.OFERENTE,RolesTypes.CLIENTE])
+    //@Authorized([RolesTypes.ADMIN,RolesTypes.OFERENTE,RolesTypes.CLIENTE])
     @Field(()=> String)
     @CreateDateColumn({type:'timestamp'})
     fechaCreacion!:string;
@@ -28,7 +28,7 @@ export class Comentario extends BaseEntity {
     servicio?: Servicio;
 
     @Field(type => Usuario,{nullable:true})
-    @ManyToOne( type => Usuario, servicio => servicio.comentarios)
+    @ManyToOne( type => Usuario, servicio => servicio.comentarios,{eager:true})
     usuario?: Usuario;
 
 

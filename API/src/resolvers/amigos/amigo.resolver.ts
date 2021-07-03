@@ -9,6 +9,7 @@ import {
 } from "type-graphql";
 import { AmigosUsuario } from "../../entities/amigosUsuario";
 import { InformacionPersonal } from "../../entities/informacionpersonal";
+import { Usuario } from "../../entities/usuario";
 import { UsuarioInput } from "../users/usuario.input";
 import { AmigosUsuarioInput } from "./amigo.input";
 
@@ -19,7 +20,7 @@ export class AmigosUsuarioResolver {
 
     @Query(() => [AmigosUsuario])
     ListarAmigosDeUnUsuario(
-        @Arg("duenoAmigo", () => UsuarioInput) duenoAmigo: UsuarioInput,
+        @Arg("duenoAmigo", () => Int) duenoAmigo: UsuarioInput,
     ) {
         if (duenoAmigo) {
             return AmigosUsuario.find({ where: { duenoAmigo } });
@@ -44,9 +45,13 @@ export class AmigosUsuarioResolver {
     //@Authorized([RolesTypes.ADMIN,RolesTypes.OFERENTE,RolesTypes.CLIENTE])
     @Mutation(() => AmigosUsuario)
     async RegistrarAmigos(
-        @Arg("data", () => AmigosUsuarioInput) data: AmigosUsuarioInput
+        @Arg("idUsuario", () => Int) idUsuario: Usuario,
+        @Arg("idDueno", () => Int) idDueno: InformacionPersonal
     ) {
         try {
+            var data!: AmigosUsuarioInput;
+            data.duenoAmigo = idDueno;
+            data.usuario = idUsuario;
             const newData = AmigosUsuario.create(data);
             return await newData.save();
         } catch (err) {

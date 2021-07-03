@@ -28,7 +28,7 @@ class LoginResponse {
 
 @Resolver()
 export class UsuarioResolver {
-  @Authorized(RolesTypes.ADMIN)
+ // @Authorized(RolesTypes.ADMIN)
   @Query(() => [Usuario])
   async Usuarios() {
     return Usuario.find();

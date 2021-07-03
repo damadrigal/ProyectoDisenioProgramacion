@@ -74,7 +74,7 @@ export class PuestoResolver {
     @Authorized(RolesTypes.ADMIN)
     @Mutation(() => Puesto)
     async CrearPuesto(
-        @Arg("data") data: PuestoInput
+        @Arg("data", ()=> PuestoInput) data: PuestoInput
     ) {
         const newData = Puesto.create(data);
         return await newData.save();

@@ -57,6 +57,13 @@ export class ServicioResolver {
     }
 
     @Query(() => [Servicio])
+    FiltrarServicioPorCategoria(
+        @Arg("categoria", () => Int) categoria: Categoria
+    ) {
+        return Servicio.find({ where: { categoria } });
+    }
+
+    @Query(() => [Servicio])
     FiltrarServicioPorId(
         @Arg("servicioId", () => Int) servicioId: number
     ) {

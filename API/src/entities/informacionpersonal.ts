@@ -11,27 +11,27 @@ export class InformacionPersonal extends BaseEntity {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @Authorized([RolesTypes.ADMIN,RolesTypes.OFERENTE,RolesTypes.CLIENTE])
+    //@Authorized([RolesTypes.ADMIN,RolesTypes.OFERENTE,RolesTypes.CLIENTE])
     @Field(() => String)
     @Column("text", { nullable: true })
     nombre!: string;
 
-    @Authorized([RolesTypes.ADMIN,RolesTypes.OFERENTE,RolesTypes.CLIENTE])
+   // @Authorized([RolesTypes.ADMIN,RolesTypes.OFERENTE,RolesTypes.CLIENTE])
     @Field(() => String)
     @Column("text", { nullable: true })
     priapellido!: string;
 
-    @Authorized([RolesTypes.ADMIN,RolesTypes.OFERENTE,RolesTypes.CLIENTE])
+   // @Authorized([RolesTypes.ADMIN,RolesTypes.OFERENTE,RolesTypes.CLIENTE])
     @Field(() => String)
     @Column("text", { nullable: true })
     segapellido!: string;
 
-    @Authorized([RolesTypes.ADMIN,RolesTypes.OFERENTE,RolesTypes.CLIENTE])
+   // @Authorized([RolesTypes.ADMIN,RolesTypes.OFERENTE,RolesTypes.CLIENTE])
     @Field(() => String)
     @Column("text", { nullable: true })
     telefono!: string;
 
-    @Authorized([RolesTypes.ADMIN,RolesTypes.OFERENTE,RolesTypes.CLIENTE])
+   // @Authorized([RolesTypes.ADMIN,RolesTypes.OFERENTE,RolesTypes.CLIENTE])
     @Field(() => String)
     @Column("text", { nullable: true })
     correo!: string;    
@@ -40,11 +40,11 @@ export class InformacionPersonal extends BaseEntity {
     // usuarioId?: number;
 
     @Field (() => Usuario,{nullable:true})
-    @OneToOne( () => Usuario,usuario => usuario.informacion,{eager:true,cascade:true})
+    @OneToOne( () => Usuario,usuario => usuario.informacion,{eager:true})
     @JoinColumn()
     usuario?: Usuario;
 
     @Field(type => [AmigosUsuario],{nullable:true})
-    @OneToMany( () => AmigosUsuario, (amigos) => amigos.duenoAmigo,{eager:true,cascade:true})
+    @OneToMany( () => AmigosUsuario, (amigos) => amigos.duenoAmigo,{eager:true})
     amigos?: AmigosUsuario[];
 }

@@ -11,9 +11,9 @@ export class AmigosUsuario extends BaseEntity {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @Field(() => String)
+   /* @Field(() => String)
     @Column("text", { nullable: true })
-    descripcion?: string;
+    descripcion?: string;*/
 
     @Field(()=> String)
     @CreateDateColumn({type:'timestamp'})

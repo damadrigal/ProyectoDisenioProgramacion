@@ -97,7 +97,7 @@ export class Usuario extends BaseEntity {
     informacion?: InformacionPersonal;
 
     @Field(() => [Comentario],{nullable:true})
-    @OneToMany( () => Comentario, (comentarios) => comentarios.usuario,{eager:true,cascade:true})
+    @OneToMany( () => Comentario, (comentarios) => comentarios.usuario)
     comentarios?: Comentario[];
 
     @Field(type => [GustosUsuarios],{nullable:true})
